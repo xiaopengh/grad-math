@@ -1,0 +1,135 @@
+\begin{answer}
+    \rpos
+    \begin{answerenum}
+        \item The critical points of \(f_1\) can be found by computing the gradient and setting it to zero:
+            \[
+            \nabla f_1(x,y) = \begin{pmatrix}
+            2(x-y) + 3(x+y)^2 \\
+            2(y-x) + 3(x+y)^2
+            \end{pmatrix} = 0.
+            \]
+            This gives us a system of equations to solve for the critical points.
+            Simplifying the equations,
+            \[
+            \begin{cases}
+                3(x+y)^2 = 2(x-y) \\
+                3(x+y)^2 = -2(x-y)
+            \end{cases}
+            \]
+            Which leads to \(x = y = 0\) as the only critical point.
+            This critical point is a saddle point, and we only need to take the direction \(\vec{d}=(1, 1)\).
+        \item For \(f_2\), it is worth noticing that \(f_2\) can be expressed with a quadratic form:
+            \[
+            f_2(x, y) = \frac{1}{2} \begin{pmatrix} x \\ y \end{pmatrix}^T \begin{pmatrix} 2 & 3 \\ 3 & -4 \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix}
+            \]
+            we compute the gradient:
+            \[
+            \nabla f_2(x,y) = \begin{pmatrix} 2 & 3 \\ 3 & -4 \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix} 
+            \]
+            Again, we have a system of equations to solve. The unique solution is given by:
+            \[
+            \begin{pmatrix} 2 & 3 \\ 3 & -4 \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix} = 0
+            \]
+            which leads to \(x = 0\) and \(y = 0\).
+            To classify this critical point, we compute the Hessian matrix:
+            \[
+            \nabla^2 f_2(x,y) = \begin{pmatrix}
+            2 & 3 \\
+            3 & -4
+            \end{pmatrix}
+            \]
+            The eigenvalues of this Hessian matrix can be found by solving the characteristic polynomial:
+            \[
+            \det\left(\nabla^2 f_2(x,y) - \lambda I\right) = 0
+            \]
+            which simplifies to:
+            \[
+            \det\begin{pmatrix}
+            2 - \lambda & 3 \\
+            3 & -4 - \lambda
+            \end{pmatrix} = 0
+            \]
+            The characteristic polynomial is given by:
+            \[
+            (2 - \lambda)(-4 - \lambda) - 9 = 0
+            \]
+            which leads to:
+            \[
+            \lambda^2 + 2\lambda - 17 = 0
+            \]
+            The eigenvalues are:
+            \[
+            \lambda_{1,2} = -1 \pm \sqrt{18} = -1 \pm 3\sqrt{2}
+            \]
+            Since one eigenvalue is positive and the other is negative, the critical point is a saddle point.
+
+        \item Finally, for \(f_3\):
+            \[
+            \nabla f_3(x,y) = \begin{pmatrix}
+            4x^3 \\
+            3y^2 - 3
+            \end{pmatrix} = 0.
+            \]
+            We can solve these equations to find the critical points. The solutions are:
+            \[
+            x = 0, \quad y = \pm 1
+            \]
+            To classify these critical points, we compute the Hessian matrix:
+            \[
+            \nabla^2 f_3(x,y) = \begin{pmatrix}
+            12x^2 & 0 \\
+            0 & 6y
+            \end{pmatrix}
+            \]
+            The eigenvalues of this Hessian matrix are given by the diagonal elements:
+            \[
+            \lambda_1 = 12x^2, \quad \lambda_2 = 6y
+            \]
+            At both critical points the Hessian is degenerate in the $x$-direction (entry $12x^2=0$), so the usual second derivative test is inconclusive and we use higher-order expansion.
+
+            1. Point $(0,1)$. Write $x=x-0, \; y=y-1$ (move first critical point to \(O\)):
+            \[
+            f_3(x,y)= x^4 + y^3 - 3y^2
+            \]
+            We examine $f(x,y) - f(0,0) = x^4 + y^3 - 3y^2$ along various paths through the origin:
+            \begin{enumerate}
+            \item \textbf{Along the $x$-axis} $(y = 0)$:
+            \[
+            f(x,0) = x^4 \geq 0
+            \]
+            with equality only at $x = 0$.
+
+            \item \textbf{Along the $y$-axis} $(x = 0)$:
+            \[
+            f(0,y) = y^3 - 3y^2 = y^2(y - 3)
+            \]
+            For small $|y| > 0$: since $y - 3 < 0$, we have $f(0,y) < 0$.
+
+            \item \textbf{Along the parabola} $y = x^2$:
+            \[
+            f(x,x^2) = x^4 + x^6 - 3x^4 = x^6 - 2x^4 = x^4(x^2 - 2)
+            \]
+            For small $|x| > 0$: since $x^2 - 2 < 0$, we have $f(x,x^2) < 0$.
+            \end{enumerate}
+            Since the function takes both positive values (along the $x$-axis) and negative values (along the $y$-axis and the parabola $y = x^2$) in every neighborhood of $(0,0)$, we conclude that:
+            \begin{center}
+            \boxed{\text{$(0,0)$ is a \textbf{saddle point} of } f_3(x,y) = x^4 + y^3 - 3y^2}
+            \end{center}
+            
+            2. Point $(0,-1)$. Write $y=-1+s$:
+            \[
+            f_3(x,-1+s)= x^4 + (-1+s)^3 -3(-1+s) -2 = x^4 -3 s^2 + s^3.
+            \]
+            Thus
+            \[
+            f_3(x,-1+s)-f_3(0,-1)= x^4 -3 s^2 + s^3.
+            \]
+            Along $s=0$, $x\neq 0$: difference $=x^4>0$. Along $x=0$, $0< s <3$: difference $= -3s^2 + s^3 = -3s^2(1 - s/3)<0$. Hence values of both signs occur arbitrarily close to $(0,-1)$: $(0,-1)$ is a saddle point.
+
+            \textbf{Conclusion:}
+            \begin{center}
+            \boxed{\text{Both $(0,1)$ and $(0,-1)$ are \textbf{saddle points} of } f_3(x,y) = x^4 + y^3 - 3y -2 }
+            \end{center}
+
+    \end{answerenum}
+\end{answer}

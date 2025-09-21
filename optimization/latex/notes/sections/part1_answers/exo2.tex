@@ -1,0 +1,25 @@
+\begin{answer}
+    \rpos 
+    \begin{answerenum}
+        \item Let's show the contrapositive of "\(\implies\)" : if \(A \notin S_{d}^{++}(\mathbb{R})\), then \(f\) is not coercive.
+            We can safely omit \(\langle b, x \rangle\) in the definition since it is not a part of the dominant term when \(\|x\|_2 \to \infty\).  
+            If \(A \notin S_{d}^{++}(\mathbb{R})\), then an eigenvalue \(\lambda_d \leq 0\) (adopting the notation from last exercise). 
+            This implies that there exists a sequence \((x_n) \subset \mathbb{R}^d\) (up to choosing from the eigenspace \(E_{\lambda_d}\) associated with \(\lambda_d\)) 
+            such that \(\|x_n\|_2 \to \infty\) and \(\langle Ax_n, x_n \rangle \to -\infty \, \text{or} \, 0\) which shows that \(f\) is not coercive.
+
+            As for the converse "\(\impliedby\)" : \textbf{We find a lower bound for \(\langle Ax, x \rangle\)}.
+            Let \(A \in S_{d}^{++}(\mathbb{R})\). Then all eigenvalues are positive, and we can find a constant \(\alpha = \lambda_{\min}(A) > 0\)  such that
+            \[
+            \langle Ax, x \rangle \geq \alpha \|x\|_2^2 \quad \forall x \in \mathbb{R}^d.
+            \]
+            This implies that
+            \[
+            f(x) = \tfrac{1}{2}\langle Ax, x\rangle - \langle b, x\rangle \geq \tfrac{\alpha}{2} \|x\|_2^2 - \langle b, x\rangle.
+            \]
+            Now, if \(\|x\|_2 \to \infty\), the term \(\tfrac{\alpha}{2} \|x\|_2^2\) dominates \(-\langle b, x\rangle\), and we conclude that \(f(x) \to \infty\). Thus, \(f\) is coercive.
+        \item We use the characterization of convexity through the Hessian matrix: \(f\) is convex if, and only if, \(\nabla^2 f(x) \succeq 0\) for all \(x \in \mathbb{R}^d\). 
+            The result is trivial since \(\nabla^2 f(x) = A \succeq 0\) for all \(x \in \mathbb{R}^d\).
+        \item We use the characterization of strict convexity through the Hessian matrix: \(f\) is strictly convex if, and only if, \(\nabla^2 f(x) \succ 0\) for all \(x \in \mathbb{R}^d\).
+            The result is again trivial since \(\nabla^2 f(x) = A \succ 0\) for all \(x \in \mathbb{R}^d\).
+    \end{answerenum}
+\end{answer}

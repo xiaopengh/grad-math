@@ -1,0 +1,130 @@
+% \subsection{Exercises}
+
+\begin{exercise}
+Let $A \in S_d(\mathbb{R})$.
+\begin{enumerate}
+  \item Letting $\lambda_1(A) \leq \lambda_2(A) \leq \cdots \leq \lambda_d(A)$ be the eigenvalues of $A$, show that
+  \[
+    \lambda_1(A) = \inf_{\|z\|_2=1} \langle Az, z \rangle.
+  \]
+  \item Show that for any two $A, B \in S_d(\mathbb{R})$ there holds
+  \[
+    |\lambda_1(A) - \lambda_1(B)| \leq \|A-B\|_{\mathrm{op}}
+  \]
+  where $\|\cdot\|_{\mathrm{op}}$ stands for the standard operator norm on the set of matrices.
+\end{enumerate}
+\end{exercise}
+
+\input{sections/part1_answers/exo1.tex}
+
+\begin{exercise}
+Let $A \in S_d(\mathbb{R})$ and $b \in \mathbb{R}^d$. We consider
+\[
+f : x \mapsto \tfrac{1}{2}\langle Ax, x\rangle - \langle b, x\rangle.
+\]
+\begin{enumerate}
+  \item Show that $f$ is coercive if, and only if $A \in S_{d}^{++}(\mathbb{R})$.
+  \item Show that $f$ is convex if, and only if $A \in S_{d}^{+}(\mathbb{R})$.
+  \item Show that $f$ is strictly convex if, and only if $A \in S_{d}^{++}(\mathbb{R})$.
+\end{enumerate}
+\end{exercise}
+
+\input{sections/part1_answers/exo2.tex}
+
+\begin{exercise}
+Classify the critical points (local minimisers, local maximisers, saddle points, indeterminate critical points) of the following functions:
+\begin{enumerate}
+  \item $f_1 : (x, y) \mapsto (x-y)^2 + (x+y)^3,$
+  \item $f_2 : (x, y) \mapsto x^2 - 2y^2 + 3xy,$
+  \item $f_3 : (x, y) \mapsto x^4 + y^3 - 3y - 2.$
+\end{enumerate}
+\end{exercise}
+
+\input{sections/part1_answers/exo3.tex}
+
+\begin{exercise}[Distance between two sets]
+Let $A$ and $B$ be two closed, nonempty subsets of $\mathbb{R}^d$.
+\begin{enumerate}
+  \item Show that if $A$ is compact, then the problem
+  \[
+    \min_{a \in A,\, b \in B} \|a-b\|
+  \]
+  has a solution (at least one).
+  \item Show with a counter-example that this problem need not have a solution if neither $A$ nor $B$ is assumed compact, even if $A$ and $B$ are convex.
+\end{enumerate}
+\end{exercise}
+
+\input{sections/part1_answers/exo4.tex}
+
+\begin{exercise}
+Give an example of a strictly convex function $\varphi : \mathbb{R}^d \to \mathbb{R}$ such that the equation
+\[
+\nabla^2 \varphi(x) = 0
+\]
+has infinitely many solutions.
+\end{exercise}
+
+\begin{exercise}[Carathéodory theorem]
+Let $\Omega \subset \mathbb{R}^d$. We call the convex hull of $\Omega$ the smallest convex set containing $\Omega$, denoted $C(\Omega)$.
+\begin{enumerate}
+  \item Show that
+  \[
+    C(\Omega) =
+    \left\{ \sum_{i=0}^{N} t_i x_i \;\middle|\; N \in \mathbb{N}, \; t_i \in [0,1], \; \sum_{i=0}^{N} t_i = 1,\; x_i \in \Omega \right\}.
+  \]
+  \item Prove the Carathéodory theorem: for any $x \in C(\Omega)$, there exist $t_0, \dots, t_d \in [0,1]$ and $x_0, \dots, x_d \in \Omega$ such that
+  \[
+    \sum_{i=0}^d t_i = 1, 
+    \quad 
+    x = \sum_{i=0}^d t_i x_i.
+  \]
+  \begin{enumerate}
+    \item Using an example, show why one needs at least $(d+1)$ points.
+    \item Prove the theorem by descending induction, starting from a representation with $d+2$ points and eliminating one.
+    \item Deduce that if $\Omega$ is compact, then so is $C(\Omega)$.
+  \end{enumerate}
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Extreme points I: projection on closed convex sets]
+Let $K \subset \mathbb{R}^d$ be a closed convex set. Show that there exists a unique $z \in K$, denoted by $\Pi_K(x)$ and called the orthogonal projection of $x$ on $K$, such that
+\[
+\|x - \Pi_K(x)\| = \min_{z \in K} \|x-z\|
+\]
+and that
+\[
+\forall y \in K,\; \langle x - \Pi_K(x),\, y - \Pi_K(x)\rangle \leq 0.
+\]
+Show that $\Pi_K$ is 1-Lipschitz.
+\end{exercise}
+
+\begin{exercise}[Extreme points II: The Krein-Milman theorem]
+\begin{enumerate}
+  \item Give an example of a convex set $K \subset \mathbb{R}^d$ that has no extreme points.
+  \item Assume $K$ is closed. Prove that $K$ has extreme points.
+  \item Prove the finite-dimensional Krein-Milman theorem: any $x \in K$ is a convex combination of extreme points of $K$.
+  \begin{enumerate}
+    \item Let $x \in \partial K$. Show that there exists a supporting hyperplane $H = \{\varphi=0\}$ with $\varphi \in (\mathbb{R}^d)^*, \varphi \neq 0$, such that $x \in H$ and $\varphi(K) \subset (-\infty,0]$.
+    \item Show that if $x \in H$ for some supporting hyperplane of $K$, then $x$ is an extreme point of $K$ iff it is an extreme point of $H \cap K$.
+    \item Conclude the theorem by induction on the dimension.
+  \end{enumerate}
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Polyak–Łojasiewicz Inequality]
+Let $f : \mathbb{R}^d \to \mathbb{R}$ be an $\alpha$-strongly convex function and let $x^\ast$ be a minimiser of $f$.
+\begin{enumerate}
+  \item Prove that
+  \[
+    \forall x \in \mathbb{R}^d,\quad \|x-x^\ast\|^2 \leq \tfrac{2}{\alpha}\big(f(x)-f(x^\ast)\big).
+  \]
+  \item Show that
+  \[
+    \forall x \in \mathbb{R}^d,\quad f(x)-f(x^\ast) \leq \tfrac{1}{2\alpha}\|\nabla f(x)\|^2.
+  \]
+  \item Deduce that
+  \[
+    \forall x \in \mathbb{R}^d,\quad \|x-x^\ast\| \leq \tfrac{1}{\alpha}\|\nabla f(x)\|.
+  \]
+\end{enumerate}
+\end{exercise}

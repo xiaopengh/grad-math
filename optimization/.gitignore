@@ -1,0 +1,33 @@
+# R files
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+
+# R packages
+packrat/lib*/
+renv/
+
+# LaTeX auxiliary files
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.nav
+*.snm
+*.vrb
+*.bbl
+*.blg
+*.idx
+*.ind
+*.ilg
+*.lof
+*.lot
+
+# System files
+.DS_Store
+Thumbs.db
+*~

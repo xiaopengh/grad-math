@@ -1,0 +1,149 @@
+\begin{exercisebox}{1 [Proof of Cochran's Theorem]}
+    Let $Z$ be a Gaussian random vector in $\mathbb{R}^n$ with $Z \sim \mathcal{N}(\boldsymbol{\mu}, \sigma^2\mathbb{I}_n)$, 
+    where $\boldsymbol{\mu} \in \mathbb{R}^n$ and $\sigma > 0$. Let $F_1,\ldots,F_m$ be subspaces of dimension $d_i$, 
+    orthogonal to each other such that $\mathbb{R}^n = F_1 \oplus \cdots \oplus F_m$. For $i=1,\ldots,m$, let $P_{F_i}$ denote the orthogonal projection matrix onto $F_i$. Prove that:
+
+    \begin{enumerate}
+        \item The random vectors $P_{F_1}Z,\ldots,P_{F_m}Z$ have respective distributions 
+            \begin{align*}
+                &\mathcal{N}(P_{F_1}\boldsymbol{\mu},\sigma^2P_{F_1}),\ldots,\mathcal{N}(P_{F_m}\boldsymbol{\mu},\sigma^2P_{F_m})
+            \end{align*}
+        
+        \item The random vectors $P_{F_1}Z,\ldots,P_{F_m}Z$ are pairwise independent.
+        
+        \item The random variables $\frac{\|P_{F_1}(Z-\boldsymbol{\mu})\|^2}{\sigma^2},\ldots,\frac{\|P_{F_m}(Z-\boldsymbol{\mu})\|^2}{\sigma^2}$ have respective distributions $\chi^2(d_1),\ldots,\chi^2(d_m)$.
+        
+        \item The random variables $\frac{\|P_{F_1}(Z-\boldsymbol{\mu})\|^2}{\sigma^2},\ldots,\frac{\|P_{F_m}(Z-\boldsymbol{\mu})\|^2}{\sigma^2}$ are pairwise independent.
+    \end{enumerate}
+\end{exercisebox}
+
+\begin{answerenum}
+    \item By the linearity of expectation and the properties of Gaussian distributions, we have:
+        \begin{align*}
+            \mathbb{E}[P_{F_i}Z] &= P_{F_i}\mathbb{E}[Z] = P_{F_i}\boldsymbol{\mu}, \\
+            \text{Cov}(P_{F_i}Z) &= P_{F_i}\text{Cov}(Z)P_{F_i}^T = \sigma^2P_{F_i}.
+        \end{align*}
+        Now we need to show that $P_{F_i}Z$ also has a Gaussian distribution. We can't use the result that state linear transformations of Gaussian vectors are Gaussian, because we are proving this result.
+        To do this, we can use the characteristic function of the Gaussian distribution. The characteristic function of a Gaussian random vector $X \sim \mathcal{N}(\boldsymbol{\mu}, \Sigma)$ is given by:
+        \begin{align*}
+            \phi_X(t) = \exp\left( i t^T \boldsymbol{\mu} - \frac{1}{2} t^T \Sigma t \right).
+        \end{align*}
+        For the random vector $P_{F_i}Z$, we have:
+        \begin{align*}
+            \phi_{P_{F_i}Z}(t) &= \mathbb{E}\left[ e^{i t^T P_{F_i}Z} \right] \\
+            &= \mathbb{E}\left[ e^{i t^T P_{F_i}(\boldsymbol{\mu} + \sigma W)} \right] \quad \text{(where $W \sim \mathcal{N}(0, \mathbb{I}_n)$)} \\
+            &= e^{i t^T P_{F_i}\boldsymbol{\mu}} \mathbb{E}\left[ e^{i t^T P_{F_i}\sigma W} \right] \\
+            &= e^{i t^T P_{F_i}\boldsymbol{\mu}} \mathbb{E}\left[ e^{i (P_{F_i}^T t) \sigma W} \right] \\
+            &= e^{i t^T P_{F_i}\boldsymbol{\mu}} \cdot \exp\left( -\frac{1}{2} \|P_{F_i}^T t\|^2 \sigma^2 \right) \\
+            &= \exp\left( i t^T P_{F_i}\boldsymbol{\mu} - \frac{1}{2} \|P_{F_i}^T t\|^2 \sigma^2 \right).
+        \end{align*}
+        This shows that $P_{F_i}Z$ has a Gaussian distribution with mean $P_{F_i}\boldsymbol{\mu}$ and covariance $\sigma^2P_{F_i}$.
+
+    \item To show that the random vectors $P_{F_i}Z$ and $P_{F_j}Z$ are independent for $i \neq j$, we can start by calculating the covariance, then we can prove that they are jointly Gaussian. Two jointly Gaussian random vectors are independent if and only if their covariance is zero. We have:
+        \begin{align*}
+            \text{Cov}(P_{F_i}Z, P_{F_j}Z) &= \mathbb{E}[(P_{F_i}Z - \mathbb{E}[P_{F_i}Z])(P_{F_j}Z - \mathbb{E}[P_{F_j}Z])^T] \\
+            &= \mathbb{E}[(P_{F_i}(Z - \boldsymbol{\mu}))(P_{F_j}(Z - \boldsymbol{\mu}))^T] \\
+            &= P_{F_i}\mathbb{E}[(Z - \boldsymbol{\mu})(Z - \boldsymbol{\mu})^T]P_{F_j}^T \\
+            &= P_{F_i}(\sigma^2\mathbb{I}_n)P_{F_j}^T \\
+            &= \sigma^2 P_{F_i}P_{F_j}^T.
+        \end{align*}
+
+        Since $F_i$ and $F_j$ are orthogonal subspaces, we have $P_{F_i}P_{F_j} = 0$.
+
+        Therefore, $\text{Cov}(P_{F_i}Z, P_{F_j}Z) = 0$, now it is left to be shown that $P_{F_i}Z$ and $P_{F_j}Z$ are jointly Gaussian.
+
+        To show that $P_{F_i}Z$ and $P_{F_j}Z$ are jointly Gaussian, we need to use their characteristic functions. The characteristic function of a Gaussian random vector is given by:
+        \begin{align*}
+            \phi_{P_{F_i}Z}(t) &= \exp\left( i t^T P_{F_i}\boldsymbol{\mu} - \frac{1}{2} \|P_{F_i}^T t\|^2 \sigma^2 \right), \\
+            \phi_{P_{F_j}Z}(t) &= \exp\left( i t^T P_{F_j}\boldsymbol{\mu} - \frac{1}{2} \|P_{F_j}^T t\|^2 \sigma^2 \right).
+        \end{align*}
+
+        Their joint characteristic function is given by:
+        \begin{align*}
+            \phi_{P_{F_i}Z, P_{F_j}Z}(t_1, t_2) &= \mathbb{E}\left[ e^{i t_1^T P_{F_i}Z + i t_2^T P_{F_j}Z} \right] \\
+            &= \mathbb{E}\left[ e^{i t_1^T P_{F_i}(\boldsymbol{\mu} + \sigma W) + i t_2^T P_{F_j}(\boldsymbol{\mu} + \sigma W)} \right] \\
+            &= e^{i t_1^T P_{F_i}\boldsymbol{\mu} + i t_2^T P_{F_j}\boldsymbol{\mu}} \mathbb{E}\left[ e^{i (t_1^T P_{F_i} + t_2^T P_{F_j}) \sigma W} \right] \\
+            &= e^{i t_1^T P_{F_i}\boldsymbol{\mu} + i t_2^T P_{F_j}\boldsymbol{\mu}} \cdot \exp\left( -\frac{1}{2} \| (t_1^T P_{F_i} + t_2^T P_{F_j}) \sigma W \|^2 \right) \\
+            &= \exp\left( i t_1^T P_{F_i}\boldsymbol{\mu} + i t_2^T P_{F_j}\boldsymbol{\mu} - \frac{1}{2} \| (t_1^T P_{F_i} + t_2^T P_{F_j}) \sigma W \|^2 \right).
+        \end{align*}
+
+        We thus have shown that $P_{F_i}Z$ and $P_{F_j}Z$ are jointly Gaussian. Since their covariance is zero, they are independent.
+
+    \item We know that $P_{F_i}Z \sim \mathcal{N}(P_{F_i}\boldsymbol{\mu}, \sigma^2 P_{F_i})$. Let $Y_i = P_{F_i}Z - P_{F_i}\boldsymbol{\mu}$. Then, $Y_i \sim \mathcal{N}(0, \sigma^2 P_{F_i})$. The matrix $P_{F_i}$ is a projection matrix onto a subspace of dimension $d_i$, so it has rank $d_i$. Therefore, we can write $P_{F_i} = U_i U_i^T$, where $U_i$ is an $n \times d_i$ matrix whose columns form an orthonormal basis for the subspace $F_i$.
+        The $\chi^2$ distribution with $k$ degrees of freedom can be defined as the distribution of the sum of the squares of $k$ independent standard normal random variables. To show that $\frac{\|Y_i\|^2}{\sigma^2} \sim \chi^2(d_i)$, we can express $Y_i$ in terms of a standard normal vector. Let $W \sim \mathcal{N}(0, \mathbb{I}_n)$ be a standard normal vector in $\mathbb{R}^n$. Then, we can write:
+        \begin{align*}
+            Y_i &= P_{F_i}Z - P_{F_i}\boldsymbol{\mu} \\
+            &= P_{F_i}(\boldsymbol{\mu} + \sigma W) - P_{F_i}\boldsymbol{\mu} \\
+            &= P_{F_i}\sigma W \\
+            &= \sigma P_{F_i}W.
+        \end{align*}
+        Therefore, we have:
+        \begin{align*}
+            \frac{\|Y_i\|^2}{\sigma^2} &= \frac{\sigma^2 \|P_{F_i}W\|^2}{\sigma^2} \\
+            &= W^T P_{F_i}^T P_{F_i} W \\
+            &= W^T P_{F_i} W \\
+            &\sim \chi^2(d_i).
+        \end{align*}
+
+        Because $P_{F_i}$ is an orthogonal projection matrix onto a subspace of dimension $d_i$, $P_{F_i}^T = P_{F_i}$.
+
+    \item Since we have already shown that the random vectors $P_{F_i}Z$ and $P_{F_j}Z$ are independent for $i \neq j$, it follows that any functions of these independent random vectors are also independent. In particular, the random variables $\frac{\|P_{F_i}(Z - \boldsymbol{\mu})\|^2}{\sigma^2}$ and $\frac{\|P_{F_j}(Z - \boldsymbol{\mu})\|^2}{\sigma^2}$ are functions of the independent random vectors $P_{F_i}Z$ and $P_{F_j}Z$, respectively. Therefore, these random variables are also independent for $i \neq j$.
+
+    \item \textbf{Final note:} characteristic function of any distribution is:
+        \[ \phi_Z(t) = \mathbb{E}(e^{i\langle t,Z\rangle}) \]
+        
+        \textbf{Properties of Fourier Transform:}
+
+        \textbf{General Formalization:}
+        For a function $f: \mathbb{R} \to \mathbb{C}$, the Fourier transform is defined as:
+        \[ \hat{f}(\xi) = \mathcal{F}[f](\xi) = \int_{-\infty}^{\infty} f(t) e^{-2\pi i \xi t} dt \]
+
+        The inverse Fourier transform is:
+        \[ f(t) = \mathcal{F}^{-1}[\hat{f}](t) = \int_{-\infty}^{\infty} \hat{f}(\xi) e^{2\pi i \xi t} d\xi \]
+
+        \textbf{Key Properties:}
+        \begin{enumerate}
+            \item \textbf{Linearity:} $\mathcal{F}[af + bg] = a\mathcal{F}[f] + b\mathcal{F}[g]$
+            
+            \item \textbf{Time shifting:} $\mathcal{F}[f(t-a)](\xi) = e^{-2\pi i a \xi} \hat{f}(\xi)$
+            
+            \item \textbf{Frequency shifting:} $\mathcal{F}[e^{2\pi i a t} f(t)](\xi) = \hat{f}(\xi - a)$
+            
+            \item \textbf{Scaling:} $\mathcal{F}[f(at)](\xi) = \frac{1}{|a|} \hat{f}\left(\frac{\xi}{a}\right)$
+            
+            \item \textbf{Conjugation:} $\mathcal{F}[\overline{f(t)}](\xi) = \overline{\hat{f}(-\xi)}$
+            
+            \item \textbf{Time reversal:} $\mathcal{F}[f(-t)](\xi) = \hat{f}(-\xi)$
+            
+            \item \textbf{Differentiation:} $\mathcal{F}[f'(t)](\xi) = 2\pi i \xi \hat{f}(\xi)$
+            
+            \item \textbf{Integration:} $\mathcal{F}\left[\int_{-\infty}^t f(\tau) d\tau\right](\xi) = \frac{\hat{f}(\xi)}{2\pi i \xi}$
+            
+            \item \textbf{Convolution theorem:} $\mathcal{F}[(f * g)(t)](\xi) = \hat{f}(\xi) \hat{g}(\xi)$
+            
+            \item \textbf{Parseval's theorem:} $\int_{-\infty}^{\infty} |f(t)|^2 dt = \int_{-\infty}^{\infty} |\hat{f}(\xi)|^2 d\xi$
+            
+            \item \textbf{Plancherel's theorem:} $\langle f, g \rangle = \langle \hat{f}, \hat{g} \rangle$
+        \end{enumerate}
+
+        \textbf{Relation to Fourier transform (answer to the question).}
+        The characteristic function is the Fourier transform of the law (probability measure) of $Z$. If $Z$ has a density $f_Z$ on $\mathbb{R}^n$:
+        \[
+            \phi_Z(t)=\int_{\mathbb{R}^n} e^{i\,t^\top x}\,f_Z(x)\,dx.
+        \]
+        Using the “angular-frequency” convention $\mathcal{F}_\omega[f](\omega)=\int f(x)e^{-i\,\omega^\top x}dx$, one has
+        \[
+            \phi_Z(t)=\mathcal{F}_\omega[f_Z](-t).
+        \]
+        With the $2\pi$-normalized convention,
+        \[
+            \hat f_Z(\xi)=\int f_Z(x)\,e^{-2\pi i\,\xi^\top x}\,dx,
+            \qquad\Rightarrow\qquad
+            \phi_Z(t)=\hat f_Z\!\left(-\tfrac{t}{2\pi}\right).
+        \]
+        When a density exists, an inversion formula is
+        \[
+            f_Z(x)=\frac{1}{(2\pi)^n}\int_{\mathbb{R}^n} e^{-i\,t^\top x}\,\phi_Z(t)\,dt,
+        \]
+        with the constant adjusted to the chosen Fourier convention.
+\end{answerenum}
