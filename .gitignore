@@ -1,0 +1,159 @@
+# Graduate Mathematics Repository - Global .gitignore
+
+# =============================================================================
+# R Environment
+# =============================================================================
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+.Renviron
+.Rprofile
+
+# R packages and environment
+packrat/lib*/
+renv/
+renv/library/
+renv/local/
+renv/cellar/
+renv/lock/
+renv/python/
+renv/sandbox/
+renv/staging/
+
+# =============================================================================
+# Python Environment
+# =============================================================================
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# =============================================================================
+# LaTeX Build Files
+# =============================================================================
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.lof
+*.lot
+*.idx
+*.ind
+*.ilg
+*.glo
+*.gls
+*.glg
+*.acn
+*.acr
+*.alg
+*.ist
+*.loa
+*.nav
+*.snm
+*.vrb
+*.xdy
+*.upa
+*.upb
+*.figlist
+*.makefile
+*.fls_latexmk
+
+# =============================================================================
+# Operating System Files
+# =============================================================================
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# =============================================================================
+# Editor and IDE Files
+# =============================================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Vim
+*.swp
+*.swo
+*.un~
+Session.vim
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# =============================================================================
+# Temporary and Log Files
+# =============================================================================
+*.tmp
+*.temp
+*.log
+
+# =============================================================================
+# Project Specific
+# =============================================================================
+# Output directories
+output/
+results/
+figures/
+
+# Data files (add specific patterns as needed)
+*.csv
+*.xlsx
+*.xls
+data/raw/
+data/processed/
+
+# Backup files
+*.bak
+*.backup
