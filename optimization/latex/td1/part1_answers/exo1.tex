@@ -1,0 +1,92 @@
+\begin{answer}
+    \rpos 
+    \begin{answerenum}
+        \item Let \( (e_1 ... e_d) \) be a basis of unit eigenvectors of \(A\) such that \(A e_i = \lambda_i e_i\) for all \(i\). 
+            From the properties of eigenvectors and eigenvalues, we know that the eigenvectors corresponding to distinct eigenvalues are orthogonal. 
+            Therefore, we have:
+            \[
+            \langle e_i, e_j \rangle = 0 \quad \text{for } i \neq j
+            \]
+            and
+            \[
+            \langle e_i, e_i \rangle = 1.
+            \]
+            For any \(z \in \mathbb{R}^d, \; \| z \|_2=1  \), we can express \(z\) in terms of the basis \( (e_1, \ldots, e_d) \):
+            \[
+            z = \sum_{i=1}^d \langle z, e_i \rangle e_i,  \: \|z\|_2^2 = \sum_{i=1}^d \langle z, e_i \rangle^2 = 1
+            \]
+            Any vector \(z\) can be decomposed into its components along the eigenvectors of \(A\).
+            We can then compute \( \langle Az, z \rangle \):
+            \[
+            \langle Az, z \rangle = \langle A\left(\sum_{i=1}^d \langle z, e_i \rangle e_i\right), \sum_{j=1}^d \langle z, e_j \rangle e_j \rangle
+            \]
+            Using the linearity of \(A\) and the fact that \(Ae_i = \lambda_i e_i\), we get:
+            \[
+            \langle Az, z \rangle = \langle \sum_{i=1}^d \langle z, e_i \rangle \lambda_i e_i, \sum_{j=1}^d \langle z, e_j \rangle e_j \rangle
+            \]
+            By the orthogonality of the eigenvectors, this simplifies to:
+            \[
+            \langle Az, z \rangle = \sum_{i=1}^d \langle z, e_i \rangle^2 \lambda_i
+            \]
+            Since \( \sum_{i=1}^d \langle z, e_i \rangle^2 = 1 \) and each \( \lambda_i \) is bounded between \( \lambda_{\min} \) and \( \lambda_{\max} \), we have:
+            \[
+            \inf_{\|z\|_2=1} \langle Az, z \rangle = \inf_{\|z\|_2=1} \sum_{i=1}^d \langle z, e_i \rangle^2 \lambda_i \leq \sum_{i=1}^d \langle z, e_i \rangle^2 \lambda_i
+            \]
+            and
+            \[
+            \sup_{\|z\|_2=1} \langle Az, z \rangle = \sup_{\|z\|_2=1} \sum_{i=1}^d \langle z, e_i \rangle^2 \lambda_i \geq \sum_{i=1}^d \langle z, e_i \rangle^2 \lambda_i
+            \]
+            Assume that \(c_1, c_2 \geq 0\) such that \(c_1 + c_2 = 1\) and \(a, b \in \mathbb{R}\) such that \(a \leq b\). 
+            \[ 
+            a = c_1 a + c_2 a \leq c_1 a + c_2 b \leq c_1 b + c_2 b = b 
+            \]
+            Generalizing the above result to more variables, we have:
+            \[
+            \lambda_1(A) = \inf_{\|z\|_2=1} \langle Az, z \rangle \leq \langle Az, z \rangle = \sum_{i=1}^d \langle z, e_i \rangle^2 \lambda_i \leq \sup_{\|z\|_2=1} \langle Az, z \rangle = \lambda_{d}(A).
+            \]
+        \item Using the variational characterization from part (1), we have:
+            \[
+            \lambda_1(A) = \inf_{\|z\|_2=1} \langle Az, z \rangle \quad \text{and} \quad \lambda_1(B) = \inf_{\|z\|_2=1} \langle Bz, z \rangle
+            \]
+            For any unit vector \(z\) with \(\|z\|_2 = 1\), we can write:
+            \[
+            \langle Az, z \rangle - \langle Bz, z \rangle = \langle (A-B)z, z \rangle
+            \]
+            By the Cauchy-Schwarz inequality and the definition of operator norm:
+            \[
+            |\langle (A-B)z, z \rangle| \leq \|(A-B)z\|_2 \|z\|_2 \leq \|A-B\|_{\mathrm{op}} \|z\|_2^2 = \|A-B\|_{\mathrm{op}}
+            \]
+            Therefore:
+            \[
+            \langle Az, z \rangle \leq \langle Bz, z \rangle + \|A-B\|_{\mathrm{op}}
+            \]
+            Taking the infimum over all unit vectors \(z\) on the left side:
+            \[
+            \lambda_1(A) = \inf_{\|z\|_2=1} \langle Az, z \rangle \leq \inf_{\|z\|_2=1} (\langle Bz, z \rangle + \|A-B\|_{\mathrm{op}}) = \lambda_1(B) + \|A-B\|_{\mathrm{op}}
+            \]
+            This gives us:
+            \[
+            \lambda_1(A) - \lambda_1(B) \leq \|A-B\|_{\mathrm{op}}
+            \]
+            By symmetry (swapping the roles of \(A\) and \(B\)), we also have:
+            \[
+            \lambda_1(B) - \lambda_1(A) \leq \|B-A\|_{\mathrm{op}} = \|A-B\|_{\mathrm{op}}
+            \]
+            Combining both inequalities:
+            \[
+            |\lambda_1(A) - \lambda_1(B)| \leq \|A-B\|_{\mathrm{op}}
+            \]
+    \end{answerenum}
+\end{answer}
+
+\remark{\textbf{spectral theorem}: Let \(A \in S_d(\mathbb{R})\) be a symmetric matrix. Then, there exists an orthonormal basis of \(\mathbb{R}^d\) consisting of eigenvectors of \(A\), and the eigenvalues can be ordered as \(\lambda_1(A) \leq \lambda_2(A) \leq \cdots \leq \lambda_d(A)\).}
+
+\remark{The operator norm (or spectral norm) of a matrix \(A \in \mathbb{R}^{d \times d}\) is defined as:
+    \[
+    \|A\|_{\text{op}} = \sup_{\|x\|_2 = 1} \|Ax\|_2 = \sup_{x \neq 0} \frac{\|Ax\|_2}{\|x\|_2}
+    \]
+    This norm measures the maximum amplification factor of the matrix when applied to unit vectors. 
+    For symmetric matrices, the operator norm equals the largest absolute eigenvalue: 
+    \(\|A\|_{\text{op}} = \max_i |\lambda_i(A)|\). The operator norm is induced by the Euclidean norm and satisfies the submultiplicative property: 
+    \(\|AB\|_{\text{op}} \leq \|A\|_{\text{op}} \|B\|_{\text{op}}\). It provides a measure of how much a linear transformation can stretch vectors and is fundamental in analyzing the conditioning and stability of linear systems.
+}
