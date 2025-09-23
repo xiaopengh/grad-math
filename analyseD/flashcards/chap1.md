@@ -5,13 +5,13 @@
 ```yaml 
 id: c-gravité-intuitive
 deck: analyse_des_données
-tags: [chap1, nuage_des_points, moyenne empirique]
+tags: [chap1, nuage_des_points, moyenne_empirique]
 note_type: basic
 ```
 Rappelez la formule intuitive du centre de gravité d'un nuage de points. On rappelle les notations de i-ème point et j-ème variable:
 \[ x_i = (x_i^1, \ldots, x_i^p)' \in \mathbb{R}^p \quad x^j = \begin{pmatrix} x_1^j \\ \vdots \\ x_n^j \end{pmatrix} \in \mathbb{R}^n \]
 
-Le centre de gravité d'un nuage de points \( X = (x_i^j), \: j \in \llbracket 1, p \rrbracket \: i \in \llbracket 1, n \rrbracket \) est donné par:
+Le centre de gravité d'un nuage de points \( X = (x_i^j), \: j \in \{ 1, \ldots ,p \} \: i \in \{ 1, \ldots ,n \} \) est donné par:
 \[ G = \sum_{i=1}^n p_i \cdot x_i \in \mathbb{R}^p \]
 où \( \sum_{i=1}^n p_i = 1 \) et \( p_i \geq 0 \).
 \[ g = \begin{pmatrix} g_1 \\ \vdots \\ g_p \end{pmatrix} \quad g_i = \sum_{i=1}^n p_i \cdot x_i^j \]
@@ -21,7 +21,7 @@ où \( \sum_{i=1}^n p_i = 1 \) et \( p_i \geq 0 \).
 ```yaml 
 id: c-gravité-formule
 deck: analyse_des_données
-tags: [chap1, nuage_des_points, moyenne empirique]
+tags: [chap1, nuage_des_points, moyenne_empirique]
 note_type: basic
 ```
 On rappelle la formule du centre de gravité d'un nuage de points.
@@ -38,7 +38,7 @@ Remarquons que \( g_j = \langle x^j, \mathbf{1}_n \rangle_{D_p}\) est l'abscisse
 ```yaml
 id: tableau-centre
 deck: analyse_des_données
-tags: [chap1, nuage_des_points, moyenne empirique, tableau centré]
+tags: [chap1, nuage_des_points, moyenne_empirique, tableau_centré]
 note_type: basic
 ```
 Comment centre-t-on un tableau de données \( X \) par rapport au centre de gravité, donne une formule intuitive. 
@@ -51,7 +51,7 @@ Le tableau centré \( Y \) est donné par:
 ```yaml
 id: tableau-centre-matriciel
 deck: analyse_des_données
-tags: [chap1, nuage_des_points, moyenne empirique, matrice]
+tags: [chap1, nuage_des_points, moyenne_empirique, matrice]
 note_type: basic
 ```
 Donne une formule matricielle du tableau centré \( Y \) par rapport au tableau de données \( X \) et au centre de gravité \( g \). On rappelle que le tableau centré \( Y \) est donné par:
@@ -75,5 +75,3 @@ Donne la définition du support d'un nuage de points \( X = (x_i^j), \text{ et }
 
 Le support \( \text{Supp}(X) \) est le plus petit sous-espace affine de \( \mathbb{R}^p \) contenant tous les points \( x_i \)
 \[ \text{Supp}(X) = g + \text{Vect}(y_1, \ldots, y_n) = g + \text{Vect}(Y) \]
-
-
