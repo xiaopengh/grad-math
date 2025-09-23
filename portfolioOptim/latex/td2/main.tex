@@ -1,0 +1,23 @@
+\documentclass[a4paper, 12pt]{article}
+\input{../../../general-preamble.tex}
+
+\begin{document}
+    \title{Answer TD2 Portfolio Optimization}
+    \author{Xiaopeng ZHANG}
+    \date{\today}
+    \maketitle
+
+    \setcounter{section}{2}
+
+    We consider $d \geq 1$ risky assets $S_1, \ldots, S_d$ and a risk-free asset $S_0$.
+    We note $R_T = (R_T^1, \ldots, R_T^d)'$ the random vector for the returns of $S_1, \ldots, S_d$ over the period $[0,T]$, $M$ the expectation of $R_T$ and $R_0$ the deterministic return of $S_0$.  
+    We assume that the variance-covariance matrix $\Sigma$ of $R_T$ is invertible and that $\mathbb{E}(R_T) \neq R_0 1_d$.  
+    We note $\Pi = (\pi_0, \pi)'$ the vector of allocations for an investment portfolio where $\pi \in \mathbb{R}^d$ defines the allocation in the risky assets and $\pi_0$ in the risk-free asset.
+    We denote by $R_\pi = \pi'R_T$ the return of the risky part of the portfolio.
+
+
+    \input{answers/exo1.tex}
+
+    \input{answers/exo2.tex}
+
+\end{document}

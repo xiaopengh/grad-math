@@ -1,0 +1,54 @@
+\begin{answer}
+    \rpos
+    \begin{answerenum}
+        \item \(X\) and \(Y\) are independent Poisson random variables with respectively 
+            parameters \(\lambda\) and \(\mu\). The sum of two independent Poisson random variables is a Poisson random variable with parameter equal to the sum of the parameters. 
+            Thus, \(X + Y \sim \text{Poisson}(\lambda + \mu)\).
+
+            This can be shown using the characteristic function or the moment generating function.
+            And by definition, they are:
+            \[
+                \mathbb{E}[e^{tX}] = \exp(\lambda(e^t - 1)), \quad \mathbb{E}[e^{tY}] = \exp(\mu(e^t - 1)).
+            \]
+        \item By the expression of the conditional expectation for discrete random variables, we have
+            \[
+                \mathbb{E}(X \mid X + Y = n) = \sum_{k=0}^n k \, \mathbb{P}(X = k \mid X + Y = n).
+            \]
+            Moreover, the complete expression for \(\mathbb{E}(X \mid X + Y)\) is given by
+            \[
+                \mathbb{E}(X \mid X + Y) = \sum_{n=0}^{\infty} \mathbb{E}(X \mid X + Y = n) \, \ind_{\{X + Y = n\}}.
+            \]
+            Using the definition of conditional probability and the independence of \(X\) and \(Y\), we get
+            \[
+                \mathbb{P}(X = k \mid X + Y = n) = \frac{\mathbb{P}(X = k, Y = n - k)}{\mathbb{P}(X + Y = n)} = \frac{\mathbb{P}(X = k) \, \mathbb{P}(Y = n - k)}{\mathbb{P}(X + Y = n)}.
+            \]
+            Substituting the probability mass functions of \(X\) and \(Y\), we have
+            \[
+                \mathbb{P}(X = k) = e^{-\lambda} \frac{\lambda^k}{k!}, \quad \mathbb{P}(Y = n - k) = e^{-\mu} \frac{\mu^{n - k}}{(n - k)!}.
+            \]
+            The probability mass function of \(X + Y\) is given by
+            \[
+                \mathbb{P}(X + Y = n) = e^{-(\lambda + \mu)} \frac{(\lambda + \mu)^n}{n!}.
+            \]
+            Therefore,
+            \[
+                \mathbb{P}(X = k \mid X + Y = n) = \frac{e^{-\lambda} \frac{\lambda^k}{k!} e^{-\mu} \frac{\mu^{n - k}}{(n - k)!}}{e^{-(\lambda + \mu)} \frac{(\lambda + \mu)^n}{n!}} = \binom{n}{k} p^k (1 - p)^{n - k},
+            \]
+            where \(p = \frac{\lambda}{\lambda + \mu}\). This shows that given \(X + Y = n\), the random variable \(X\) follows a Binomial distribution with parameters \(n\) and \(p\). Thus,
+            \[
+                \mathbb{E}(X \mid X + Y = n) = np = n \frac{\lambda}{\lambda + \mu}.
+            \]
+            Finally, we have
+            \[
+                \mathbb{E}(X \mid X + Y) = \frac{\lambda}{\lambda + \mu} (X + Y).
+            \]  
+    \end{answerenum}
+\end{answer}
+
+\remark{
+    It is interesting to note that \(X \mid Y = y\) and \(\mathbb{E}(X \mid Y)\) are different random variables. 
+
+    \textbf{An intuitive example is}, if \(X\) and \(Y\) are independent, then \(\mathbb{E}(X \mid Y) = \mathbb{E}(X)\) is a constant, while \(X \mid Y = y\) has the same distribution as \(X\).
+
+    In this exercise, \(X \mid X + Y = n\) is a Binomial random variable, while \(\mathbb{E}(X \mid X + Y)\) is a random variable that takes values in \(\{0, p, \ldots, np\}\) with probabilities given by \(\mathbb{P}(X + Y = z)\) for \(z = 0, 1, \ldots, n\).
+}
