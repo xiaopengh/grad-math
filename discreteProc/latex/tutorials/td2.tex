@@ -1,0 +1,204 @@
+% TD 2: Martingales
+% Converted from PDF to LaTeX exercise format
+
+\begin{exercise}
+Let \((X_n)_{n \geq 0}\) be a martingale with respect to a filtration \((\mathcal{F}_n)_{n \geq 0}\). Show that \((X_n)\) is also a martingale with respect to its natural filtration.
+
+\begin{reminder}
+A process \((X_n)\) is adapted to a filtration \((\mathcal{F}_n)\) if \(X_n\) is measurable with respect to \(\mathcal{F}_n\) for all \(n \geq 0\). The natural filtration of \((X_n)\) is \(\mathcal{G}_n = \sigma(X_0, \ldots, X_n)\). Since \(\mathcal{G}_n \subseteq \mathcal{F}_n\), use the tower property: \(E[X_{n+1}|\mathcal{G}_n] = E[E[X_{n+1}|\mathcal{F}_n]|\mathcal{G}_n]\).
+\end{reminder}
+\end{exercise}
+
+\begin{exercise}
+Let \((Y_{n,k})_{n \geq 0, k \geq 1}\) be a collection of i.i.d. \(\mathbb{N}\)-valued random variables such that
+\[0 < m := E(Y_{n,k}) < +\infty.\]
+We define the process \((X_n)_{n \geq 0}\) by
+\[\begin{cases}
+X_0 = 1, \\
+X_{n+1} = \sum_{k=1}^{X_n} Y_{n,k}, & n \geq 0,
+\end{cases}\]
+with the convention \(\sum_{k=1}^0 \cdots = 0\). We can think of \(X_n\) as the size of a population at time \(n\), in which each individual \(k\), \(1 \leq k \leq X_n\), is replaced at time \(n + 1\) by a random number \(Y_{n,k}\) of children. The reference filtration is \((\mathcal{F}_n)_{n \geq 0}\) the natural filtration of \((X_n)_{n \geq 0}\).
+\begin{enumerate}
+    \item Show that for all \(n \in \mathbb{N}\),
+    \[E[X_{n+1} | \mathcal{F}_n] = mX_n\]
+
+    \item Deduce that \(X_n \in L^1\) and find a deterministic sequence \((c_n)_{n \geq 0}\) such that \(Z_n = c_nX_n\) is a martingale.
+\end{enumerate}
+
+\begin{reminder}
+This is a branching process where \(X_n\) represents population size at time \(n\). Each individual produces a random number of offspring. For conditional expectation, use the fact that given \(\mathcal{F}_n\), the number \(X_n\) is known, so \(E[\sum_{k=1}^{X_n} Y_{n,k} | \mathcal{F}_n] = X_n \cdot E[Y_{n,k}] = mX_n\). To make a martingale, normalize by the expected growth factor \(m^n\).
+\end{reminder}
+\end{exercise}
+
+\begin{exercise}
+Let \(S\) and \(T\) be stopping times. Show that \(\min(S, T)\) and \(\max(S, T)\) are also stopping times.
+
+\begin{reminder}
+A random variable \(\tau: \Omega \to \mathbb{N} \cup \{+\infty\}\) is a stopping time if \(\{\tau = n\} \in \mathcal{F}_n\) for all \(n \in \mathbb{N}\). Equivalently, \(\{\tau \leq n\} \in \mathcal{F}_n\). Use the fact that \(\{\min(S,T) \leq n\} = \{S \leq n\} \cup \{T \leq n\}\) and \(\{\max(S,T) \leq n\} = \{S \leq n\} \cap \{T \leq n\}\).
+\end{reminder}
+\end{exercise}
+
+\begin{exercise}[The martingale]
+Originally the term martingale referred to the strategy consisting, in a series of coin flip games, to double the bet as long as the player looses and to stop at the first success. The goal of this exercise is to analyze this strategy.
+
+Let \((X_n)_{n \geq 1}\) be a sequence of i.i.d. random variables taking values 1 and \(-1\) with probability \(1/2\). We consider a process \((M_n)_{n \geq 0}\) defined by
+\[M_0 = 0, \quad M_n = \sum_{k=1}^n 2^{k-1}X_k, \quad n \geq 1,\]
+and a random variable
+\[T = \inf\{n \geq 1; X_n = 1\}.\]
+Let the natural filtration of \((X_n)\) be the reference filtration.
+\begin{enumerate}
+    \item Show that \((M_n)\) is a martingale and that \(T\) is a stopping time.
+    \item Deduce the value of \(E(M_{n \wedge T})\) for all \(n \in \mathbb{N}\).
+    \item Show that \(T\) is finite. What is the value of \(M_T\)? Comment.
+    \item Show that \(E(M_{T-1}) = -\infty\). Comment.
+\end{enumerate}
+
+\begin{reminder}
+This models the classical doubling strategy: bet 1, then 2, then 4, etc. until you win. The gain at round \(k\) is \(2^{k-1}X_k\) where \(X_k = 1\) (win) or \(X_k = -1\) (lose). To show \((M_n)\) is a martingale, check that \(E[M_{n+1}|\mathcal{F}_n] = M_n\). For stopping times, \(T\) depends only on past observations. The first success gives net gain +1, but \(M_{T-1}\) can be arbitrarily negative.
+\end{reminder}
+\end{exercise}
+
+\begin{exercise}
+We consider a random walk on \(\mathbb{Z}\) with bias to the left. Let \((B_n)_{n \geq 1}\) be a sequence of i.i.d. random variables taking values in \(\{-1, 1\}\) with \(P(B_1 = 1) = p < 1/2\). Let us also denote \(q = 1 - p\). We define the process \((X_n)_{n \geq 0}\) by
+\[X_0 = 0, \quad X_n = \sum_{k=1}^n B_k, \quad n \geq 1.\]
+Our goal is to determine the law of \(S = \sup_{n \geq 0} X_n\). The reference filtration is \(\mathcal{F}_n = \sigma(B_1, \ldots, B_n)\), \(n \geq 1\), and \(\mathcal{F}_0 = \{\emptyset, \Omega\}\).
+\begin{enumerate}
+    \item Show that \(S \geq 0\) a.s. and \(S < +\infty\) a.s..
+    \textit{Hint:} use the law of large numbers.
+
+    \item Show that \(((q/p)^{X_n})_{n \geq 0}\) is a martingale.
+
+    \item Denote \(T_x = \min\{n \geq 0 : X_n = x\}\) for \(x \in \mathbb{Z}\). Let \(a \leq -1\) and \(b \geq 1\) be two integers. Show that \(T = T_a \wedge T_b\) is a finite stopping time.
+
+    \item Using the optional stopping theorem, compute \(P(X_T = b)\).
+
+    \item Deduce the value of \(P(T_b < +\infty)\).
+    \textit{Hint:} observe that \(P(X_T = b) = P(T_b < T_a)\).
+
+    \item Determine the distribution of \(S\).
+\end{enumerate}
+
+\begin{reminder}
+For a biased random walk with \(P(B_k = 1) = p < 1/2\), the process \(((q/p)^{X_n})\) is a martingale because \(E[(q/p)^{B_{n+1}}] = p \cdot (q/p) + q \cdot (q/p)^{-1} = q + p = 1\). Use the optional stopping theorem to find exit probabilities. Since \(p < 1/2\), the walk drifts to \(-\infty\), so \(\sup_n X_n < \infty\) a.s. The distribution of the supremum has geometric decay.
+\end{reminder}
+\end{exercise}
+
+\begin{exercise}
+Let \(x \in \mathbb{R}\) and \((\Delta_n)_{n \geq 1}\) be a sequence of square integrable random variables. Suppose that the sequence \((X_n)_{n \geq 0}\) defined by
+\[X_0 = x, \quad X_n = x + \Delta_1 + \cdots + \Delta_n, \quad n \geq 1,\]
+is a martingale. Show that, for all \(n \geq 1\), \(E(\Delta_n) = 0\) and
+\[E(X_n^2) = x^2 + E(\Delta_1^2) + \cdots + E(\Delta_n^2).\]
+
+\begin{reminder}
+For a martingale, \(E[X_{n+1}|\mathcal{F}_n] = X_n\), which implies \(E[\Delta_{n+1}|\mathcal{F}_n] = 0\). For the variance calculation, use the fact that for a martingale, \(E[X_n^2] = E[X_0^2] + \sum_{k=1}^n E[\Delta_k^2]\) because the cross terms \(E[\Delta_i \Delta_j] = 0\) for \(i \neq j\) due to the martingale property.
+\end{reminder}
+\end{exercise}
+
+\begin{exercise}
+Let \((Y_n)_{n \geq 1}\) be a sequence of random variables in \(L^1\). Suppose that the sequence \((P_n)_{n \geq 0}\) defined by
+\[P_0 = 1, \quad P_n = Y_1 \cdots Y_n, \quad n \geq 1,\]
+is a martingale such that \(P_n \neq 0\) a.s.. Show that
+\[E(Y_n) = 1, \quad \forall n \geq 1,\]
+and deduce that
+\[E(Y_1 \cdots Y_n) = E(Y_1) \cdots E(Y_n).\]
+What happens if we no longer assume that \(P_n \neq 0\) a.s.?
+
+\begin{reminder}
+This is a multiplicative martingale. For \((P_n)\) to be a martingale, we need \(E[P_{n+1}|\mathcal{F}_n] = P_n\), which gives \(E[P_n Y_{n+1}|\mathcal{F}_n] = P_n\). Since \(P_n\) is \(\mathcal{F}_n\)-measurable, this simplifies to \(P_n E[Y_{n+1}|\mathcal{F}_n] = P_n\). If \(P_n \neq 0\), then \(E[Y_{n+1}|\mathcal{F}_n] = 1\). Without the non-zero assumption, the martingale property can fail after hitting zero.
+\end{reminder}
+\end{exercise}
+
+\begin{exercise}
+Let \((B_n)_{n \geq 1}\) be a sequence of i.i.d. random variables such that \(P(B_n = 1) = P(B_n = -1) = 1/2\) for all \(n \geq 1\). Let also \(L \geq 1\) be an integer and \(D : \mathbb{Z} \to \{1, \ldots, L\}\) be a function. Let us define the process \((X_n)_{n \geq 0}\) by
+\[\begin{cases}
+X_0 = 0, \\
+X_{n+1} = X_n + D(X_n)B_{n+1}, & n \geq 0.
+\end{cases}\]
+The reference filtration is \(\mathcal{F}_n = \sigma(B_1, \ldots, B_n)\), \(n \geq 1\), and \(\mathcal{F}_0 = \{\emptyset, \Omega\}\).
+\begin{enumerate}
+    \item Show that \((X_n)_{n \geq 0}\) is a martingale.
+
+    \item Show that, for all \(n \geq 1\),
+    \[n \leq E(X_n^2) = \sum_{k=1}^n E(D^2(X_{k-1})) \leq L^2n.\]
+
+    \item Let \(\lambda > 0\). Show that, for all \(n \geq 1\),
+    \[E(e^{\lambda X_n}|\mathcal{F}_{n-1}) = e^{\lambda X_{n-1}} \cosh(\lambda D(X_{n-1})).\]
+    Using the bound \(\cosh(x) \leq e^{x^2/2}\), \(x \in \mathbb{R}\), conclude that
+    \[E(e^{\lambda X_n}) \leq e^{\lambda^2 L^2 n/2}.\]
+
+    \item Show the Azuma–Hoeffding inequality: for all \(a > 0\) and \(n \geq 1\),
+    \[P(|X_n| \geq a) \leq 2e^{-a^2/2L^2n}.\]
+    \textit{Hint:} use \(P(X_n \geq a) = P(e^{\lambda X_n} \geq e^{\lambda a})\) and optimize over \(\lambda > 0\).
+
+    \item Deduce that \(X_n/n \to 0\) a.s..
+
+    \item Repeat the last two questions replacing \(|X_n|\) with \(\max_{0 \leq k \leq n} |X_k|\).
+\end{enumerate}
+
+\begin{reminder}
+This exercise leads to the Azuma-Hoeffding inequality for martingales with bounded differences. The key insight is that \(|X_{n+1} - X_n| = D(X_n) \leq L\), so increments are bounded. Use the exponential martingale \((e^{\lambda X_n})\) and the bound \(\cosh(x) \leq e^{x^2/2}\) to control moment generating functions. The Azuma-Hoeffding inequality gives exponential concentration: \(P(|X_n| \geq a) \leq 2e^{-a^2/2L^2n}\).
+\end{reminder}
+\end{exercise}
+
+\begin{exercise}
+Let \(X, \xi_1, \xi_2, \ldots\) be independent variables such that \(X \sim N(0, 1)\) and \(\xi_n \sim N(0, \varepsilon_n^2)\) for all \(n \geq 1\). For \(n \geq 1\), we set \(Y_n = X + \xi_n\) and we denote by \((\mathcal{F}_n)\) the natural filtration of \((Y_n)\). We define the process \((X_n)_{n \geq 1}\) by
+\[X_n = E[X | \mathcal{F}_n], \quad n \geq 1.\]
+The question is whether \(X_n\) converges to \(X\) or not.
+
+We can think of the variable \(X\) as a unknown quantity that we seek to estimate. At each unit of time we measure \(X\) by committing an error \(\xi_n\) assumed to be Gaussian and independent of past mistakes. We therefore observe \(Y_n = X + \xi_n\). The variable \(X_n = E[X | \mathcal{F}_n]\) is our best (in the \(L^2\) sense) estimate of \(X\) at time \(n\).
+\begin{enumerate}
+    \item Show that the process \((X_n)\) converges a.s. and in \(L^2\). We denote by \(X_\infty\) the limit.
+
+    \item Express \(X_n\) in terms of \(Y_i\) and \(\varepsilon_i\).
+    \textit{Hint:} Note that \((X, Y_1, \ldots, Y_n)\) is a Gaussian vector.
+
+    \item Deduce the value of \(\|X - X_n\|_2\).
+
+    \item Show that \(X_\infty = X\) if and only if
+    \[\sum_{i \geq 1} \varepsilon_i^{-2} = +\infty.\]
+\end{enumerate}
+
+\begin{reminder}
+This models sequential Gaussian observations with noise. Since \((X, Y_1, \ldots, Y_n)\) is a Gaussian vector, \(E[X|\mathcal{F}_n]\) is a linear combination of \(Y_1, \ldots, Y_n\). The process \((X_n)\) is a martingale by the tower property. For Gaussian estimation, \(X_n\) converges a.s. and in \(L^2\). The limit equals \(X\) iff the observations provide enough information, i.e., \(\sum \varepsilon_i^{-2} = \infty\).
+\end{reminder}
+\end{exercise}
+
+\begin{exercise}[Doob's maximal inequality]
+Let \(p > 1\) and \((Y_n)_{n \geq 0}\) be a nonnegative submartingale. The aim is to show that for all \(n \geq 0\),
+\[E\left[\max_{0 \leq k \leq n} Y_k^p\right] \leq \left(\frac{p}{p-1}\right)^p E[Y_n^p].\]
+\begin{enumerate}
+    \item Let \(Z\) be an integrable nonnegative random variable. Prove the following two results: for all \(a > 0\),
+    \[P(Z \geq a) \leq \frac{E(Z\mathbf{1}_{Z \geq a})}{a} \quad \text{and} \quad E(Z) = \int_0^\infty P(Z \geq a) da.\]
+
+    \item Denote \(Y_n^* = \max_{0 \leq k \leq n} Y_k\) for \(n \geq 0\). Show that for all \(a > 0\),
+    \[P(Y_n^* \geq a) \leq \frac{E(Y_n\mathbf{1}_{Y_n^* \geq a})}{a}.\]
+
+    \item Show that
+    \[E[(Y_n^*)^p] = \int_0^{+\infty} p a^{p-1} P(Y_n^* \geq a) da.\]
+
+    \item Deduce from the last two questions that
+    \[E[(Y_n^*)^p] \leq \frac{p}{p-1} E[Y_n (Y_n^*)^{p-1}].\]
+
+    \item Conclude by applying Hölder's inequality.
+\end{enumerate}
+
+\begin{reminder}
+Doob's maximal inequality bounds the \(L^p\) norm of the maximum by the \(L^p\) norm of the endpoint. Key steps: (1) Use Markov's inequality: \(P(Z \geq a) \leq E[Z\mathbf{1}_{Z \geq a}]/a\). (2) For submartingales, \(E[Y_n \mathbf{1}_{Y_n^* \geq a}] \geq a P(Y_n^* \geq a)\) where \(Y_n^* = \max_{0 \leq k \leq n} Y_k\). (3) Apply Hölder's inequality to conclude.
+\end{reminder}
+\end{exercise}
+
+\begin{exercise}[Convergence in \(L^p\)]
+Let \(p > 1\) and \((X_n)_{n \geq 0}\) be a martingale bounded in \(L^p\), i.e.,
+\[\sup_{n \in \mathbb{N}} E[|X_n|^p] < +\infty.\]
+\begin{enumerate}
+    \item Show that for all \(n \geq 0\),
+    \[E\left[\max_{0 \leq k \leq n} |X_k|^p\right] \leq \left(\frac{p}{p-1}\right)^p E[|X_n|^p],\]
+    and deduce that \(\max_{k \geq 0} |X_k| \in L^p\).
+
+    \item Conclude that \((X_n)\) converges a.s. and in \(L^p\).
+\end{enumerate}
+
+\begin{reminder}
+For martingale convergence in \(L^p\): (1) Use Doob's maximal inequality to show \(\max_{k \geq 0} |X_k| \in L^p\). (2) A martingale bounded in \(L^p\) is also bounded in \(L^1\), so it converges a.s. by the martingale convergence theorem. (3) The \(L^p\) convergence follows from the a.s. convergence and the domination by \(\max_k |X_k| \in L^p\).
+\end{reminder}
+\end{exercise}

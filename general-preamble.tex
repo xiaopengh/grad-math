@@ -42,8 +42,19 @@
   breakable,
   enhanced,
   colback=Blue!5,         % no background color
-  colframe=Blue,     % navy blue border
-  boxrule=1.5pt,         % frame line thickness
+  colframe=Blue,          % navy blue border
+  boxrule=1.5pt,          % frame line thickness
+  rounded corners,        % or 'rounded corners' if you prefer
+  #1
+}
+
+% Define Course reminder environment 
+\newtcolorbox{reminder}[1][]{
+  breakable,
+  enhanced,
+  colback=Green!5,         % no background color
+  colframe=Green,          % navy blue border
+  boxrule=1.5pt,           % frame line thickness
   rounded corners,         % or 'rounded corners' if you prefer
   #1
 }
