@@ -54,7 +54,8 @@ Let the natural filtration of \((X_n)\) be the reference filtration.
 \end{enumerate}
 
 \begin{reminder}
-This models the classical doubling strategy: bet 1, then 2, then 4, etc. until you win. The gain at round \(k\) is \(2^{k-1}X_k\) where \(X_k = 1\) (win) or \(X_k = -1\) (lose). To show \((M_n)\) is a martingale, check that \(E[M_{n+1}|\mathcal{F}_n] = M_n\). For stopping times, \(T\) depends only on past observations. The first success gives net gain +1, but \(M_{T-1}\) can be arbitrarily negative.
+This models the classical doubling strategy: bet 1, then 2, then 4, etc. until you win. The gain at round \(k\) is \(2^{k-1}X_k\) where \(X_k = 1\) (win) or \(X_k = -1\) (lose). To show \((M_n)\) is a martingale, check that \(E[M_{n+1}|\mathcal{F}_n] = M_n\). 
+For stopping times, \(T\) depends only on past observations. The first success gives net gain +1, but \(M_{T-1}\) can be arbitrarily negative.
 \end{reminder}
 \end{exercise}
 

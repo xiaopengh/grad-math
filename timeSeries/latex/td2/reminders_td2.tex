@@ -1,0 +1,306 @@
+\documentclass[a4paper, 12pt]{article}
+
+\input{../../../general-preamble.tex}
+
+\title{Reminders for TD2 -- Time Series}
+\date{\today}
+\author{ZXP}
+
+\begin{document}
+
+\maketitle
+
+\section{Linear Processes and Autocovariance}
+
+\subsection{Definition: Linear Process}
+\textbf{Statement:} If $Z \sim \text{BB}(0,1)$ and $\alpha \in \ell^1(\mathbb{Z})$, then $X = F_\alpha(Z)$ is a stationary process with mean 0 and autocovariance function:
+\[
+\gamma_X(h) = \sum_{k \in \mathbb{Z}} \alpha_k \alpha_{k+h}
+\]
+
+\textit{Relevant for: Exercise 1}
+
+\subsection{Summability and Decorrelation}
+\textbf{Properties:}
+\begin{itemize}
+\item The autocovariance function $\gamma_X$ of a stationary process is bounded: $|\gamma_X(h)| \leq \gamma_X(0)$ for all $h \in \mathbb{Z}$.
+\item For a linear process $X = F_\alpha(Z)$ with $\alpha \in \ell^1(\mathbb{Z})$, the autocovariance $\gamma_X(h) = \sum_{k \in \mathbb{Z}} \alpha_k \alpha_{k+h}$ is summable.
+\item Cauchy-Schwarz inequality: $|\gamma_X(h)|^2 \leq \gamma_X(0)^2$ and $\sum_{h \in \mathbb{Z}} |\gamma_X(h)| \leq \left(\sum_{k \in \mathbb{Z}} |\alpha_k|\right)^2 < \infty$.
+\end{itemize}
+
+\textit{Relevant for: Exercise 1}
+
+\subsection{Theorem: Properties of Autocovariance (Theorem 1.1)}
+The autocovariance function $\gamma_X$ is always:
+\begin{enumerate}
+\item \textbf{Symmetric:} $\gamma_X(s,t) = \gamma_X(t,s)$ for all $s,t \in \mathbb{Z}$
+\item \textbf{Positive definite:} For all $n \geq 1$, $(t_1,\ldots,t_n) \in \mathbb{Z}^n$, $(\lambda_1,\ldots,\lambda_n) \in \mathbb{R}^n$:
+\[
+\sum_{i=1}^n \sum_{j=1}^n \lambda_i\lambda_j\gamma_X(t_i,t_j) \geq 0
+\]
+\end{enumerate}
+
+\textit{Relevant for: Exercise 1}
+
+\subsection{Corollary: Autocovariance of Stationary Processes (Corollary 1.1)}
+When $X$ is stationary, $\gamma_X: \mathbb{Z} \to \mathbb{R}$ is:
+\begin{enumerate}
+\item \textbf{Even:} $\gamma_X(h) = \gamma_X(-h)$ for all $h \in \mathbb{Z}$
+\item \textbf{Positive definite:} $\sum_{i=1}^n \sum_{j=1}^n \lambda_i\lambda_j\gamma_X(t_i-t_j) \geq 0$
+\item \textbf{Bounded:} $|\gamma_X(h)| \leq \gamma_X(0)$ for all $h \in \mathbb{Z}$
+\end{enumerate}
+
+\textit{Relevant for: Exercise 1}
+
+\section{Filtering and $L^2$ Convergence}
+
+\subsection{Theorem: Filtering of Bounded Processes (Theorem 2.1)}
+Given $\alpha = (\alpha_k)_{k \in \mathbb{Z}} \in \ell^1(\mathbb{Z})$, $p \in [1,\infty[$, and process $X$ bounded in $L^p$:
+\[
+\sup_{t \in \mathbb{Z}} \|X_t\|_{L^p} < \infty
+\]
+
+Then:
+\begin{enumerate}
+\item For all $t \in \mathbb{Z}$, the sum $Y_t := \sum_{k \in \mathbb{Z}} \alpha_k X_{t-k}$ is a.s. absolutely convergent
+\item Process $Y = (Y_t)_{t \in \mathbb{Z}}$ is bounded in $L^p$
+\item For all $t \in \mathbb{Z}$:
+\[
+\sum_{k \in [-n,n]} \alpha_k X_{t-k} \xrightarrow[n \to \infty]{a.s., L^p} Y_t
+\]
+\end{enumerate}
+
+\textit{Relevant for: Exercise 2}
+
+\subsection{Weak Filtering with Bilateral Series}
+\textbf{Key idea:} Even when $\alpha \notin \ell^1(\mathbb{Z})$, if $\alpha \in \ell^2(\mathbb{Z})$ and $Z$ is a centered white noise with unit variance, the series $\sum_{k \in \mathbb{Z}} \alpha_k Z_{t-k}$ can still converge in $L^2$.
+
+\textbf{Method:} For fixed $t \in \mathbb{Z}$, consider the partial sums $S_n = \sum_{k=-n}^n \alpha_k Z_{t-k}$. Since $(Z_t)$ is a white noise:
+\[
+\mathbb{E}[S_n^2] = \sum_{k=-n}^n \alpha_k^2 \mathbb{E}[Z_{t-k}^2] = \sum_{k=-n}^n \alpha_k^2
+\]
+
+If $\alpha \in \ell^2(\mathbb{Z})$, then $(S_n)$ is Cauchy in $L^2$, hence converges to some $X_t \in L^2$.
+
+\textit{Relevant for: Exercise 2}
+
+\subsection{Stationarity via Filtering}
+\textbf{Corollary 2.1:} If $\alpha \in \ell^1(\mathbb{Z})$ and $X$ is stationary second-order, then $Y = F_\alpha(X)$ is well-defined, second-order, stationary with:
+\[
+\mu_Y = \mu_X \sum_{k \in \mathbb{Z}} \alpha_k, \quad \gamma_Y(h) = \sum_{j \in \mathbb{Z}} \sum_{k \in \mathbb{Z}} \alpha_j\alpha_k\gamma_X(h+j-k)
+\]
+
+\textbf{Extension to $\ell^2$ case:} Even if $\alpha \in \ell^2(\mathbb{Z}) \setminus \ell^1(\mathbb{Z})$, the filtered process $(X_t)$ defined as the $L^2$ limit is still stationary because:
+\begin{itemize}
+\item $\mathbb{E}[X_t] = 0$ (by linearity of expectation and orthogonality)
+\item $\gamma_X(t,s) = \text{Cov}(X_t, X_s)$ depends only on $|t-s|$ due to the stationarity of $(Z_t)$
+\end{itemize}
+
+\textit{Relevant for: Exercise 2}
+
+\section{Autoregressive (AR) Processes}
+
+\subsection{Theorem: AR(1) Processes (Theorem 3.1)}
+Equation: $X_t = \phi X_{t-1} + Z_t$ where $Z \sim \text{BB}(0,1)$
+
+\textbf{Case $|\phi| = 1$:} No stationary solution
+
+\textbf{Case $|\phi| < 1$:} Unique stationary solution:
+\[
+X_t = \sum_{k=0}^\infty \phi^k Z_{t-k}
+\]
+\begin{itemize}
+\item Linear, \textbf{causal} (depends only on past noise)
+\item $\mu_X = 0$, $\gamma_X(h) = \frac{\phi^{|h|}}{1-\phi^2}$
+\end{itemize}
+
+\textbf{Case $|\phi| > 1$:} Unique stationary solution:
+\[
+X_t = -\sum_{k=1}^\infty \frac{Z_{t+k}}{\phi^k}
+\]
+\begin{itemize}
+\item Linear, \textbf{non-causal} (depends on future noise)
+\item $\mu_X = 0$, $\gamma_X(h) = \frac{\phi^{-|h|}}{\phi^2-1}$
+\end{itemize}
+
+\textit{Relevant for: Exercise 3}
+
+\subsection{General AR(p) Processes and Stationarity}
+For the general autoregressive equation:
+\[
+X_t = \sum_{i=1}^n a_i X_{t-i} + Z_t
+\]
+
+Define the \textbf{characteristic polynomial}:
+\[
+\Phi(z) = 1 - \sum_{i=1}^n a_i z^i
+\]
+
+\textbf{Criterion for stationary solution:} The equation admits a stationary solution if and only if $\Phi(z)$ has no roots of modulus 1.
+
+\textbf{Key observation:} If $\sum_{i=1}^n a_i = 1$, then $\Phi(1) = 0$, so $z=1$ is a root. Similarly, if $\sum_{i=1}^n (-1)^i a_i = 1$, then $\Phi(-1) = 0$, so $z=-1$ is a root. Since both $|1| = 1$ and $|-1| = 1$, no stationary solution exists.
+
+\textit{Relevant for: Exercise 3}
+
+\subsection{Causality of AR Processes}
+\textbf{Definition:} A process $X$ is \textbf{causal} if $X_t \in \overline{\text{Vect}}(Z_t, Z_{t-1}, Z_{t-2}, \ldots)$ for all $t \in \mathbb{Z}$ (closure in $L^2$).
+
+\textbf{Criterion:} The stationary solution of $\Phi(B)X_t = Z_t$ is causal if and only if $\Phi(z)$ has no roots in the closed unit disk $\{z \in \mathbb{C}: |z| \leq 1\}$.
+
+\textit{Relevant for: Exercise 3}
+
+\section{Filter Invertibility}
+
+\subsection{Power Series Representation}
+For $\alpha \in \ell^1(\mathbb{Z})$, define:
+\[
+P_\alpha(z) := \sum_{k \in \mathbb{Z}} \alpha_k z^k
+\]
+
+This is continuous on the unit circle $\mathbb{U} = \{z \in \mathbb{C}: |z|=1\}$.
+
+\textbf{Key properties (Proposition 2.2):}
+\begin{itemize}
+\item $P_{\alpha*\beta}(z) = P_\alpha(z) \times P_\beta(z)$
+\item $P_e(z) = 1$ where $e = (\mathbb{1}_{k=0})_{k \in \mathbb{Z}}$
+\item \textbf{Injectivity:} $P_\alpha = P_\beta \Rightarrow \alpha = \beta$
+\end{itemize}
+
+\textit{Relevant for: Exercise 4}
+
+\subsection{Theorem: Inversion of Polynomial Filters (Theorem 2.3)}
+Let $\alpha \in \ell^1(\mathbb{Z})$ be a polynomial filter. The following are equivalent:
+\begin{enumerate}
+\item Filter $\alpha$ is invertible (i.e., $\exists \beta \in \ell^1(\mathbb{Z})$ such that $\alpha * \beta = e$)
+\item Polynomial $P_\alpha(z) = \sum_{k \in \mathbb{Z}} \alpha_k z^k$ has no roots of modulus 1
+\item The rational fraction $1/P_\alpha$ is expandable as a power series on the unit circle: $\exists \beta \in \ell^1(\mathbb{Z})$ such that
+\[
+\forall z \in \mathbb{U}, \quad \frac{1}{P_\alpha(z)} = \sum_{k \in \mathbb{Z}} \beta_k z^k
+\]
+\end{enumerate}
+
+When this holds: $\alpha^{-1} = \beta$
+
+\textit{Relevant for: Exercise 4}
+
+\subsection{Practical Inversion Formulas}
+For polynomial filters, use partial fraction decomposition. If $P_\alpha(z) = (z-a)^k$ for some $a \in \mathbb{C} \setminus \{0\}$:
+
+\textbf{If $|a| > 1$:}
+\[
+\frac{1}{(z-a)^k} = \frac{1}{(-a)^k}\sum_{n=0}^\infty \binom{n+k-1}{k-1}z^n
+\]
+(The inverse is causal: $\beta_k = 0$ for $k < 0$)
+
+\textbf{If $|a| < 1$:}
+\[
+\frac{1}{(z-a)^k} = \sum_{n=0}^\infty \binom{n+k-1}{k-1}\frac{a^n}{z^{n+k}}
+\]
+(The inverse is anti-causal: $\beta_k = 0$ for $k > 0$)
+
+\textbf{If $|a| = 1$:} The filter is not invertible in $\ell^1(\mathbb{Z})$.
+
+\textit{Relevant for: Exercise 4}
+
+\subsection{Examples for Exercise 4}
+\textbf{Case 1:} $\alpha_0 = 2$, $\alpha_1 = -1$, $\alpha_k = 0$ otherwise.
+\begin{itemize}
+\item $P_\alpha(z) = 2 - z = -z(1 - 2/z)$
+\item Root: $z = 2$ (modulus $|2| = 2 > 1$)
+\item Invertible, inverse is causal
+\end{itemize}
+
+\textbf{Case 2:} $\alpha_0 = 1$, $\alpha_1 = 2$, $\alpha_k = 0$ otherwise.
+\begin{itemize}
+\item $P_\alpha(z) = 1 + 2z$
+\item Root: $z = -1/2$ (modulus $|-1/2| = 1/2 < 1$)
+\item Invertible, inverse is anti-causal
+\end{itemize}
+
+\textbf{Case 3:} $\alpha_0 = 1$, $\alpha_1 = -1$, $\alpha_k = 0$ otherwise.
+\begin{itemize}
+\item $P_\alpha(z) = 1 - z$
+\item Root: $z = 1$ (modulus $|1| = 1$)
+\item \textbf{Not invertible} in $\ell^1(\mathbb{Z})$
+\end{itemize}
+
+\textit{Relevant for: Exercise 4}
+
+\section{Abstract Filtering Theory}
+
+\subsection{Banach Spaces for Time Series}
+\textbf{Definition:} $E$ is the space of processes $(X_t)$ bounded in $L^2$:
+\[
+\|X\|_E = \sup_{t \in \mathbb{Z}} \|X_t\|_2 < \infty
+\]
+
+$E$ with this norm is a Banach space.
+
+\textbf{Backward shift operator:} $B \in L(E)$ defined by:
+\[
+BX = (X_{t-1})_{t \in \mathbb{Z}}
+\]
+
+\textit{Relevant for: Exercise 5}
+
+\subsection{Theorem: $B$ is an Isometry}
+The backward shift operator $B$ on $E$ satisfies:
+\begin{enumerate}
+\item $B$ is linear and bijective
+\item $\|BX\|_E = \|X\|_E$ for all $X \in E$ (isometry property)
+\item $B^{-1}$ is the forward shift: $(B^{-1}X)_t = X_{t+1}$
+\end{enumerate}
+
+\textbf{Consequence:} $\|B\|_{L(E)} = 1$ and $B^n$ is also an isometry for all $n \in \mathbb{Z}$.
+
+\textit{Relevant for: Exercise 5}
+
+\subsection{Convergence of Operator Series}
+\textbf{Proposition:} If $\alpha \in \ell^1(\mathbb{Z})$, then the series $\sum_{n \in \mathbb{Z}} \alpha_n B^n$ converges in $L(E)$.
+
+\textbf{Proof idea:} Since $\|B^n\|_{L(E)} = 1$ for all $n$:
+\[
+\left\|\sum_{n \in \mathbb{Z}} \alpha_n B^n\right\|_{L(E)} \leq \sum_{n \in \mathbb{Z}} |\alpha_n| \|B^n\|_{L(E)} = \|\alpha\|_1 < \infty
+\]
+
+We denote: $\phi(\alpha) := \sum_{n \in \mathbb{Z}} \alpha_n B^n \in L(E)$
+
+\textit{Relevant for: Exercise 5}
+
+\subsection{Morphism Property}
+\textbf{Theorem:} The map $\phi: \ell^1(\mathbb{Z}) \to L(E)$ is an algebra homomorphism:
+\[
+\phi(\alpha * \beta) = \phi(\alpha) \circ \phi(\beta)
+\]
+
+\textbf{Proof sketch:} Expand both sides and use the fact that $B^m \circ B^n = B^{m+n}$.
+
+\textbf{Consequence:} If $\alpha$ is invertible in $\ell^1(\mathbb{Z})$ (i.e., $\exists \beta \in \ell^1(\mathbb{Z})$ with $\alpha*\beta = e$), then $\phi(\alpha)$ is invertible in $L(E)$ with:
+\[
+\phi(\alpha)^{-1} = \phi(\beta) = \phi(\alpha^{-1})
+\]
+
+\textit{Relevant for: Exercise 5}
+
+\subsection{Injectivity of $\phi$}
+\textbf{Theorem:} The map $\phi: \ell^1(\mathbb{Z}) \to L(E)$ is injective.
+
+\textbf{Proof strategy:} Consider a white noise $Z = (Z_t)_{t \in \mathbb{Z}}$ with $\mathbb{E}[Z_t] = 0$ and $\mathbb{E}[Z_t^2] = 1$. Then $Z \in E$.
+
+For $\alpha \in \ell^1(\mathbb{Z})$, we have:
+\[
+\phi(\alpha)Z = \sum_{n \in \mathbb{Z}} \alpha_n B^n Z = \sum_{n \in \mathbb{Z}} \alpha_n (Z_{t-n})_{t \in \mathbb{Z}} = (Y_t)_{t \in \mathbb{Z}}
+\]
+where $Y_t = \sum_{n \in \mathbb{Z}} \alpha_n Z_{t-n}$.
+
+\textbf{Key observation:} The map $\alpha \mapsto Y$ is injective because we can recover $\alpha$ from $Y$ via:
+\[
+\alpha_n = \mathbb{E}[Y_0 Z_{-n}]
+\]
+(using orthogonality of white noise).
+
+Thus, if $\phi(\alpha) = 0$, then $Y = 0$, so $\alpha = 0$.
+
+\textit{Relevant for: Exercise 5}
+
+\end{document}

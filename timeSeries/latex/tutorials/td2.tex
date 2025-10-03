@@ -1,0 +1,61 @@
+\begin{exercise}
+Montrer que la fonction d'autocorrélation d'un processus linéaire est sommable, en particulier un processus linéaire est décorrélé à l'infini.
+\end{exercise}
+
+\begin{exercise}[Filtrage faible]
+Soit $(Z_t)$ un bruit blanc centré réduit et soit $(a_n) \in \ell^2(\mathbb{Z})$. On aimerait définir le processus $X$ donné par
+\[
+X_t = \sum_{k \in \mathbb{Z}} a_k Z_{t-k} \quad \forall t \in \mathbb{Z}.
+\]
+\begin{enumerate}
+    \item[1.] Expliquer pourquoi le théorème de filtrage ne s'applique pas ici.
+    \item[2.] Montrer néanmoins que, pour tout $t \in \mathbb{Z}$, la série $\sum_{k \in \mathbb{Z}} a_k Z_{t-k}$ converge dans $L^2$. On appelle $X_t$ sa limite.
+    \item[3.] Montrer de plus que le processus $(X_t)$ est stationnaire.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Équation auto-régressive]
+Soit $\phi \in \mathbb{R}^*$ et $Z = (Z_t)$ un bruit blanc centré réduit. On s'intéresse aux processus stochastiques $X = (X_t)$ solutions de l'équation auto-régressive suivante :
+\[
+X_t = \phi X_{t-1} + Z_t, \quad t \in \mathbb{Z}.
+\]
+\begin{enumerate}
+    \item[1.] Montrer que, si $|\phi| < 1$, l'équation admet une unique solution stationnaire. Est-elle causale ? (i.e., vérifie-t-elle $X_t \in \text{Vect}(Z_t, Z_{t-1}, Z_{t-2}, \ldots)$ pour tout $t \in \mathbb{Z}$, l'adhérence ayant lieu dans $L^2$).
+    \item[2.] Mêmes questions si $|\phi| > 1$.
+    \item[3.] En revanche, montrer que, si $\phi = \pm 1$, l'équation n'admet pas de solution stationnaire.
+    \item[4.] Plus généralement, montrer que, si $a_1, \ldots, a_n$ est une suite de réels vérifiant
+    \[
+    \sum_{i=1}^n a_i = 1 \quad \text{ou} \quad \sum_{i=1}^n (-1)^i a_i = 1,
+    \]
+    alors l'équation auto-régressive
+    \[
+    X_t = \sum_{i=1}^n a_i X_{t-i} + Z_t, \quad t \in \mathbb{Z}
+    \]
+    n'admet pas de solution stationnaire.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Inversibilité]
+Dans chaque cas, calculer l'inverse du filtre $\alpha \in \ell^1(\mathbb{Z})$ s'il existe.
+\begin{enumerate}
+    \item[1.] $\alpha_0 = 2$, $\alpha_1 = -1$, et $\alpha_k = 0$ si $k \notin \{0, 1\}$.
+    \item[2.] $\alpha_0 = 1$, $\alpha_1 = 2$, et $\alpha_k = 0$ si $k \notin \{0, 1\}$.
+    \item[3.] $\alpha_0 = 1$, $\alpha_1 = -1$, et $\alpha_k = 0$ si $k \notin \{0, 1\}$.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Version abstraite du théorème de filtrage]
+On note $\ell^1(\mathbb{Z})$ l'espace des suites réelles et (absolument) sommables, muni de la norme $\|\alpha\|_1 := \sum_{k \in \mathbb{Z}} |\alpha_n|$. On note $E$ l'espace des processus $(X_t)$ bornés dans $L^2$ muni de la norme $\|X\|_E = \sup_{t \in \mathbb{Z}} \|X_t\|_2$. On note $L(E)$ l'espace des applications linéaires continues de $E$ dans $E$. On admettra que $E$ et $L(E)$ munis de leurs normes respectives sont tous les deux des espaces de Banach.
+
+On définit l'opérateur retard $B \in L(E)$ par $BX = (X_{t-1})_{t \in \mathbb{Z}}$.
+\begin{enumerate}
+    \item[1.] Montrer que $B$ est une isométrie sur $E$, c'est-à-dire que $B$ est linéaire inversible et vérifie $\|BX\|_E = \|X\|_E$ pour tout $X$ de $E$.
+    \item[2.] En déduire que si $\alpha \in \ell^1(\mathbb{Z})$, alors la série $\sum_{n \in \mathbb{Z}} \alpha_n B^n$ converge dans $L(E)$. On note $\phi(\alpha)$ cette somme.
+    \item[3.] Montrer que $\phi(\alpha \star \beta) = \phi(\alpha) \circ \phi(\beta)$ pour tout $\alpha, \beta \in \ell^1(\mathbb{Z})$ (on dit que $\phi$ est un morphisme d'algèbre). En déduire que, si $\alpha$ est inversible, alors $\phi(\alpha)$ l'est aussi.
+    \item[4.] Montrer enfin que $\phi$ est injective. On pourra commencer par montrer le fait suivant : étant donné un bruit blanc $(Z_t)_{t \in \mathbb{Z}}$, l'application
+    \[
+    \alpha \longrightarrow \sum_{n \in \mathbb{Z}} \alpha_n B^n Z \in E
+    \]
+    est injective.
+\end{enumerate}
+\end{exercise}
