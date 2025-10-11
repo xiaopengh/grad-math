@@ -76,3 +76,13 @@ hist(samples, breaks = 50, probability = TRUE, col = "lightgreen",
 # Overlay the theoretical density
 curve(dnorm(x, 2, 2)/pnorm((2 - 1)/2), from = 0, to = 8, col = "red", add = TRUE)
 
+library(microbenchmark)
+n <- as.integer(1.5e5)
+results <- microbenchmark(
+  method1 = tr_norm(n, 2, 0, 2),
+  method2 = tr_norm_2(n, 2, 0, 2),
+  times = 100
+)
+
+print(results)
+plot(results)
