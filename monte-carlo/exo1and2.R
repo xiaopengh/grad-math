@@ -11,11 +11,10 @@ inverseF <- function(u) {
 # vectorized version of inverseF
 inverseF_vec <- function(u) {
   x <- numeric(length(u))
-  x[u <= 0.4] <- 0
-  x[u > 0.4 & u <= 0.6] <- 5
-  x[u > 0.6 & u <= 0.9] <- 6
-  x[u > 0.9 & u <= 1] <- 7
-  x[u > 1] <- 8
+  x[u <= 0.4] <- 5
+  x[u > 0.4 & u <= 0.6] <- 6
+  x[u > 0.6 & u <= 0.9] <- 7
+  x[u > 0.9] <- 8
   return(x)
 }
 
