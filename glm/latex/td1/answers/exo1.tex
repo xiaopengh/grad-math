@@ -1,21 +1,27 @@
-\begin{exercisebox}{1 [Proof of Cochran's Theorem]}
-    Let $Z$ be a Gaussian random vector in $\mathbb{R}^n$ with $Z \sim \mathcal{N}(\boldsymbol{\mu}, \sigma^2\mathbb{I}_n)$, 
-    where $\boldsymbol{\mu} \in \mathbb{R}^n$ and $\sigma > 0$. Let $F_1,\ldots,F_m$ be subspaces of dimension $d_i$, 
-    orthogonal to each other such that $\mathbb{R}^n = F_1 \oplus \cdots \oplus F_m$. For $i=1,\ldots,m$, let $P_{F_i}$ denote the orthogonal projection matrix onto $F_i$. Prove that:
+\begin{exercise}[Proof of Cochran's theorem]
+Let \(Z\) be a Gaussian random vector in \(\mathbb{R}^n\) with \(Z \sim N(\mu, \sigma^2 I_n)\), where \(\mu \in \mathbb{R}^n\) and \(\sigma > 0\). Let \(F_1, \ldots, F_m\) be subspaces of dimension \(d_i\), orthogonal to each other such that \(\mathbb{R}^n = F_1 \oplus \cdots \oplus F_m\). For \(i = 1, \ldots, m\), let \(P_{F_i}\) denote the orthogonal projection matrix onto \(F_i\). Prove that
 
-    \begin{enumerate}
-        \item The random vectors $P_{F_1}Z,\ldots,P_{F_m}Z$ have respective distributions 
-            \begin{align*}
-                &\mathcal{N}(P_{F_1}\boldsymbol{\mu},\sigma^2P_{F_1}),\ldots,\mathcal{N}(P_{F_m}\boldsymbol{\mu},\sigma^2P_{F_m})
-            \end{align*}
-        
-        \item The random vectors $P_{F_1}Z,\ldots,P_{F_m}Z$ are pairwise independent.
-        
-        \item The random variables $\frac{\|P_{F_1}(Z-\boldsymbol{\mu})\|^2}{\sigma^2},\ldots,\frac{\|P_{F_m}(Z-\boldsymbol{\mu})\|^2}{\sigma^2}$ have respective distributions $\chi^2(d_1),\ldots,\chi^2(d_m)$.
-        
-        \item The random variables $\frac{\|P_{F_1}(Z-\boldsymbol{\mu})\|^2}{\sigma^2},\ldots,\frac{\|P_{F_m}(Z-\boldsymbol{\mu})\|^2}{\sigma^2}$ are pairwise independent.
-    \end{enumerate}
-\end{exercisebox}
+\begin{enumerate}
+    \item The random vectors \(P_{F_1}Z, \ldots, P_{F_m}Z\) have respective distributions
+    \begin{align}
+        &N(P_{F_1}\mu, \sigma^2 P_{F_1}), \ldots, N(P_{F_m}\mu, \sigma^2 P_{F_m})
+    \end{align}
+
+    \item The random vectors \(P_{F_1}Z, \ldots, P_{F_m}Z\) are pairwise independent.
+
+    \item The random variables
+    \begin{align}
+        &\frac{\|P_{F_1}(Z-\mu)\|^2}{\sigma^2}, \ldots, \frac{\|P_{F_m}(Z-\mu)\|^2}{\sigma^2}
+    \end{align}
+    have respective distributions \(\chi^2(d_1), \ldots, \chi^2(d_m)\).
+
+    \item The random variables 
+    \begin{align}
+        &\frac{\|P_{F_1}(Z-\mu)\|^2}{\sigma^2}, \ldots, \frac{\|P_{F_m}(Z-\mu)\|^2}{\sigma^2}
+    \end{align}
+    are pairwise independent.
+\end{enumerate}
+\end{exercise}
 
 \begin{answerenum}
     \item By the linearity of expectation and the properties of Gaussian distributions, we have:

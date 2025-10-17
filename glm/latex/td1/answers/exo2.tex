@@ -1,46 +1,36 @@
-\begin{exercisebox}{2 Proof of Proposition 1 Chapter 1}
+\begin{exercise}[Proof of Proposition 1. of the chapter 1]
+Let \(X\) be the design matrix of size \(n \times (p + 1)\). We assume \(X\) to be full rank (\(\text{rank}(X) = p + 1\)). Let define the following linear model
+\[Y = X\beta + \epsilon\]
+with \(\beta \in \mathbb{R}^{p+1}\). Let
+\[\hat{\beta} = \arg \min_{\beta \in \mathbb{R}^{p+1}} \|Y - X\beta\|^2\]
+be the ordinary least square estimator (OLSE).
 
-  Let $X$ be the design matrix of size $n\times(p+1)$. Assume $X$ is full rank, i.e., $\mathrm{rank}(X)=p+1$. Consider the linear model
-  \[
-    Y = X\beta + \varepsilon,
-  \]
-  with $\beta\in\mathbb{R}^{p+1}$. Define the ordinary least squares estimator (OLSE)
-  \[
-    \widehat{\beta} = \arg\min_{\beta\in\mathbb{R}^{p+1}} \|Y - X\beta\|^2.
-  \]
+\begin{enumerate}
+    \item Show that OLSE exists and is unique such that
+    \[\hat{\beta} = \hat{\beta}(Y) = (X^{\top}X)^{-1}X^{\top}Y\]
 
-  \begin{enumerate}
-    \item Show that
-    \[
-      \widehat{\beta} = \widehat{\beta}(Y) = (X^{\top}X)^{-1}X^{\top}Y.
-    \]
-    \item Application for $p=1$:
-    let $(x_1,y_1),\ldots,(x_n,y_n)$ be $n$ pairs of real numbers. Determine the real
-    $\hat a$ and $\hat b$ that minimize
-    \[
-      \mathrm{RSS}(a,b) = \sum_{i=1}^n \bigl(y_i - a - b x_i\bigr)^2.
-    \]
-    Interpret the result.
-  \end{enumerate}
-\end{exercisebox}
+    \item Application for \(p = 1\): Let \((x_1, y_1), \ldots, (x_n, y_n)\) be \(n\) pairs of real numbers. Determine the real \(\hat{a}\) and \(\hat{b}\) that minimize \(\text{RSS}(a, b) = \sum_{i=1}^n (y_i - a - bx_i)^2\). Interpret.
+\end{enumerate}
+\end{exercise}
 
 \begin{answerenum}
     \item We want to minimize the function \( \beta \mapsto \| Y - X\beta \|^2 \).
-        \[
-          \| Y - X\beta \| \leq \| Y \| + \| X\beta \| \leq \|Y\| + C \dot \|\beta\|
-        \]
-        As this shows that the function goes to infinity as \( \|\beta\| \) goes to infinity, the minimum is attained at some point \( \widehat{\beta} \). The function is differentiable and convex, so the minimum is attained at a point where the gradient is zero. 
-        
-        calculating the gradient, we have
-        \[
-          \nabla_\beta \| Y - X\beta \|^2 = -2X^{\top}(Y - X\beta)
-        \]
-        Setting this to zero, we have
-        \[
-            X^{\top}Y = X^{\top}X\widehat{\beta}
-        \]
-        As \( X \) is full rank, \( X^{\top}X \) is invertible, and we have
-        \[
-          \widehat{\beta} = (X^{\top}X)^{-1}X^{\top}Y
-        \]
+      As \( X \) is full rank, it has a smallest singular value \( \sigma_{\min}(X) > 0 \). We have
+      \[
+        \| Y - X\beta \| \geq  \| X\beta \| - \|Y\| \geq \sigma_{\min}(X) \dot \|\beta\| - \|Y\|
+      \]
+      As this shows that the function goes to infinity as \( \|\beta\| \) goes to infinity, the minimum is attained at some point \( \widehat{\beta} \). The function is differentiable and convex, so the minimum is attained at a point where the gradient is zero. 
+      
+      calculating the gradient, we have
+      \[
+        \nabla_\beta \| Y - X\beta \|^2 = -2X^{\top}(Y - X\beta)
+      \]
+      Setting this to zero, we have
+      \[
+          X^{\top}Y = X^{\top}X\widehat{\beta}
+      \]
+      As \( X \) is full rank, \( X^{\top}X \) is invertible, and we have
+      \[
+        \widehat{\beta} = (X^{\top}X)^{-1}X^{\top}Y
+      \]
 \end{answerenum}

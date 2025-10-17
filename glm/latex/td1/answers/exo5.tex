@@ -1,0 +1,43 @@
+\begin{exercise}[An important result]
+We consider the Gaussian linear regression model:
+\[Y = X\beta + \epsilon, \quad \epsilon \sim N(0_n, \sigma^2 I_n)\]
+where \(\beta \in \mathbb{R}^r\), \(Y \in \mathbb{R}^n\) and \(X\) matrix of size \(n \times r\) of rank \(r\).
+
+\begin{enumerate}
+    \item Recall the matrix closed form of the OLSE and give an unbiased estimator of \(\sigma^2 > 0\).
+    \item Compute the maximum likelihood estimators of \(\beta\) and \(\sigma^2\).
+    \item Conclude.
+\end{enumerate}
+\end{exercise}
+
+\begin{answerenum}
+    \item The matrix closed form of the ordinary least squares estimator (OLSE) is given by: \( \hat{\beta} = (X^T X)^{-1} X^T Y \). An unbiased estimator of \(\sigma^2\) can be constructed using the residuals from the regression. The residuals are given by \( \hat{\epsilon} = Y - X\hat{\beta} \). The unbiased estimator of \(\sigma^2\) is then given by:
+        \[ \hat{\sigma}^2 = \frac{1}{n - r} \hat{\epsilon}^T \hat{\epsilon} \]
+        where \(n\) is the number of observations and \(r\) is the rank of \(X\) (assumed to be full rank \(1+p\)).
+        Now let's try to find this result. 
+        \begin{align*}
+            \hat{\epsilon} &= Y - X\hat{\beta} \\
+            &= Y - X(X^T X)^{-1} X^T Y \\
+            &= (id - P_X)Y \\
+            &= P_{X^\perp} Y
+        \end{align*}
+        calculating the norm of the residuals:
+        \begin{align*}
+            \hat{\epsilon}^T \hat{\epsilon} &= Y^T P_{X^\perp}^T P_{X^\perp} Y \\
+            &= Y^T P_{X^\perp} Y \\
+            &= (X\beta + \epsilon)^T P_{X^\perp} (X\beta + \epsilon) \\
+            &= \epsilon^T P_{X^\perp} \epsilon
+        \end{align*}
+        Remind that \(\epsilon^T P_{X^\perp} \epsilon = \| P_{X^\perp}(\epsilon) \|^2 \), thus by the Cochran's theorem, we have:
+        \[ \frac{\| P_{X^\perp}(\epsilon) \|^2}{\sigma^2} \sim \chi^2(n - r) \]
+        which implies that:
+        \[ \mathbb{E}[\hat{\epsilon}^T \hat{\epsilon}] = \mathbb{E}[\| P_{X^\perp}(\epsilon) \|^2] = (n - r) \sigma^2 \]
+        Remind that \(\mathbb{E}[\chi^2(n - r)] = (n - r)\), thus we have:
+        \[ \mathbb{E}[\hat{\sigma}^2] = \mathbb{E}\left[\frac{\hat{\epsilon}^T \hat{\epsilon}}{n - r}\right] = \frac{1}{n - r} \mathbb{E}[\epsilon^T P_{X^\perp} \epsilon] = \sigma^2 \]
+        which shows that \(\hat{\sigma}^2\) is an unbiased estimator of \(\sigma^2\).
+    \item The likelihood function of the Gaussian linear regression model is given by:
+        \[ L(\beta, \sigma^2; Y) = \frac{1}{(2\pi \sigma^2)^{n/2}} \exp\left(-\frac{1}{2\sigma^2} (Y - X\beta)^T (Y - X\beta)\right) \]
+        To find the maximum likelihood estimators (MLEs) of \(\beta\) and \(\sigma^2\), we take the logarithm of the likelihood function:
+        \[ \ell(\beta, \sigma^2; Y) = -\frac{n}{2} \log(2\pi \sigma^2) - \frac{1}{2\sigma^2} (Y - X\beta)^T (Y - X\beta) \]
+        We then take the partial derivatives of \(\ell\) with respect to \(\beta\) and \(\sigma^2\), set them to zero, and solve for the parameters.
+\end{answerenum}

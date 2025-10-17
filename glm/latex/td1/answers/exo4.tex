@@ -1,0 +1,35 @@
+\begin{exercise}
+We consider the following simple linear regression statistical model: \(Y_i = \beta x_i + \varepsilon_i\), for \(i = 1, \ldots, n\) where the \(\varepsilon_i\) are independent, centered, of constant variance. We define two estimators of \(\beta \in \mathbb{R}\):
+\[\hat{\beta} = \frac{\sum_{i=1}^n x_i Y_i}{\sum_{i=1}^n x_i^2} \quad \text{and} \quad \beta^{\star} = \frac{\sum_{i=1}^n Y_i}{\sum_{i=1}^n x_i}\]
+
+\begin{enumerate}
+    \item What is the logic of construction of these estimators?
+    \item Show that they are unbiased estimators of \(\beta\).
+    \item Compare the variances of these two estimators.
+\end{enumerate}
+\end{exercise}
+
+\begin{answerenum}
+    \item The estimator \(\hat{\beta}\) is the ordinary least squares (OLS) estimator, which minimizes the sum of squared residuals between the observed values \(Y_i\) and the predicted values \(\beta x_i\). The estimator \(\beta^{\star}\) is a simple average-based estimator that uses the total sum of \(Y_i\) divided by the total sum of \(x_i\).
+    \item To show that both estimators are unbiased, we compute their expected values:
+        \[ \mathbb{E}[\hat{\beta}] = \mathbb{E}\left[ (X^T X)^{-1} X^T Y \right] = (X^T X)^{-1} X^T \mathbb{E}[Y] \]
+        Since \(Y = X\beta + \varepsilon\) and \(\mathbb{E}[\varepsilon] = 0\), we have:
+        \[ \mathbb{E}[Y] = X\beta \]
+        Thus,
+        \[ \mathbb{E}[\hat{\beta}] = (X^T X)^{-1} X^T X \beta = \beta \]
+        Similarly, for \(\beta^{\star}\):
+        \[ \mathbb{E}[\beta^{\star}] = \mathbb{E}\left[ \frac{\sum_{i=1}^n Y_i}{\sum_{i=1}^n x_i} \right] = \frac{\sum_{i=1}^n \mathbb{E}[Y_i]}{\sum_{i=1}^n x_i} = \frac{\sum_{i=1}^n \beta x_i}{\sum_{i=1}^n x_i} = \beta \]
+        Therefore, both estimators are unbiased.
+    \item To compare the variances, we compute:
+        \[ \text{Var}(\hat{\beta}) = \text{Cov}((X^T X)^{-1} X^T Y, (X^T X)^{-1} X^T Y) \]
+        \[ = \mathbb{E}\left[ (X^T X)^{-1} X^T Y  Y^T X (X^T X)^{-1} \right] - \beta \beta^T \]
+        Recalling that \( Y = X\beta + \varepsilon\) thus \( \mathbb{E}[Y Y^T] = \sigma^2 I + X\beta\beta^T X^T \), we have:
+        \[ = (X^T X)^{-1} X^T \mathbb{E}[Y Y^T] X (X^T X)^{-1} - \beta \beta^T \]
+        \[ = (X^T X)^{-1} X^T (\sigma^2 I + X\beta\beta^T X^T) X (X^T X)^{-1} - \beta \beta^T \]
+        \[ = \sigma^2 (X^T X)^{-1} + (X^T X)^{-1} X^T X \beta\beta^T X^T X (X^T X)^{-1} - \beta \beta^T \]
+        \[ = \sigma^2 (X^T X)^{-1} + \beta \beta^T - \beta \beta^T = \sigma^2 (X^T X)^{-1} \]
+        For \(\beta^{\star}\):
+        \[ \text{Var}(\beta^{\star}) = \text{Cov}\left( \frac{\sum_{i=1}^n Y_i}{\sum_{i=1}^n x_i}, \frac{\sum_{i=1}^n Y_i}{\sum_{i=1}^n x_i} \right) \]
+        \[ = \frac{1}{(\sum_{i=1}^n x_i)^2} \text{Cov}\left( \sum_{i=1}^n Y_i, \sum_{i=1}^n Y_i \right) = \frac{1}{(\sum_{i=1}^n x_i)^2} \sum_{i=1}^n \text{Var}(Y_i) = \frac{n\sigma^2}{(\sum_{i=1}^n x_i)^2} \]
+        To compare the two variances, we note that \(\text{Var}(\hat{\beta}) = \sigma^2 (X^T X)^{-1}\) and \(\text{Var}(\beta^{\star}) = \frac{n\sigma^2}{(\sum_{i=1}^n x_i)^2}\). The variance of \(\hat{\beta}\) is generally smaller than that of \(\beta^{\star}\), especially when the \(x_i\) values are not all equal, making \(\hat{\beta}\) the more efficient estimator.
+\end{answerenum}
