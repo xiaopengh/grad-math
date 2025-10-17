@@ -8,18 +8,13 @@
     \[ M = \sup_x \frac{f_{\alpha, \beta}}{f_{\alpha, \beta} \times (F_{\alpha, \beta}(b) - F_{\alpha, \beta}(0))} = \frac{1}{F_{\alpha, \beta}(b) - F_{\alpha, \beta}(0)} \]
     where \(F_{\alpha, \beta}\) is the CDF of the inverse-gamma distribution.
 
-    \item \texttt{rinvgamma\_trunc3} uses the uniform distribution \(g \sim \mathcal{U}(0, b)\) as the proposal distribution to sample from a truncated inverse-gamma distribution. Choosing the uniform distribution whose support covers the support of the truncated inverse-gamma distribution is essential for the rejection sampling to work, since otherwise there will be regions where the target distribution has non-zero density but the proposal distribution has zero density, making it impossible to sample from those regions.
+    \item \texttt{rinvgamma\_trunc3} uses the uniform distribution \(g \sim \mathcal{U}(0, b)\) whose support covers the support of the truncated inverse-gamma distribution is essential for the rejection sampling to work, since otherwise there will be regions where the target distribution has non-zero density but the proposal distribution has zero density, making it impossible to sample from those regions.
     With the same notation as above, \(M\) is calculated such that
     \[ M = \sup_{x} \frac{f_{\alpha, \beta}^{tr}(x)}{g(x)} = \sup_{x \in [0,b]} \frac{f_{\alpha, \beta}^{tr}(x)}{1/b} = \frac{b}{F_{\alpha, \beta}(b) - F_{\alpha, \beta}(0)} \times \frac{\beta^{\alpha}}{\Gamma(\alpha)} \sup_{x \in [0, b]} x^{-\alpha-1} \exp \left(-\frac{\beta}{x}\right) \]
-    Let \(h(x) = x^{-\alpha-1} \exp(-\beta/x)\), we have \(h'(x) = h(x) x^{-1} \left( \beta x^{-1} - \alpha - 1 \right) \). Setting \(h'(x) = 0\), we have a critical point at \(x = \frac{\beta}{\alpha + 1}\). Since \(h'(x) > 0\) for \(x < \frac{\beta}{\alpha + 1}\) and \(h'(x) < 0\) for \(x > \frac{\beta}{\alpha + 1}\), \(h(x)\) is increasing on \((0, \frac{\beta}{\alpha + 1})\) and decreasing on \((\frac{\beta}{\alpha + 1}, +\infty)\). Therefore, the supremum of \(h(x)\) on \([0, b]\) is achieved either at the right endpoint \(b\) (if \(b \leq \frac{\beta}{\alpha + 1}\)) or at the critical point \(\frac{\beta}{\alpha + 1}\) (if \(b > \frac{\beta}{\alpha + 1}\)). Thus,
+    We find that:
+    % Let \(h(x) = x^{-\alpha-1} \exp(-\beta/x)\), we have \(h'(x) = h(x) x^{-1} \left( \beta x^{-1} - \alpha - 1 \right) \). Setting \(h'(x) = 0\), we have a critical point at \(x = \frac{\beta}{\alpha + 1}\). Since \(h'(x) > 0\) for \(x < \frac{\beta}{\alpha + 1}\) and \(h'(x) < 0\) for \(x > \frac{\beta}{\alpha + 1}\), \(h(x)\) is increasing on \((0, \frac{\beta}{\alpha + 1})\) and decreasing on \((\frac{\beta}{\alpha + 1}, +\infty)\). Therefore, the supremum of \(h(x)\) on \([0, b]\) is achieved either at the right endpoint \(b\) (if \(b \leq \frac{\beta}{\alpha + 1}\)) or at the critical point \(\frac{\beta}{\alpha + 1}\) (if \(b > \frac{\beta}{\alpha + 1}\)). Thus,
     \[ M = \begin{cases}
         \frac{b}{F_{\alpha, \beta}(b) - F_{\alpha, \beta}(0)} \times \frac{\beta^{\alpha}}{\Gamma(\alpha)} b^{-\alpha-1} \exp \left(-\frac{\beta}{b}\right), & b \leq \frac{\beta}{\alpha + 1} \\[1em]
         \frac{b}{F_{\alpha, \beta}(b) - F_{\alpha, \beta}(0)} \times \frac{\beta^{\alpha}}{\Gamma(\alpha)} \left(\frac{\beta}{\alpha + 1}\right)^{-\alpha-1} \exp \left(-\frac{\alpha + 1}{1}\right), & b > \frac{\beta}{\alpha + 1}
     \end{cases} \]
-    \begin{lstlisting}
-const <- b/(pinvgamma(b,alpha,beta) - pinvgamma(0,alpha,beta)) * beta^alpha/gamma(alpha)
-M <- ifelse(b <= beta/(alpha+1), 
-            const * b^(-alpha-1) * exp(-beta/b),
-            const * (beta/(alpha+1))^(-alpha-1) * exp(-alpha-1))
-    \end{lstlisting}
 \end{answerenum}
