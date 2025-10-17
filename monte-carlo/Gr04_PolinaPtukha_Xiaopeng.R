@@ -83,7 +83,7 @@ rinvgamma_trunc2 <- function(n, alpha, beta, b){
   n_acc <- 0
   x <- numeric(n)
   while (n_acc < n){
-    n_trials <- ceiling(M*(n - n_acc))
+    n_trials <- ceiling(M*(n - n_acc))M <- (pinvgamma(b,alpha,beta) - pinvgamma(0,alpha,beta))^(-1)
     u <- runif(n_trials)
     y <- rinvgamma1(n_trials , alpha, beta)
     y_idx <- which(u <= dinvgamma_trunc(y, alpha, beta, b)/(M*dinvgamma(y, alpha, beta)))
