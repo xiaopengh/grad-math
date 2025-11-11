@@ -1,0 +1,639 @@
+---
+title: "Midterm exam (Partiel) M1 2024-25 (K. Meziani)"
+subtitle: "No document, 2h"
+
+output: pdf_document
+header-includes:
+   - \usepackage{mdframed}
+   - \usepackage{verbatim}
+   - \usepackage{tikz,tkz-tab}
+   - \usepackage{pict2e}
+   - \usepackage{dsfont}
+   - \usepackage{pifont}
+   - \usepackage{cancel}
+   - \newcommand{\1}{\mathds{1}}
+   - \newcommand{\cL}{\ensuremath{\mathcal{L}}}
+   - \newcommand{\cH}{\ensuremath{\mathcal{H}}}
+   - \newcommand{\cI}{\ensuremath{\mathcal{I}}}
+   - \newcommand{\cX}{\ensuremath{\mathcal{X}}}
+   - \newcommand{\cM}{\ensuremath{\mathcal{M}}}
+   - \newcommand{\cB}{\ensuremath{\mathcal{B}}}
+   - \newcommand{\cD}{\ensuremath{\mathcal{D}}}
+   - \newcommand{\cN}{\ensuremath{\mathcal{N}}}
+   - \newcommand{\be}{\text{\textbf{E}}}
+   - \newcommand{\pbe}{\text{\textbf{e}}}
+   - \newcommand{\bmu}{\boldsymbol{\mu}}
+   - \newcommand{\bY}{\boldsymbol{Y}}
+   - \newcommand{\beps }{\boldsymbol{\xi}}
+   - \newcommand{\by}{\boldsymbol{y}}
+   - \newcommand{\bO}{\boldsymbol{0}}
+   - \newcommand{\bx}{\boldsymbol{x}}
+   - \newcommand{\bbeta}{\boldsymbol{\beta}}
+   - \newcommand{\e}{\xi}
+   - \def \pe{\text{e}}
+   - \newcommand{\Var}{\mathbb{V}\text{ar}}
+   - \newcommand{\Cov}{\mathbb{C}\text{ov}}
+   - \def\E{\mathbb E}
+   - \newcommand{\I}{\boldsymbol{I}}
+   - \newcommand{\Ne}{\ensuremath{\mathbb{N}}}
+   - \newcommand{\tr}{\mathrm{Tr}}
+   - \newcommand{\R}{\ensuremath{\mathbb{R}}}
+   - \newcommand{\maxO}{\texttt{\textbf{maxO3}}}
+   - \newcommand{\Tdz}{\texttt{\textbf{T12}}}
+   - \usepackage{graphicx}
+   - \newcommand{\indep}{\rotatebox[origin=c]{90}{$\models$}}
+   - \newcommand{\bbetaC}{\bbeta^{(0)}}
+   - \newcommand{\V}{\mathbb{V}}
+   - \newcommand{\SCR}{\text{SCR}\;}
+   - \newcommand{\SCRC}{\text{SCR}_0}
+   - \newcommand{\SCT}{\text{SCT}\;}
+   - \newcommand{\SCM}{\text{SCM}\;}
+   - \newcommand{\SVA}{\text{SVA}\;}
+   - \newcommand{\typ}{\textbf{\texttt{Type}}\;}
+   - \newcommand{\conso}{\textbf{\texttt{Consommation}}\;}
+   - \newcommand{\prog}{\textbf{\texttt{prog}}}
+   - \newcommand{\Math}{\textbf{\texttt{math}}}
+   - \newcommand{\gender}{\textbf{\texttt{gender}}}
+   - \newcommand{\daysabs}{\textbf{\texttt{daysabs}}}
+   - \newcommand\bluefbox{\fcolorbox{black}{blue!10}}
+   - \newcommand\redfbox{\fcolorbox{black}{red!10}}   
+
+---
+
+\tableofcontents
+
+### Correction Exercice  1: QCM 
+
+
+1. C-D 
+2. C-G-H-I-K 
+3. C 
+4. A-C 
+
+###  Correction Exercice 2 
+
+On considère le modèle linéaire suivant
+\begin{equation}
+\label{modele1}
+Y=X\beta+\xi,
+\end{equation}
+\noindent où $Y\in\R^n$, $\beta\in\R^p$ is an unknown vector and $X$ est la matrice $design$ de taille $n\times p$ et de rang plein $p<n$. On suppose que $\xi\sim\mathcal{N}(\boldsymbol{0}_n,\sigma^2 D^{-2})$ où $\sigma^2>0$ est inconnues et $D$ est la $n$-matrice carré diagonale
+$$
+D^{-2}=\begin{pmatrix}
+1&0&\cdots&0\\
+0&1/2&&\vdots\\
+\vdots&&\ddots&0\\
+0&\cdots&0&1/n
+\end{pmatrix}
+$$
+
+#### 1
+1. Montrer que $X^\top D^2X$ est inversible. 
+
+
+\begin{mdframed}
+
+-  Notons que $D^2=\begin{pmatrix}1&0&\cdots&0\\0&2&&\vdots\\\vdots&&\ddots&0\\0&\cdots&0&n\end{pmatrix}$ est de rang plein. 
+
+-  De plus, $(X^\top D^2X)^\top=X^\top D^2 X$ est une matrice symétrique.
+
+
+
+
+
+- Pour tout $z\in\R^{p}$, on calcule
+$$
+z^\top X^\top D^2Xz=\|DXz\|^2\geq 0 \quad 
+$$
+
+- Pour tout $z\in\R^{p}$
+
+$$
+\text{Et } \quad\|DXz\|^2=0  \Leftrightarrow DXz=\bO_{n} \quad 
+$$
+
+
+-  Pour tout $z\in\R^{p}$
+$$
+\Leftrightarrow  Xz=\b0_{n} \quad\text{Car $D$ est inversible }\quad 
+$$
+
+-  Or $X$ est de rang plein donc $z=\bO_p$. 
+
+-  Donc $X^\top D^2X$ est symétrique et définie positive donc inversible. 
+\end{mdframed}
+
+
+
+
+
+#### 2 
+
+2. Quelle est la loi de $Y$ (justifier). Écrire explicitement $f_Y(y)$ la densité de probabilité de $Y$.
+
+\begin{mdframed}
+$Y=X\beta+\xi$ est une transformation linéaire du vecteur gaussien $\xi$ donc $Y$ est gaussien .
+$$
+Y\sim\mathcal N(X\beta, \sigma^2 D^{-2}),\quad 
+$$
+Comme $Det(D^{-2})=\prod_{i=1}^n 1/i=1/(n!)$ , la densité  de $Y$ s'écrit
+$$
+f_Y(y)=\frac{1}{(2\pi\sigma^2)^{n/2}\sqrt{1/(n!)}}\exp\{-\frac{1}{2\sigma^2}\|D(Y-X\beta)\|^2\}\quad 
+$$
+\end{mdframed}
+
+#### 3 
+3.  Calculer la fonction de log-vraisemblance $\ell_n(\beta,\sigma^2)=-\frac{1}{n}\ln f_Y(y)$.
+
+
+
+\begin{mdframed}
+\begin{eqnarray*}
+\ell_n(\beta,\sigma^2)&=&-\frac{1}{n}\ln(f_Y(y))=-\frac{1}{n}\ln\left(\frac{1}{(2\pi\sigma^2)^{n/2}\sqrt{n!}}\exp\{-\frac{1}{2\sigma^2}\|D(Y-X\beta)\|^2\}\right)\\
+&=&\frac{1}{2}\ln\left(\sigma^2\right)+\frac{1}{2n\sigma^2}\|D(Y-X\beta)\|^2+\frac{1}{n}\ln\left((2\pi)^{n/2}\sqrt{n!}\right)\quad
+\end{eqnarray*}
+\end{mdframed}
+
+
+#### 4 
+
+
+4.   En déduire (écriture matricielle demandée) les estimateurs du maximum de vraisemblance $\widehat{\beta}$ et $\widehat{\sigma}^2$ de $\beta$ et $\sigma^2$. On admettra que l'Hessienne de la fonction de log-vraissemblance est définie strictement positive au point $(\widehat{\beta},\widehat{\sigma}^2)$. 
+
+
+\begin{mdframed}
+\begin{eqnarray*}
+\frac{\partial}{\partial (\sigma^2)}\ell_n(\beta,\sigma^2)&=&\frac{1}{2\sigma^2}-\frac{1}{2n(\sigma^2)^2}\|D(Y-X\beta)\|^2  \quad \\
+\nabla_\beta[\ell_n](\beta,\sigma^2)&=&-\frac{2}{2n\sigma^2}(DX)^\top D(Y-X\beta)=-\frac{1}{n\sigma^2}X^\top D^2(Y-X\beta)\quad 
+\end{eqnarray*}
+
+Comme $\left[X^\top D^2X\right]$ est inversible (question 1.), il vient
+$$
+\left\{\begin{array}{l}
+\frac{\partial}{\partial (\sigma^2)}\ell_n(\widehat\beta,\widehat\sigma^2)=0\\
+\nabla_\beta[\ell_n](\widehat\beta,\widehat\sigma^2)=\bO_p
+\end{array}
+\right.
+\Leftrightarrow
+\quad \quad\left\{\begin{array}{l}
+\widehat\sigma^2=\frac{1}{n}\|D(Y-X\widehat\beta)\|^2 \\
+\widehat\beta=\left[X^\top D^2X\right]^{-1}X^\top D^2Y
+\end{array}
+\right.
+$$
+\end{mdframed}
+
+
+#### 5 
+
+Soient $\widetilde{D}:=(DX)\left[(DX)^\top (DX)\right]^{-1}(DX)^\top =(DX)[X^\top D^2X]^{-1}(DX)^\top$ et $\mathcal{M}^*$ de dimension $p$ le sous espace vectoriel engendré par les colonnes de $(DX)$ :
+$$\mathcal{M}^*:=\{ v\in\R^n:\,\, v=(DX)\beta,\,\,\beta\in\R^p   \}.$$    
+Le but de la question 5.  est de montrer que  $\widetilde{D}$
+est un projecteur orthogonal sur le sous espace $\mathcal{M}^*$ de rang $p$.
+
+
+5.a.  Montrer que  $\widetilde{D}$ est un projecteur orthogonal.
+
+
+\begin{mdframed}
+ Notons que $[X^\top D^2X]^{-1}$ est une matrice symétrique (question 1.) 
+\begin{eqnarray*}
+\widetilde{D}^\top&=&\left[(DX)[X^\top D^2X]^{-1}(DX)^\top\right]^\top =(DX)^\top [X^\top D^2X]^{-1}(DX)=\widetilde{D}\quad \\
+\widetilde{D}^2&=&\left[(DX)[X^\top D^2X]^{-1}(DX)^\top\right]\left[(DX)[X^\top D^2X]^{-1}(DX)^\top\right]\quad \\
+&=&(DX)\underbrace{[X^\top D^2X]^{-1}X^\top D DX}_{\I_p}[X^\top D^2X]^{-1}(DX)^\top=\widetilde{D}\quad 
+\end{eqnarray*}
+
+Donc $\widetilde{D}$ est un projecteur.
+\end{mdframed}
+
+
+5.b.  Montrer que $\widetilde{D}$ projette sur $\mathcal{M}^*$.
+
+
+
+
+
+\begin{mdframed}
+\begin{itemize}
+\item[(i)] $\forall v\in \R^n$ 
+$$\widetilde{D}v=(DX)\underbrace{[X^\top D^2X]^{-1}(DX)^\top v}_{:=\beta\in \R^p}:=(DX)\beta\in\mathcal{M}^*
+$$
+Donc $\widetilde{D}$ projette sur un sous epace de $\mathcal{M}^*$
+\item[(ii)] $\forall v\in \mathcal{M}^*$, $\exists \beta\in\R^p$ tel que $v=(DX)\beta$
+
+\begin{eqnarray*}
+\widetilde{D}v&=&\widetilde{D}(DX)\beta=(DX)[X^\top D^2X]^{-1}(DX)^\top(DX)\beta\\
+&=&(DX)\underbrace{[X^\top D^2X]^{-1}[X^\top D^2X]}_{\I_p}\beta=(DX)\beta=v
+\end{eqnarray*}
+Donc $\widetilde{D}$ projette tout élément de $\mathcal{M}^*$ dans lui même.
+\end{itemize}
+
+\quad  $(i)+(ii))+(Question\,\, 5.a.)$ $\Leftrightarrow$ $\widetilde{D}$  projette orthogonalement sur $\mathcal{M}^*$.
+\end{mdframed}
+
+
+#### 6 
+
+6. Cette question a pour but l'étude de $\widehat{\sigma}^2$ 
+
+6.a.  On définit $V=D(Y-X\widehat{\beta})$. Montrer que $V=(\I_n-\widetilde{D})D\xi$.
+ 
+\begin{mdframed}
+\begin{eqnarray*}
+V&=&DY-DX\widehat{\beta}=DY-DX\left[X^\top D^2X\right]^{-1}X^\top D^2Y\quad \\
+&=&DY-\widetilde{D}DY=\left(\I_n-\widetilde{D}\right)DY\quad \\
+&=& \underbrace{\left(\I_n-\widetilde{D}\right)}_{projette \ sur \ (\mathcal{M}^*)^\perp}\underbrace{(DX)\beta}_{\in \mathcal{M}^*}+\left(\I_n-\widetilde{D}\right)D\xi\quad \\
+&=&\left(\I_n-\widetilde{D}\right)D\xi\quad 
+\end{eqnarray*}
+\end{mdframed}
+
+
+
+6.b. Montrer que $V$ suit une loi gaussienne centrée dont on précisera la matrice de variance-covariance.
+
+\begin{mdframed}
+Comme $\xi\sim\mathcal{N}(\boldsymbol{0}_n,\sigma^2 D^{-2})$ alors $V=\left(\I_n-\widetilde{D}\right)D\xi$ a une transformation linéaire d'un vecteur gaussien est gaussien   $$V\sim\mathcal{N}(\boldsymbol{0}_n,\sigma^2 \left(\I_n-\widetilde{D}\right))$$ car
+
+\begin{eqnarray*}
+\E[V]&=&\E[\left(\I_n-\widetilde{D}\right)D\xi]=\left(\I_n-\widetilde{D}\right)D\E[\xi]=\bO_n\quad \\
+\Var[V]&=&\Var[\left(\I_n-\widetilde{D}\right)D\xi]=\left(\I_n-\widetilde{D}\right)D\Var[\xi]
+=\sigma^2\left(\I_n-\widetilde{D}\right)\underbrace{D
+D^{-2}D^\top }_{\I_n}\left(\I_n-\widetilde{D}\right)^\top\\
+&=&\sigma^2\left(\I_n-\widetilde{D}\right)^2=\sigma^2\left(\I_n-\widetilde{D}\right)\quad 
+\end{eqnarray*}
+\end{mdframed}
+
+
+6.c.  Calculer $\E_\beta[\|V\|^2]$ .
+
+\begin{mdframed}
+Comme $\xi\sim\mathcal{N}(\boldsymbol{0}_n,\sigma^2 D^{-2})$ alors $\xi^*:=\frac{1}{\sigma}D\xi\sim\mathcal{N}(\boldsymbol{0}_n,\I_n)$. De plus
+$$
+\frac{1}{\sigma}V=(\I_n-\widetilde{D})\frac{1}{\sigma}D\xi=(\I_n-\widetilde{D})\xi^*\quad 
+$$
+Comme $dim((\mathcal{M}^*)^\perp)=n-p$, il vient par le théorème de Cohran 
+$$
+\frac{1}{\sigma^2}\left\|V\right\|^2=\left\|\frac{1}{\sigma}V\right\|^2=\left\|(\I_n-\widetilde{D})\xi^*\right\|^2\sim\mathcal X^2_{n-p}\quad 
+$$
+Ainsi
+$$
+\E_\beta\left[\frac{1}{\sigma^2}\left\|V\right\|^2\right]=\frac{1}{\sigma^2}\E_\beta[\left\|V\right\|^2]=n-p\quad 
+$$
+Et $\E_\beta[\left\|V\right\|^2]=(n-p)\sigma^2$.
+\end{mdframed}
+
+6.d.  En déduire un estimateur sans biais $\widetilde{\sigma}^2$ de $\sigma^2$.
+
+\begin{mdframed}
+Comme  
+$$\E_\beta[\widehat\sigma^2]=\E_\beta\left[\frac{\left\|V\right\|^2}{n}\right]=\frac{1}{n}\E_\beta\left[\left\|V\right\|^2\right]=\frac{(n-p)}{n}\sigma^2\quad 
+$$
+L'estimateur $\widehat\sigma^2$ est biaisé. Un estimateur non biaisé de $\sigma^2$ est donc
+$$\widetilde\sigma^2=\frac{n}{(n-p)}\widehat\sigma^2=\frac{\left\|V\right\|^2}{n-p}\quad 
+$$
+
+\end{mdframed}
+
+6.e.   Donner la loi de $$\mathcal X:=(n-p)\frac{\widetilde{\sigma}^2}{\sigma^2},$$
+où  $\widetilde{\sigma}^2$ est l'estimateur sans biais de la question précédente.
+
+\begin{mdframed}
+Par le théorème de Cochran 
+$$\mathcal X:=(n-p)\frac{\widetilde{\sigma}^2}{\sigma^2}=\frac{\left\|V\right\|^2}{{\sigma}^2}=\left\|(\I_n-\widetilde{D})\xi^*\right\|^2\sim\mathcal X^2_{n-p}\quad $$
+\end{mdframed}
+
+
+####  7 
+
+7.  Donner la loi de $\widehat{\beta}$. Justifier.
+
+
+\begin{mdframed}
+Comme $Y$ est gaussien (Question 2.), alors $\widehat{\beta}=\left[X^\top D^2X\right]^{-1}X^\top D^2Y$ est gaussien comme transformation linéaire d'un vecteur gaussien .
+
+
+\begin{eqnarray*}
+\E[\widehat{\beta}]&=&\E\left(\left[X^\top D^2X\right]^{-1}X^\top D^2Y\right)=\left[X^\top D^2X\right]^{-1}X^\top D^2\E\left(Y\right)\quad \\
+&=&\underbrace{\left[X^\top D^2X\right]^{-1}X^\top D^2X}_{I_p}\beta=\beta\quad \\
+\Var[\widehat{\beta}]&=&\Var\left(\left[X^\top D^2X\right]^{-1}X^\top D^2Y\right)\\
+&=&\left[X^\top D^2X\right]^{-1}X^\top D^2\Var\left(Y\right)D^2X\left[X^\top D^2X\right]^{-1}\quad \\
+&=&\sigma^2\left[X^\top D^2X\right]^{-1}X^\top \underbrace{D^2D^{-2}}_{I_n}D^2X\left[X^\top D^2X\right]^{-1}\\
+&=&\sigma^2\underbrace{\left[X^\top D^2X\right]^{-1}X^\top D^2X}_{\I_p}\left[X^\top D^2X\right]^{-1}\quad \\
+&=&\sigma^2\left[X^\top D^2X\right]^{-1}\quad 
+\end{eqnarray*}
+Donc
+$$
+\widehat{\beta}\sim\mathcal N\left(\beta,\sigma^2\left[X^\top D^2X\right]^{-1}\right)
+$$
+\end{mdframed}
+
+
+
+####  8 
+
+8.  Montrer que $\widehat{\beta}$ et $V=D(Y-X\widehat{\beta})$ sont indépendants.
+
+\begin{mdframed}
+Remarquons que
+$$
+\widehat{\beta}=\left[X^\top D^2X\right]^{-1}X^\top D^2Y=\left[X^\top D^2X\right]^{-1}X^\top D^2X\beta+\left[X^\top D^2X\right]^{-1}X^\top D^2\xi=\beta+\left[X^\top D^2X\right]^{-1}X^\top D^2\xi\quad 
+$$
+Et rappelons que $V=(\I_n-\widetilde{D})D\xi$, alors
+$$
+\quad W:=\begin{pmatrix}
+\widehat{\beta}\\
+V
+\end{pmatrix}=
+\begin{pmatrix}
+\beta+\left[X^\top D^2X\right]^{-1}X^\top D^2\xi\\
+(\I_n-\widetilde{D})D\xi
+\end{pmatrix}=
+\begin{pmatrix}
+{\beta}\\
+\bO_n
+\end{pmatrix}+\begin{pmatrix}
+\left[X^\top D^2X\right]^{-1}X^\top D^2\\
+(\I_n-\widetilde{D})D
+\end{pmatrix}\xi
+$$
+Alors $W$ est gaussien comme transformation affine du vecteur gaussien $\xi$.
+
+De plus
+\begin{eqnarray*}
+\Cov\left(\widehat{\beta},V\right)&=&\Cov\left(\left[X^\top D^2X\right]^{-1}X^\top D^2\xi,(\I_n-\widetilde{D})D\xi\right)\\
+&=&\left[X^\top D^2X\right]^{-1}X^\top D^2\Cov(\xi,\xi)D(\I_n-\widetilde{D})\quad \\
+&=&\sigma^2\left[X^\top D^2X\right]^{-1}X^\top \underbrace{D^2D^{-2}}_{\I_n}D(\I_n-\widetilde{D}) \quad 
+\\
+&=&\sigma^2\left(\left[X^\top D^2X\right]^{-1}X^\top D-\left[X^\top D^2X\right]^{-1}X^\top D\widetilde{D}\right)\quad \\
+&=&\sigma^2\left(\left[X^\top D^2X\right]^{-1}X^\top D-\underbrace{\left[X^\top D^2X\right]^{-1}X^\top D^2X}_{\I_p}[X^\top D^2X]^{-1}(DX)^\top\right)\quad \\
+&=&\sigma^2\left(\left[X^\top D^2X\right]^{-1}X^\top D-[X^\top D^2X]^{-1}(DX)^\top\right)\quad \\
+&=&\bO_{p\times n}\quad 
+\end{eqnarray*}
+Donc $\widehat{\beta}$ et $V$ sont indépendants.
+\end{mdframed}
+
+####  9 
+
+9. On rappelle que $\sigma^2$ est supposé inconnu. On souhaite tester l'hypothèse nulle $H_0: \ \beta=\beta_0\in\R^p$ contre l'alternative $H_1: \ \beta\neq\beta_0$. Proposer un test de taille $\alpha\in]0,1[.$ 
+
+\begin{mdframed}
+On a demontré que $\widehat{\beta}\sim\mathcal N\left(\beta,\sigma^2\left[X^\top D^2X\right]^{-1}\right)$ alors
+
+
+$$
+\frac{\left[X^\top D^2X\right]^{1/2}(\widehat{\beta}-\beta)}{\sqrt{\sigma^2}}\sim\mathcal N\left(\bO_p,\I_p\right)\quad $$
+Par cohran 
+$$
+\left\|\frac{\left[X^\top D^2X\right]^{1/2}(\widehat{\beta}-\beta)}{\sqrt{\sigma^2}}\right\|^2\sim\mathcal X^2_p \quad 
+$$ 
+Alors sous $H_0$
+$$\eta:=\left\|\frac{\left[X^\top D^2X\right]^{1/2}(\widehat{\beta}-\beta_0)}{\sqrt{\sigma^2}}\right\|^2\sim\mathcal X^2_p\quad $$
+On a montrer que
+$$\mathcal X:=(n-p)\frac{\widetilde{\sigma}^2}{\sigma^2}$$
+De plus, comme $\widehat{\beta}$ et $V$ sont indépendants alors $\eta$ et $\mathcal X$ sont indépendants\quad . Ainsi
+sous $H_0$
+$$
+F:=\frac{\eta/p}{\mathcal X/(n-p)}\overset{ }{=}\frac{\left\|\left[X^\top D^2X\right]^{1/2}(\widehat{\beta}-\beta_0)\right\|^2}{p\widetilde\sigma^2}\sim \mathcal F_{p,(n-p)}\quad 
+$$
+Un test de taille $\alpha\in(0,1)$ est donc 
+$$
+\{F>q_{1-\alpha}^{\mathcal F_{p,(n-p)}}\}\quad 
+$$
+\end{mdframed}
+## English version
+
+### Exercise 1 : Multiple Choice questionnaires
+
+We consider the general regression model  $Y = X \beta + \beps$ $\quad \beps\sim\cN(\bO_n,\sigma^2\I_n)$ with
+$$
+ \bY \in\R^n,\quad 
+\beps \in\R^n,\quad
+X = [\mathbf{1}_n,X_1,\cdots,X_q]\in\mathbb{R}^{n\times(1+q)}, \quad
+\bbeta = \left(\beta_0,\ldots,\beta_q \right)^\top\in\mathbb{R}^{(1+q)}, 
+$$
+
+We assume that the postulate \textbf{[P1]-to-[P4]} are satisfied and $X$ is of full rank matrix. We denote by $P_{X}$ the orthogonal projection matrix onto the vectorial sub-space  $[X]$ of $\R^n$ generated by  the columns of $X$,  $\mathbf{1}_n \in  \R^n$ the vector  $(1,\cdots,1)^T$, $\widehat \sigma^2$ the unbiased estimator of $\sigma^2$ presented in class and $\widehat{\bbeta}$ the ordinary least squares estimator.  
+
+\underline{Without justifying}, answer by giving the list of the true assertions. For each question: A negative response cancels out a positive response.
+\noindent\rule{0.5\textwidth}{0.5pt}
+$\large{\textbf{1.}}\,$ \textbf{$\widehat{\bbeta}$ is}
+
+$\begin{array}{llll}
+\textbf{A.}&\text{optimal among the unbiased estimators.}  \\
+\textbf{B.}&\text{a gaussian vector whose variance-covariance matrix is diagonal. }\\ 
+\textbf{C.}&\text{unbiased and linear with respect to  $\bY$.}\\
+\textbf{D.}&\text{equal to the maximum likelihood estimator.} \\
+\end{array}$
+
+
+\noindent\rule{0.5\textwidth}{0.5pt}
+$\large{\textbf{2.}}\,$\textbf{Which assertions are true?} 
+
+
+$\begin{array}{llll}
+\textbf{A.}&\text{$\widehat \sigma^2$ and $\bY$ are pairwise independent.} &\textbf{G.}&\text{The $\{Y_i\}_i$ are pairwise independent.} \\
+\textbf{B.}&\text{The $\{Y_i\}_i$ are $i.i.d.$. } &\textbf{H.}&\text{The $\{\varepsilon_i\}_i$ are pairwise independent. } \\
+\textbf{C.}&\text{The $\{\varepsilon_i\}_i$ are $i.i.d.$.} &\textbf{I.}&\text{$\widehat \beta$ and $(\bY - \widehat{ \bY})$ are independent.} \\
+\textbf{D.}&\text{For a given  $i$, $Y_i$ and $\varepsilon_i$ are independent.} &\textbf{J.}&\text{$\bY$ and $\widehat{ \bY}$ are independent.} \\
+\textbf{E.}&\text{The $\{\widehat \beta_k\}_k$ are pairwise independent.} &\textbf{K.}&\text{$\widehat \sigma^2$ and $\widehat{ \bbeta}$ are independent.} \\
+\textbf{F.}&\text{$\widehat{ \bbeta}$ and $\widehat{ \bY}$ are independent.} && \\
+\end{array}$
+
+
+
+
+
+\noindent\rule{0.5\textwidth}{0.5pt}
+$\large{\textbf{3.}}\,$\textbf{The dimension of $[X]$ is}
+
+$\begin{array}{llll}
+\textbf{A.}&q-1 &\textbf{D.}&n-q\\
+\textbf{B.}&q&\textbf{E.}&n\\
+\textbf{C.}&q+1
+\end{array}$
+
+
+
+
+
+\noindent\rule{0.5\textwidth}{0.5pt}
+$\large{\textbf{4.}}\,$\textbf{Which assertions are true?}
+
+
+$\begin{array}{llll}
+\textbf{A.}&\text{$(\bY - \widehat{ \bY})$  and  $\1_n$ are orthogonal.} &\textbf{D.}&\text{$\widehat{ \bY}$ and  $X \bbeta$ are orthogonal.} \\
+\textbf{B.}&\text{$\bY$ and  $P_X \bY$ are orthogonal.} &\textbf{E.}&\text{$\bY$ and  $(\bY - \widehat{ \bY})$ are orthogonal.} \\
+\textbf{C.}&\text{$\widehat{ \bY}$ and  $(Y - \widehat{ \bY})$ are orthogonal.} &\textbf{F.}&\text{$\bY$ and $\1_n$ sont orthogonaux.} 
+\end{array}$
+
+
+### Exercise 2 (Heteroscedasticity)
+ 
+ 
+We consider the following linear model
+\begin{equation}
+\label{modele1}
+Y=X\beta+\xi,
+\end{equation}
+\noindent where $Y\in\R^n$, $\beta\in\R^p$ is an unknown vector and $X$ the $design$ matrix of size $n\times p$ and full rank  $p<n$. We assume $\xi\sim\mathcal{N}(\boldsymbol{0}_n,\sigma^2 D^{-2})$ where $\sigma^2>0$ is unknown and $D$  the $n$-diagonal square matrix such that
+$$
+D^{-2}=\begin{pmatrix}
+1&0&\cdots&0\\
+0&1/2&&\vdots\\
+\vdots&&\ddots&0\\
+0&\cdots&0&1/n
+\end{pmatrix}
+$$
+
+1.$\,$ Show that $X^\top D^2X$ is invertible. 
+
+2.$\,$  What is the distribution of $Y$ (justify). Write explicitly $f_Y(y)$ the probability density of $Y$.
+
+3.$\,$ Compute the log-likelihood function $\ell_n(\beta,\sigma^2):=-\frac{1}{n}\ln f_Y(y)$.
+
+4.$\,$ Deduce (matrix writing required) the maximum likelihood estimators $\widehat{\beta}$ and $\widehat{\sigma}^2$ of $\beta$ and $\sigma^2$. We admit that the Hessian of the log-likelihood function is strictly positive at the point $(\widehat{\beta},\widehat{\sigma}_{ML}^2)$. 
+
+5.$\,$  Let $\widetilde{D}:=(DX)\left[(DX)^\top (DX)\right]^{-1}(DX)^\top =(DX)[X^\top D^2X]^{-1}(DX)^\top$ and $\mathcal{M}^*$ of dimension $p$ be the vector subspace generated by the columns of $(DX)$ :
+$$\mathcal{M}^*:=\{ v\in\R^n:\,\, v=(DX)\beta,\,\,\beta\in\R^p   \}.$$    
+The goal of question 5. is to show that $\widetilde{D}$ is an orthogonal projector on  the subspace $\mathcal{M}^*$ of rank $p$.
+
+a. Show that $\widetilde{D}$ is an orthogonal projector.
+b.  Show that $\widetilde{D}$ projects onto $\mathcal{M}^*$.
+
+6.$\,$ The purpose of this question is to study $\widehat{\sigma}_{ML}^2$ 
+
+a.  We define $V=D(Y-X\widehat{\beta})$. Show that $V=(\I_n-\widetilde{D})D\xi$.
+b. Show that $V$ follows a centered Gaussian distribution whose variance-covariance matrix will be specified.
+c. Calculate $\E_\beta[||V||^2]$.
+d.  Deduce an unbiased estimator $\widetilde{\sigma}^2$ of $\sigma^2$.
+e.  For $\widetilde{\sigma}^2$ the unbiased estimator from the previous question, give the distribution of $$\mathcal X:=(n-p)\frac{\widetilde{\sigma}^2}{{\sigma}^2}.$$
+
+7.$\,$ Give the law of $\widehat{\beta}$. Justify.
+
+8.$\,$ Show that $\widehat{\beta}$ and $V=D(Y-X\widehat{\beta})$ are independent.
+
+9.$\,$ Recall that $\sigma^2$ is assumed to be unknown. We wish to test the null hypothesis $H_0: \ \beta=\beta_0\in\R^p$ against the alternative $H_1: \ \beta\neq\beta_0$. Propose a test of size $\alpha\in]0,1[.$ A \textbf{RIGOROUS} justification is expected
+ 
+
+
+ 
+
+
+
+## Version Française
+
+
+### Exercice 1 (QCM)
+
+
+On considère le modèle de regression linéaire suivant :
+$Y = X \beta + \beps,$ $\quad \beps\sim\cN(\bO_n,\sigma^2\I_n)$ avec 
+$$
+ \bY \in\R^n,\quad 
+\beps \in\R^n,\quad
+X = [\mathbf{1}_n,X_1,\cdots,X_q]\in\mathbb{R}^{n\times(1+q)}, \quad
+\bbeta = \left(\beta_0,\ldots,\beta_q \right)^\top\in\mathbb{R}^{(1+q)}, 
+$$
+On suppose que les postulats \textbf{[P1]-à-[P4]} sont satisfaits et  $X$ est une matrice de rang plein. On note $P_{X}$ le projecteur orthogonal sur le sous-espace $[X]$ de $\R^n$  généré par les colonnes de $X$, $\mathbf{1}_n \in  \R^n$ le vecteur  $(1,\cdots,1)^T$, $\widehat \sigma^2$ l'estimateur sans biais de $\sigma^2$ vu en cours et $\widehat{\bbeta}$ l'estimateur des moindres carrés ordinaire. 
+
+\underline{Sans justification, précisez la (les) vraie(s) assertion(s) dans la liste.}. Pour chaque question : si une réponse est négative, elle annule toute réponse positive.
+\noindent\rule{0.5\textwidth}{0.5pt}
+$\large{\textbf{1.}}\,$ \textbf{$\widehat{\bbeta}$ est :}
+
+$\begin{array}{llll}
+\textbf{A.}&\text{optimal (dans le sens vu en cours) parmi les estimateurs sans biais.} \\
+\textbf{B.}&\text{un vecteur gaussien de matrice de variance-covariance diagonale.} \\
+\textbf{C.}&\text{sans biais et linéaire en $\bY$.}\\
+\textbf{D.}&\text{égal à l'estimateur du maximum de vraisemblance.}
+\end{array}$
+
+
+
+\noindent\rule{0.5\textwidth}{0.5pt}
+$\large{\textbf{2.}}\,$ \textbf{Quelles assertions sont vraies? }
+
+
+$\begin{array}{llll}
+\textbf{A.}&\text{$\widehat \sigma^2$ et $\bY$ sont indépendants.} &\textbf{G.}& \text{Les $\{Y_i\}_i$ sont mutuellement indépendants.}\\
+\textbf{B.}&\text{Les $\{Y_i\}_i$  sont $i.i.d.$} &\textbf{H.}&\text{Les $\{\varepsilon_i\}_i$ sont mutuellement indépendants.} \\
+\textbf{C.}& \text{Les $\{\varepsilon_i\}_i$  sont $i.i.d.$}&\textbf{I.}& \text{$\widehat \beta$ et $(\bY - \widehat{ \bY})$ sont indépendants.}\\
+\textbf{D.}& \text{Pour un $i$ donné, $Y_i$ et $\varepsilon_i$ sont indépendants}&\textbf{J.}& \text{$\bY$ et $\widehat{ \bY}$ sont indépendants.}\\
+\textbf{E.}&\text{Les  $\{\widehat \beta_k\}_k$  sont mutuellement indépendants.} &\textbf{K.}& \text{$\widehat \sigma^2$ et $\widehat{ \bbeta}$ sont indépendants.}\\
+\textbf{F.}&\text{$\widehat{ \bbeta}$ et $\widehat{ \bY}$ sont indépendants. } &\textbf{}&\text{ } 
+\end{array}$
+
+
+\noindent\rule{0.5\textwidth}{0.5pt}
+$\large{\textbf{3.}}\,$ \textbf{La dimension de $[X]$ est :}
+
+$\begin{array}{llll}
+\textbf{A.}&q-1 &\textbf{D.}&n-q\\
+\textbf{B.}&q&\textbf{E.}&n\\
+\textbf{C.}&q+1
+\end{array}$
+
+
+\noindent\rule{0.5\textwidth}{0.5pt}
+$\large{\textbf{4.}}\,$\textbf{Quelles assertions sont vraies? }
+
+$\begin{array}{llll}
+\textbf{A.}&\text{$(\bY - \widehat{ \bY})$  et $\1_n$ sont orthogonaux.} &\textbf{D.}&\text{$\widehat{ \bY}$ et $X \bbeta$ sont orthogonaux.} \\
+\textbf{B.}&\text{$\bY$ et $P_X \bY$ sont orthogonaux.} &\textbf{E.}&\text{$\bY$ et $(\bY - \widehat{ \bY})$ sont orthogonaux.} \\
+\textbf{C.}&\text{$\widehat{ \bY}$ et $(\bY - \widehat{ \bY})$ sont orthogonaux.} &\textbf{F.}&\text{$\bY$ et $\1_n$ sont orthogonaux.} 
+\end{array}$
+
+\noindent\rule{0.5\textwidth}{0.5pt}
+
+\newpage
+### Exercice 2 (Hétéroscédasticité)
+ 
+ 
+On considère le modèle linéaire suivant
+\begin{equation*}
+\label{modele1}
+Y=X\beta+\xi,
+\end{equation*}
+\noindent où $Y\in\R^n$, $\beta\in\R^p$ est un vecteur inconnu et $X$ est la matrice $design$ de taille $n\times p$ et de rang plein $p<n$. On suppose que $\xi\sim\mathcal{N}(\boldsymbol{0}_n,\sigma^2 D^{-2})$ où $\sigma^2>0$ est inconnu et $D$ est la $n$-matrice carré diagonale telle que
+$$
+D^{-2}=\begin{pmatrix}
+1&0&\cdots&0\\
+0&1/2&&\vdots\\
+\vdots&&\ddots&0\\
+0&\cdots&0&1/n
+\end{pmatrix}
+$$
+1.$\,$Montrer que $X^\top D^2X$ est inversible. 
+
+2.$\,$Quelle est la loi de $Y$ (justifier). Écrire explicitement $f_Y(y)$ la densité de probabilité de $Y$.
+
+3.$\,$Calculer la fonction de log-vraisemblance $\ell_n(\beta,\sigma^2):=-\frac{1}{n}\ln f_Y(Y)$.
+
+4.$\,$En déduire (écriture matricielle demandée) les estimateurs du maximum de vraisemblance $\widehat{\beta}$ et $\widehat{\sigma}_{MV}^2$ de $\beta$ et $\sigma^2$. On admettra que l'Hessienne de la fonction de log-vraissemblance est définie strictement positive au point $(\widehat{\beta},\widehat{\sigma}^2)$. 
+
+5.vSoient $\widetilde{D}:=(DX)\left[(DX)^\top (DX)\right]^{-1}(DX)^\top =(DX)[X^\top D^2X]^{-1}(DX)^\top$ et $\mathcal{M}^*$ de dimension $p$ le sous espace vectoriel engendré par les colonnes de $(DX)$ :
+$$\mathcal{M}^*:=\{ v\in\R^n:\,\, v=(DX)\beta,\,\,\beta\in\R^p   \}.$$    
+Le but de la question 5.  est de montrer que  $\widetilde{D}$
+est un projecteur orthogonal sur le sous espace $\mathcal{M}^*$ de rang $p$.
+
+a. Montrer que  $\widetilde{D}$ est un projecteur orthogonal.
+b. Montrer que $\widetilde{D}$ projette sur $\mathcal{M}^*$.
+
+6.$\,$Cette question a pour but l'étude de $\widehat{\sigma}_{MV}^2$. 
+
+a. On définit $V=D(Y-X\widehat{\beta})$. Montrer que $V=(\I_n-\widetilde{D})D\xi$.
+b.  Montrer que $V$ suit une loi gaussienne centrée dont on précisera la matrice de variance-covariance.
+c. Calculer $\E_\beta[||V||^2]$ .
+d. En déduire un estimateur sans biais $\widetilde{\sigma}^2$ de $\sigma^2$.
+e. Pour $\widetilde{\sigma}^2$ est l'estimateur sans biais de la question précédente, Quelle est la loi de 
+$$\mathcal X:=(n-p)\frac{\widetilde{\sigma}^2}{{\sigma}^2}.
+$$
+
+7.$\,$ Donner la loi de $\widehat{\beta}$. Justifier.
+
+8.$\,$Montrer que $\widehat{\beta}$ et $V=D(Y-X\widehat{\beta})$ sont indépendants.
+
+9.$\,$On rappelle que $\sigma^2$ est supposé inconnu. On souhaite tester l'hypothèse nulle $H_0: \ \beta=\beta_0\in\R^p$ contre l'alternative $H_1: \ \beta\neq\beta_0$. Proposer un test de taille $\alpha\in]0,1[.$ Une justification \textbf{RIGOUREUSE} est attendue.
+ 
+
+
+
