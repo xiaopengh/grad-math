@@ -1,50 +1,6 @@
 % TD 1: Linear regression model exercises
 % Converted from PDF to LaTeX exercise format
 
-\begin{exercise}[Unbiased estimator of \(\sigma^2\) in the non-Gaussian model]
-Consider the following non-Gaussian linear model:
-\[Y = X\beta + \epsilon\]
-with \(\beta \in \mathbb{R}^p\), \(X\) of full rank, and the \(\epsilon_i\) independent, centered and of variance \(\sigma^2\). We pose:
-\[\hat{\sigma}^2 = \frac{1}{n - p} \|Y - X\hat{\beta}\|^2\]
-We note \(\text{Tr}(\cdot)\) the trace of a matrix.
-
-\begin{enumerate}
-    \item Show that \((n - p)\hat{\sigma}^2 = \text{Tr}(\epsilon^{\top}P_{X^{\perp}} \epsilon)\)
-
-    \item Using the fact that \(\text{Tr}(AB) = \text{Tr}(BA)\) for \(A\) and \(B\) of respective size \((m \times n)\) and \((n \times m)\), show that
-    \[(n - p)E_{\beta}[\hat{\sigma}^2] = \sigma^2 \text{Tr}(P_{X^{\perp}})\]
-
-    \item Deduce that \(E_{\beta}[\hat{\sigma}^2] = \sigma^2\).
-\end{enumerate}
-\end{exercise}
-
-\begin{exercise}[Proof of theorem 4 chapter 4]
-Consider the following Gaussian linear model \(Y = X\beta + \epsilon\) where \(\beta \in \mathbb{R}^r\), \(X\) is a full rank matrix of size \(n \times r\) (\(n > r\)). Let \(C \in M_{q,r}(\mathbb{R})\). We want to test
-\[H_0 : C\beta = 0_q \quad \text{versus} \quad H_1 : C\beta \neq 0_q\]
-We assume that \(\text{rg}(C) = q \leq r\). Therefore, you will note that \(\text{rg}(C^{\top}) = q\) where \(C^{\top}\) is the transpose of \(C\).
-
-\begin{enumerate}
-    \item Show that if \(Z \sim N_q(0_q, \Sigma)\) then \(Z^{\top}\Sigma^{-1}Z \sim \chi^2_q\).
-
-    \item Show that \(C(X^{\top}X)^{-1}C^{\top}\) is a symmetric and invertible matrix.
-
-    \item Recall the ordinary least squares expression \(\hat{\beta}\).
-
-    \item What is the law of \(\hat{\beta}\)?
-
-    \item Deduce the law of \(C\hat{\beta}\) under the hypothesis \(H_0\).
-
-    \item Deduce that, under \(H_0\),
-    \[R = \frac{(C\hat{\beta})^{\top}(C(X^{\top}X)^{-1}C^{\top})^{-1}(C\hat{\beta})}{\sigma^2} \sim \chi^2_q\]
-
-    \item Conclude that, under \(H_0\),
-    \[F = \frac{\hat{\beta}^{\top}C^{\top}(C(X^{\top}X)^{-1}C^{\top})^{-1}C\hat{\beta}}{q\hat{\sigma}^2}\]
-    is distributed according to a Fisher distribution with \((q, n - r)\) degrees of freedom. Each step of the reasoning must be carefully justified.
-
-    \item Justify and construct a test of \(H_0\) against \(H_1\) of level \(\alpha\).
-\end{enumerate}
-\end{exercise}
-
 \begin{exercise}[MCQ]
 We have observations \((x_i, y_i) \in \mathbb{R}^2\), \(\forall i = 1, \ldots, n\). We consider the following classical Gaussian linear model:
 \[Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i, \quad \forall i = 1, \ldots, n\]

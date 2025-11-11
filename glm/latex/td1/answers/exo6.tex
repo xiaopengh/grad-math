@@ -1,0 +1,44 @@
+\begin{exercise}[Unbiased estimator of \(\sigma^2\) in the non-Gaussian model]
+Consider the following non-Gaussian linear model:
+\[Y = X\beta + \epsilon\]
+with \(\beta \in \mathbb{R}^p\), \(X\) of full rank, and the \(\epsilon_i\) independent, centered and of variance \(\sigma^2\). We pose:
+\[\hat{\sigma}^2 = \frac{1}{n - p} \|Y - X\hat{\beta}\|^2\]
+We note \(\text{Tr}(\cdot)\) the trace of a matrix.
+
+\begin{enumerate}
+    \item Show that \((n - p)\hat{\sigma}^2 = \text{Tr}(\epsilon^{\top}P_{X^{\perp}} \epsilon)\)
+
+    \item Using the fact that \(\text{Tr}(AB) = \text{Tr}(BA)\) for \(A\) and \(B\) of respective size \((m \times n)\) and \((n \times m)\), show that
+    \[(n - p)E_{\beta}[\hat{\sigma}^2] = \sigma^2 \text{Tr}(P_{X^{\perp}})\]
+
+    \item Deduce that \(E_{\beta}[\hat{\sigma}^2] = \sigma^2\).
+\end{enumerate}
+\end{exercise}
+
+\begin{answerenum}
+    \item We have:
+        \begin{align*}
+            (n - p)\hat{\sigma}^2 &= \|Y - X\hat{\beta}\|^2 \\
+            &= (Y - X\hat{\beta})^{\top}(Y - X\hat{\beta}) \\
+            &= (Y - X(X^{\top}X)^{-1}X^{\top}Y)^{\top}(Y - X(X^{\top}X)^{-1}X^{\top}Y) \\
+            &= (id - P_X)Y^{\top}(id - P_X)Y \\
+            &= Y^{\top}(id - P_X)^{\top}(id - P_X)Y \\
+            &= Y^{\top}P_{X^{\perp}}Y \\
+            &= (X\beta + \epsilon)^{\top}P_{X^{\perp}}(X\beta + \epsilon) \\
+            &= \epsilon^{\top}P_{X^{\perp}}\epsilon
+        \end{align*}
+    \item Using the linearity of the expectation and the property of the trace, we have: 
+        \begin{align*}
+            (n - p)E_{\beta}[\hat{\sigma}^2] &= E_{\beta}[\epsilon^{\top}P_{X^{\perp}}\epsilon] \\
+            &= E_{\beta}[\text{Tr}(\epsilon^{\top}P_{X^{\perp}}\epsilon)] \\
+            &= E_{\beta}[\text{Tr}(P_{X^{\perp}}\epsilon\epsilon^{\top})] \\
+            &= \text{Tr}(P_{X^{\perp}}E_{\beta}[\epsilon\epsilon^{\top}]) \\
+            &= \text{Tr}(P_{X^{\perp}}\sigma^2 I_n) \\
+            &= \sigma^2 \text{Tr}(P_{X^{\perp}})
+        \end{align*}
+    \item Since \(P_{X^{\perp}}\) is a projection matrix onto a subspace of dimension \(n - p\), we have \(\text{Tr}(P_{X^{\perp}}) = n - p\). Therefore:
+        \[(n - p)E_{\beta}[\hat{\sigma}^2] = \sigma^2 (n - p)\]
+        Dividing both sides by \(n - p\), we obtain:
+        \[E_{\beta}[\hat{\sigma}^2] = \sigma^2\]
+        which shows that \(\hat{\sigma}^2\) is an unbiased estimator of \(\sigma^2\).
+\end{answerenum}

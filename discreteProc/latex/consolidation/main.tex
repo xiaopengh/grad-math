@@ -1,0 +1,47 @@
+\documentclass[a4paper, 12pt]{article}
+\input{../../../general-preamble.tex}
+\input{../local-preamble.tex}
+
+\begin{document}
+
+{   \centering
+    \Large\textbf{Discrete Processes Midterm 2025 Autumn}\\[0.5em]
+    \today\\[1em] 
+}
+
+\section{Tools for conditional expectation calculations}
+
+\begin{answerenum}
+    \item \textbf{Case \(\mathbb{E}[X | \varphi(X)]\):} Let \(X\) be a discrete random variable and \(\varphi\) a measurable function. 
+
+    We need to discuss how \(\sigma(\varphi(X))\) is related to \(\sigma(X)\).
+    \begin{itemize}
+        \item If \(\varphi\) is bijective, then \(\varphi^{-1}\) exists and \(X = \varphi^{-1}(\varphi(X))\) which implies that \(X\) is measurable with respect to \(\sigma(\varphi(X))\). Thus, \(\mathbb{E}[X | \varphi(X)] = X\).
+    
+        Futhermore, in this case, \(\sigma(\varphi(X)) = \sigma(X)\).
+        \item If \(\varphi\) is not bijective, then there exist values \(x_1 \neq x_2\) such that \(\varphi(x_1) = \varphi(x_2)\). In this case, \(X\) is not measurable with respect to \(\sigma(\varphi(X))\). Thus, \(\mathbb{E}[X | \varphi(X)]\) is not simply \(X\) but rather a function that averages \(X\) over the pre-images of \(\varphi(X)\). 
+        For example, for \(\mathbb{E}[X|X^2]\) and \(X\) symmetric we have:
+        \[\mathbb{E}[X | X^2 = t] = 0.5 \cdot \sqrt{t} + 0.5 \cdot (-\sqrt{t}) = 0. \quad \text{(Non rigorous)}\]
+        The way to compute it rigorously is to use a property of conditional expectation:
+        Let \(Y\) be the conditional expectation \(\mathbb{E}[X | \varphi(X)]\). Then for any bounded measurable function \(g\):
+        \[\mathbb{E}[Y g(\varphi(X))] = \mathbb{E}[X g(\varphi(X))].\]
+        Using the symmetry of \(X\), we can deduce that \( -X \sim X\) and if \(\varphi\) is such that \(\varphi(-X) = \varphi(X)\), we have:
+        \[\mathbb{E}[Y g(\varphi(X))] = \mathbb{E}[X g(\varphi(X))] = \mathbb{E}[-X g(\varphi(X))].\]
+        This implies that \(Y = \mathbb{E}[X | \varphi(X)] = \mathbb{E}[-X | \varphi(X)] = -Y\), hence \(Y = 0\).
+        \item Another useful result for \(X \sim Y\) (i.e., \(X\) and \(Y\) have the same distribution) is that for any measurable function \(\varphi\), we have \(\varphi(X) \sim \varphi(Y)\). This can be used to simplify calculations of conditional expectations when dealing with symmetric distributions.
+    \end{itemize}
+    \item \textbf{Case \(\mathbb{E}[f(X,Y) | g(X,Y)]\):} Let \((X,Y)\) be a pair of continuous random variables with a joint distribution and \(f,g\) measurable functions.
+    We need to calculate in this case the joint distribution of \((g(X,Y), f(X,Y))\) and then use the formula for conditional expectation for continuous random variables:
+    \[\mathbb{E}[f(X,Y) | g(X,Y) = t] = \int_{-\infty}^{\infty} s \cdot f_{f(X,Y) | g(X,Y)}(s | t) \, ds,\]
+    \[ f_{f(X,Y) | g(X,Y)}(s | t) = \frac{f_{f(X,Y), g(X,Y)}(s,t)}{f_{g(X,Y)}(t)}. \]
+
+    To find the joint distribution of \((g(X,Y), f(X,Y))\), we can use the transformation technique. Let \(U = g(X,Y)\) and \(V = f(X,Y)\). We need to find the Jacobian of the transformation from \((X,Y)\) to \((U,V)\) and then compute the joint density \(f_{U,V}(u,v)\) using the change of variables formula.
+
+    Let \(T: (X,Y) \mapsto (U,V) = (g(X,Y), f(X,Y))\). Assuming \(T\) is invertible and differentiable, we can find the inverse transformation \(T^{-1}: (U,V) \mapsto (X,Y)\).
+
+    Remind that the change of variables formula integrating over a set \(B\) is given by (Since it's easier to solve \((u, v) \in B\) transforming it back with \(T^{-1}\) then considering the conditions on \((x,y)\)):
+    \[\int_{T^{-1}(B)} \phi(T(x,y)) f_{X,Y}(x,y) \, dx \, dy = \int_{B} \phi(u,v) f_{U,V}(u,v) \left| \det J_{T^{-1}}(u,v) \right| \, du \, dv,\]
+    where \(J_{T^{-1}}(u,v)\) is the Jacobian matrix of the inverse transformation \(T^{-1}\).
+\end{answerenum}
+
+\end{document}

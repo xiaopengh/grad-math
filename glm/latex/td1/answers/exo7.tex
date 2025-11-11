@@ -1,0 +1,73 @@
+\begin{exercise}[Proof of theorem 4 chapter 4]
+Consider the following Gaussian linear model \(Y = X\beta + \epsilon\) where \(\beta \in \mathbb{R}^r\), \(X\) is a full rank matrix of size \(n \times r\) (\(n > r\)). Let \(C \in M_{q,r}(\mathbb{R})\). We want to test
+\[H_0 : C\beta = 0_q \quad \text{versus} \quad H_1 : C\beta \neq 0_q\]
+We assume that \(\text{rg}(C) = q \leq r\). Therefore, you will note that \(\text{rg}(C^{\top}) = q\) where \(C^{\top}\) is the transpose of \(C\).
+
+\begin{enumerate}
+    \item Show that if \(Z \sim N_q(0_q, \Sigma)\) then \(Z^{\top}\Sigma^{-1}Z \sim \chi^2_q\).
+
+    \item Show that \(C(X^{\top}X)^{-1}C^{\top}\) is a symmetric and invertible matrix.
+
+    \item Recall the ordinary least squares expression \(\hat{\beta}\).
+
+    \item What is the law of \(\hat{\beta}\)?
+
+    \item Deduce the law of \(C\hat{\beta}\) under the hypothesis \(H_0\).
+
+    \item Deduce that, under \(H_0\),
+    \[R = \frac{(C\hat{\beta})^{\top}(C(X^{\top}X)^{-1}C^{\top})^{-1}(C\hat{\beta})}{\sigma^2} \sim \chi^2_q\]
+
+    \item Conclude that, under \(H_0\),
+    \[F = \frac{\hat{\beta}^{\top}C^{\top}(C(X^{\top}X)^{-1}C^{\top})^{-1}C\hat{\beta}}{q\hat{\sigma}^2}\]
+    is distributed according to a Fisher distribution with \((q, n - r)\) degrees of freedom. Each step of the reasoning must be carefully justified.
+
+    \item Justify and construct a test of \(H_0\) against \(H_1\) of level \(\alpha\).
+\end{enumerate}
+\end{exercise}
+
+\begin{answerenum}
+    \item Remind that the Cholesky decomposition states that any symmetric positive definite matrix \(\Sigma\) can be written as \(\Sigma = LL^{\top}\) where \(L\) is a lower triangular matrix with strictly positive diagonal entries.
+
+    If \(Z \sim N_q(0_q, \Sigma)\), according to Cholesky decomposition, there exists a matrix \(L\) such that \(\Sigma = LL^{\top}\). We have \(Z = L W\) where \(W \sim N_q(0_q, I_q)\). Thus,
+    \[Z^{\top}\Sigma^{-1}Z = W^{\top}L^{\top}(LL^{\top})^{-1}LW = W^{\top}I_q W = W^{\top}W \sim \chi^2_q\]
+
+    \item The matrix \(C(X^{\top}X)^{-1}C^{\top}\) is symmetric because
+    \[(C(X^{\top}X)^{-1}C^{\top})^{\top} = C(X^{\top}X)^{-1}C^{\top}\].
+    Moreover, for any non-zero vector \(u \in \mathbb{R}^q\),
+    \[u^{\top}C(X^{\top}X)^{-1}C^{\top}u = (C^{\top}u)^{\top}(X^{\top}X)^{-1}(C^{\top}u) > 0\]
+    \(\text{rg}(C) = q\), in other words, \(C \in M_{q,r}(\mathbb{R})\) is of full row rank, which implies that \(C^{\top} \in M_{r,q}(\mathbb{R})\) is of full rank.  Thus, for any non-zero vector \(u \in \mathbb{R}^q\), \(C^{\top}u \neq 0\).  On the other hand, since \(X\) is of full rank, \(X^{\top}X\) is invertible.
+    Therefore, \(C(X^{\top}X)^{-1}C^{\top}\) is invertible.
+
+    \item The ordinary least squares estimator is given by
+    \[\hat{\beta} = (X^{\top}X)^{-1}X^{\top}Y\]
+
+    \item Since \(Y = X\beta + \epsilon\) where \(\epsilon \sim N_n(0_n, \sigma^2 I_n)\), we have
+    \[\hat{\beta} = (X^{\top}X)^{-1}X^{\top}(X\beta + \epsilon) = \beta + (X^{\top}X)^{-1}X^{\top}\epsilon\]
+    Thus, \(\hat{\beta} \sim N_r(\beta, \sigma^2 (X^{\top}X)^{-1})\).
+
+    \item Under \(H_0\), \(C\beta = 0_q\). Therefore,
+    \[C\hat{\beta} = C\beta + C(X^{\top}X)^{-1}X^{\top}\epsilon = C(X^{\top}X)^{-1}X^{\top}\epsilon\]
+    Thus, \(C\hat{\beta} \sim N_q(0_q, \sigma^2 C(X^{\top}X)^{-1}C^{\top})\).
+
+    \item Under \(H_0\), we have
+    \[R = \frac{(C\hat{\beta})^{\top}(C(X^{\top}X)^{-1}C^{\top})^{-1}(C\hat{\beta})}{\sigma^2}\]
+    Since \(C\hat{\beta} \sim N_q(0_q, \sigma^2 C(X^{\top}X)^{-1}C^{\top})\), according to the result of question 1, we have \(R \sim \chi^2_q\).
+
+    \item We know that \(\frac{(n - r)\hat{\sigma}^2}{\sigma^2} \sim \chi^2_{n - r}\) and if \(R\) and \(\hat{\sigma}^2\) are independent, then
+    \[F = \frac{\sigma^{-2}R/q}{(\sigma^{-2}(n - r)\hat{\sigma}^2)/(n - r)} \]
+    is distributed according to a Fisher distribution with \((q, n - r)\) degrees of freedom.
+
+    It remains to show that \(R\) and \(\hat{\sigma}^2\) are independent. Note that
+    \[\hat{\sigma}^2 = \frac{1}{n - r}(Y - X\hat{\beta})^{\top}(Y - X\hat{\beta}) = \frac{1}{n - r}\epsilon^{\top}(I_n - P_X)\epsilon\]
+    where \(P_X = X(X^{\top}X)^{-1}X^{\top}\) is the projection matrix.
+    On the other hand,
+    \[R = \frac{(C\hat{\beta})^{\top}(C(X^{\top}X)^{-1}C^{\top})^{-1}(C\hat{\beta})}{\sigma^2} = \frac{\epsilon^{\top} A \epsilon}{\sigma^2}\]
+    where \(A = X(X^{\top}X)^{-1}C^{\top}(C(X^{\top}X)^{-1}C^{\top})^{-1}C(X^{\top}X)^{-1}X^{\top}\).
+    Thus, to show the independence between \(R\) and \(\hat{\sigma}^2\), it suffices to show that \(A(I_n - P_X) = 0\). Indeed,
+    \[A(I_n - P_X) = X(X^{\top}X)^{-1}C^{\top}(C(X^{\top}X)^{-1}C^{\top})^{-1}C(X^{\top}X)^{-1}X^{\top}(I_n - P_X) = 0\]
+    since \(X^{\top}(I_n - P_X) = 0\). Therefore, \(R\) and \(\hat{\sigma}^2\) are independent.
+
+    \item To construct a test of level \(\alpha\), we reject \(H_0\) when
+    \[F > F_{q, n - r, 1 - \alpha}\]
+    where \(F_{q, n - r, 1 - \alpha}\) is the \((1 - \alpha)\)-quantile of the Fisher distribution with \((q, n - r)\) degrees of freedom.
+\end{answerenum}
