@@ -46,10 +46,14 @@ mc_estimate <- function(N){
   vals <- sqrt_pos(x + y) * sin(y^4) * (y >= 2) * (x <= 5) * (2/3) * sqrt(4*pi) * (1 - pnorm(2, 0, sqrt(2)))
   
   # t1 <- proc.time()[3]
+  alpha <- 0.05
   est <- mean(vals)
   se <- sd(vals) / sqrt(N)
+  delta_inter <- qnorm(1 - alpha/2) * se
   
-  list(est = est, se = se) # time_sec = as.numeric(t1-t0)
+  list(est = est, se = se, 
+       IC.inf = est - delta_inter, 
+       IC.sup = est + delta_inter) # time_sec = as.numeric(t1-t0)
 }
 
 is_estimate <- function(N, rate = 1.5){
@@ -75,7 +79,9 @@ mc_results <- lapply(N_values, function(N) {
   data.frame(
     N = N,
     est = result$est,
-    se = result$se
+    se = result$se,
+    IC.inf = result$IC.inf,
+    IC.sup = result$IC.sup
     # time_sec = result$time_sec
   )
 })
@@ -98,7 +104,9 @@ is_results <- bind_rows(is_results)
 I_approx <- tail(mc_results$est, 1)
 
 # MC Estimate plot with N increasing
-plot(log(mc_results$N), mc_results$est, type = "b")
+plot(log(mc_results$N), mc_results$est, type = "b", ylim = c(-0.03, 0.012))
+points(log(mc_results$N), mc_results$IC.inf, col = "green", type = "l")
+points(log(mc_results$N), mc_results$IC.sup, col = "green", type = "l")
 abline(h = I_approx, col = 2, lwd = 2)
 
 # Standard error plot for MC
