@@ -1,3 +1,5 @@
+library(invgamma)
+
 ## EXO1
 dinvgamma <- function(x, alpha, beta){
   # Corrected from Gamma(alpha) to gamma(alpha)
