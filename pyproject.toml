@@ -1,0 +1,51 @@
+[project]
+name = "grad-math"
+version = "0.1.0"
+description = "Graduate mathematics course"
+requires-python = ">=3.8"
+dependencies = [
+    "pandas",
+    "numpy",
+    "scipy",
+    "matplotlib",
+    "jupyterlab",
+    "ipykernel",
+    "ipywidgets",
+]
+
+[dependency-groups]
+# Portfolio optimization dependencies
+portfolioOptim = [
+    "yfinance",
+    "pandas-datareader",
+]
+
+# Discrete processes dependencies
+discreteProc = [
+    # Add dependencies here
+]
+
+# Data analysis dependencies
+analyseD = [
+    # Add dependencies here
+]
+
+# Monte Carlo dependencies
+monte-carlo = [
+    # Add dependencies here
+]
+
+# GLM dependencies
+glm = [
+    # Add dependencies here
+]
+
+# Optimization dependencies
+optimization = [
+    # Add dependencies here
+]
+
+# Time series dependencies
+timeSeries = [
+    # Add dependencies here
+]
