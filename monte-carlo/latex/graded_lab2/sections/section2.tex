@@ -1,0 +1,47 @@
+We use the antithetic variates method to further reduce the variance of the importance sampling estimator with the optimal \(\lambda\) found in Section 1. We propose to use the inverse transform method to generate exponential random variables. Given a uniform random variable \(U \sim \text{Uniform}(0,1)\), the following transformations yield the same exponential distribution with rate \(\lambda\):
+    \begin{align*}
+        Y &= -\frac{1}{\lambda} \ln(U) \\
+        A(Y) &= -\frac{1}{\lambda} \ln(1 - U) \\
+        \text{Cov}(Y, A(Y)) &= \text{Cov}(-\frac{1}{\lambda} \ln(U), -\frac{1}{\lambda} \ln(1 - U)) \\
+        &= \frac{1}{\lambda^2} \text{Cov}(\ln(U), \ln(1 - U)) \\
+        &= \frac{1}{\lambda^2} \left( \mathbb{E}[\ln(U) \ln(1 - U)] - \mathbb{E}[\ln(U)] \mathbb{E}[\ln(1 - U)] \right) \\ 
+        &= \frac{1}{\lambda^2} \left( 2 - \frac{\pi^2}{6} - 1 \right) = \frac{1}{\lambda^2} \left( 1 - \frac{\pi^2}{6} \right) < 0.
+    \end{align*}
+    
+To implement the antithetic variates method, for each generated uniform random variable \(U_i\), we also consider its antithetic counterpart \(1 - U_i\). This leads to two exponential random variables:
+    \[
+        Y_i = -\frac{1}{\lambda} \ln(U_i) \quad \text{and} \quad A(Y_i) = -\frac{1}{\lambda} \ln(1 - U_i).
+    \]
+The antithetic variates estimator for the integral can then be expressed as:
+\begin{align*}
+    \hat{q}_N^{AV}(\lambda^*) &= \frac{1}{2N} \sum_{i=1}^{N} \left( \frac{h(Y_i) f_Z(Y_i)}{f_Y(Y_i)} + \frac{h(A(Y_i)) f_Z(A(Y_i))}{f_Y(A(Y_i))} \right), \\
+    &= \frac{1}{2N} \sum_{i=1}^{N} \left( \frac{\mathbb{I}_{\{Y_i > K\}} \cdot f_Z(Y_i)}{f_Y(Y_i)} + \frac{\mathbb{I}_{\{A(Y_i) > K\}} \cdot f_Z(A(Y_i))}{f_Y(A(Y_i))} \right)
+\end{align*}
+
+\noindent\begin{minipage}{0.50\columnwidth}
+    We compare the performance of the antithetic variates estimator with the standard importance sampling estimator using the optimal \(\lambda^*\).
+As shown in Figure~\ref{fig:compare_var} and the R executions in Listings~\ref{lst:compare_var}, the antithetic variates method consistently yields a lower standard error compared to the standard importance sampling estimator, demonstrating its effectiveness in variance reduction.
+\begin{lstlisting}[label={lst:compare_var}]
+> IS_exp_results[1:5,]
+     N       est           se
+1 1000 0.9973017 5.105095e-06
+2 1624 0.9972962 3.926113e-06
+3 2637 0.9973018 3.215584e-06
+4 4281 0.9973027 2.624856e-06
+5 6952 0.9972982 1.997997e-06
+> IS_exp_ant_results[1:5,]
+     N       est           se
+1 1000 0.9972996 3.556453e-06
+2 1624 0.9972999 2.695311e-06
+3 2637 0.9973014 2.150150e-06
+4 4281 0.9972997 1.600106e-06
+5 6952 0.9973002 1.254755e-06
+\end{lstlisting}
+\centering
+\end{minipage}\hfill % No extra empty line below 
+\begin{minipage}{0.42\columnwidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/compare_var.png}
+    \captionof{figure}{SE comparison between IS and IS with AV.}
+    \label{fig:compare_var}
+\end{minipage}

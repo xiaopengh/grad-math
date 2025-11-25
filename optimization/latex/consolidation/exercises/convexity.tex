@@ -1,0 +1,141 @@
+\subsection{General Convexity Exercises}
+
+\reminder{\textbf{Reminder}: A function \(f: \mathbb{R}^d \to \mathbb{R}\) is convex if for all \(x, y \in \mathbb{R}^d\) and \(t \in [0,1]\), we have
+\[f(tx + (1-t)y) \leq t f(x) + (1-t) f(y).\]
+
+A function \(f\) is strongly convex with parameter \(\alpha > 0\) if for all \(x, y \in \mathbb{R}^d\) and \(t \in [0,1]\), we have
+\[f(tx + (1-t)y) \leq t f(x) + (1-t) f(y) - \frac{\alpha}{2} t(1-t) \|x - y\|^2.\]}
+
+\begin{exercise}
+    Let \(f \in \mathcal{C}^1 (\mathbb{R}^d, \mathbb{R}) \) be convex. Is it true that \(f\) has a unique critical point? 
+\end{exercise}
+
+It is not necessarily true that a convex function has a unique critical point. As a counterexample, consider the convex function \(f: \mathbb{R} \to \mathbb{R}\) defined by
+\[f(x) = e^x.\] 
+This function is convex since its second derivative \(f''(x) = e^x > 0\) for all \(x \in \mathbb{R}\). However, it has no critical points because its first derivative \(f'(x) = e^x\) is never zero. \qed
+
+\begin{exercise}
+    Let \(f \in \mathcal{C}^1 (\mathbb{R}^d, \mathbb{R}) \) be convex. Show that if \(f\) has a critical point at \(x^* \in \mathbb{R}^d\), then \(x^*\) is a global minimum of \(f\).
+\end{exercise}
+
+If \(\nabla f(x^*) = 0\) for some \(x^* \in \mathbb{R}^d\), then for any \(x \in \mathbb{R}^d\), the tangent plane property of convex functions gives us
+\[f(x) \geq f(x^*) + \langle \nabla f(x^*), x - x^* \rangle = f(x^*) + 0 = f(x^*).\]
+
+Thus, \(f(x) \geq f(x^*)\) for all \(x \in \mathbb{R}^d\), which means that \(x^*\) is a global minimum of \(f\). \qed
+
+\begin{exercise}
+    Let \(f \in \mathcal{C}^1 (\mathbb{R}^d, \mathbb{R}) \) be strictly convex. Show that \(f\) has at most one critical point.
+\end{exercise}
+
+Assume for the sake of contradiction that \(f\) has two distinct critical points \(x_1^*\) and \(x_2^*\) in \(\mathbb{R}^d\). By the definition of critical points, we have \(\nabla f(x_1^*) = 0\) and \(\nabla f(x_2^*) = 0\). Since \(f\) is strictly convex, for any \(\lambda \in (0,1)\), we have
+\[f(\lambda x_1^* + (1-\lambda) x_2^*) < \lambda f(x_1^*) + (1-\lambda) f(x_2^*).\]
+However, since both \(x_1^*\) and \(x_2^*\) are critical points, we have
+\[f(x_1^*) = f(x_2^*).\]
+Thus,
+\[f(\lambda x_1^* + (1-\lambda) x_2^*) < f(x_1^*),\]
+which contradicts the fact that both \(x_1^*\) and \(x_2^*\) are minima. Therefore, \(f\) can have at most one critical point. \qed
+
+\subsection{Strong Convexcity Exercises}
+
+\begin{exercise}
+    Show that \(f\) is strongly convex with parameter \(\alpha > 0\), if and only if the function \(g(x) = f(x) - \frac{\alpha}{2} \|x\|^2\) is convex. 
+\end{exercise}
+
+The \( \implies \) direction: Assume that \(f\) is strongly convex with parameter \(\alpha > 0\). For any \(x, y \in \mathbb{R}^d\) and \(t \in [0,1]\), we have
+\[f(tx + (1-t)y) \leq t f(x) + (1-t) f(y) - \frac{\alpha}{2} t(1-t) \|x - y\|^2.\]
+
+Let's first deduce a magic formula to replace \(\|tx + (1-t)y\|^2\)
+
+\[\begin{aligned}
+\|tx + (1-t)y\|^2
+&= \langle tx + (1-t)y,\; tx + (1-t)y\rangle \\
+&= t^2\|x\|^2 + (1-t)^2\|y\|^2 + 2t(1-t)\langle x, y\rangle.
+\end{aligned}\]
+
+\[\|x-y\|^2 = \|x\|^2 + \|y\|^2 - 2\langle x,y\rangle
+\quad\Longrightarrow\quad
+\langle x,y\rangle = \frac{\|x\|^2 + \|y\|^2 - \|x-y\|^2}{2}\]
+
+Plugging this into the \( \|tx + (1-t)y\|^2 \) expression, we get
+
+\[\boxed{\|tx + (1-t)y\|^2
+= t\|x\|^2 + (1-t)\|y\|^2 - t(1-t)\|x-y\|^2.}\]
+
+Now for \(g(tx + (1-t)y)\) we have: 
+\begin{align*}
+    g(tx + (1-t)y) 
+    &= f(tx + (1-t)y) - \frac{\alpha}{2} \|tx + (1-t)y\|^2 \\
+    &= \underbrace{f(tx + (1-t)y)}_{\text{Strongly convex}} - \frac{\alpha}{2} \left( t\|x\|^2 + (1-t)\|y\|^2 - t(1-t)\|x-y\|^2 \right) \\
+\end{align*}
+\vspace{-3em}
+\begin{align*}
+    &\leq tf(x) + (1-t)f(y) - \frac{\alpha}{2} t(1-t) \|x - y\|^2 - \frac{\alpha}{2} \left( t\|x\|^2 + (1-t)\|y\|^2 - t(1-t)\|x-y\|^2 \right) \\
+    &\leq tf(x) + (1-t)f(y) - \frac{\alpha}{2} \left( t\|x\|^2 + (1-t)\|y\|^2 \right) \\
+    &\leq tg(x) + (1-t)g(y)
+\end{align*}
+
+The \(\impliedby\) direction follows by assuming \(g\) is convex and reversing the steps above by using the magic formula for \(\|tx + (1-t)y\|^2\).
+
+\begin{exercise}[Some examples of strongly convex functions]
+    Determine which of the following functions are strongly convex on \(\mathbb{R}^d\):
+    \begin{enumerate}
+        \item \(f(x) = \|x\|^2\)
+        \item \(f(x) = e^{\|x\|}\)
+        \item \(f(x) = \frac{1}{2} x^T A x + b^T x + c\), where \(A\) is a symmetric positive definite matrix.
+    \end{enumerate}
+\end{exercise}
+
+Recall that a function \(f\) is strongly convex with parameter \(\alpha > 0\) if for all \(x, y \in \mathbb{R}^d\) and \(t \in [0,1]\), we have
+\[f(tx + (1-t)y) \leq t f(x) + (1-t) f(y) - \frac{\alpha}{2} t(1-t) \|x - y\|^2.\]
+
+\begin{enumerate}
+    \item For \(f(x) = \|x\|^2\), it is strongly convex with parameter \(\alpha = 2\), because by the tangent plane property of strongly convex functions, we have
+    \[ \| y \|^2 = \|x + y - x \|^2 = \| x \|^2 + 2 \langle x, y - x \rangle + \| y - x \|^2 \]
+    This shows that it is at most strongly convex with parameter 2.
+    \item The Hessian of \(f(x) = e^{\|x\|}\)
+    Calculate its gradient and Hessian we have 
+    \[ \nabla f(x) = e^{\|x\|}\frac{x}{\|x\|} \]
+    \[ \nabla^2 f(x) = e^{\|x\|}\left(\frac{I}{\|x\|} + \frac{x x^\top}{\|x\|^2} - \frac{x x^\top}{\|x\|^3}\right) \]
+    \[ 
+    \text{Eigenvalues of } \nabla^2 f(x):
+    \begin{cases}
+    e^{\|x\|} & \text{(radial direction)} \\
+    \frac{e^{\|x\|}}{\|x\|} & \text{(any of the \(n-1\) orthogonal directions)}
+    \end{cases} 
+    \]
+    We conclude that the function is strongly convex on (\( x \neq 0 \)) with parameter 
+    \[
+    \alpha = 
+    \begin{cases}
+        e^{\|x\|} & \text{if } \|x\| \geq 1 \\
+        \frac{e^{\|x\|}}{\|x\|} & \text{if } 0 < \|x\| < 1
+    \end{cases} 
+    \]
+    \item For \(f(x) = \frac{1}{2} x^T A x + b^T x + c\), where \(A\) is a symmetric positive definite matrix, the Hessian of \(f\) is given by \(\nabla^2 f(x) = A\). Since \(A\) is positive definite, there exists a constant \(\alpha > 0\) such that for all \(x \in \mathbb{R}^d\),
+    \[x^T A x \geq \alpha \|x\|^2.\]
+    Therefore, \(f\) is strongly convex with parameter \(\alpha\). \qed
+\end{enumerate}
+
+\begin{exercise}
+    Let \(f \in \mathcal{C}^2 (\mathbb{R}^d, \mathbb{R}) \) be \(\alpha\)-strongly convex. Does \(f\) admit a unique minimizer?
+\end{exercise}
+
+By the strong convexity of \(f\), we know that under the assumption of the existence of a minimizer, it must be unique. Now we show the coercivity of \(f\) to ensure the existence of a minimizer. 
+
+One way to do this is to show that \(f(x) \to +\infty\) as \(\|x\| \to +\infty\). 
+Since \(f\) is \(\alpha\)-strongly convex, by the tangent plane property, we have for any \(x, x_0 \in \mathbb{R}^d\):
+\[f(x) \geq f(x_0) + \langle \nabla f(x_0), x - x_0 \rangle + \frac{\alpha}{2} \|x - x_0\|^2.\] 
+For the sake of the clarity, let \(x_0 = 0\), we have
+\[f(x) \geq f(0) + \langle \nabla f(0), x \rangle + \frac{\alpha}{2} \|x\|^2.\]
+This is a quadratic function in \(\|x\|\) with a positive leading coefficient \(\frac{\alpha}{2}\), which implies that \(f(x) \to +\infty\) as \(\|x\| \to +\infty\). Therefore, \(f\) is coercive. \qed
+
+A more rigorous way is to use the sublevel set definition: a function \(f\) is coercive if the sublevel sets \(\{x \in \mathbb{R}^d : f(x) \leq c\}\) are bounded for all \(c \in \mathbb{R}\). 
+\[f(x) \;\geq\; f(0) + \langle \nabla f(0), x \rangle + \frac{\alpha}{2}\|x\|^2\]
+Recall that Young's inequality states that for any \(a, b \geq 0\) and \(\epsilon > 0\), we have
+\[ab \leq \frac{a^2}{2\epsilon} + \frac{\epsilon b^2}{2}.\]
+Now we control the linear term by the quadratic term using Cauchy-Schwarz and Young's inequality (with \(\epsilon = \frac{\alpha}{2}\)):
+\[\langle \nabla f(0), x \rangle \;\geq\; -\|\nabla f(0)\| \|x\| \;\geq\; -\frac{1}{\alpha} \|\nabla f(0)\|^2 - \frac{\alpha}{4} \|x\|^2\]
+Plugging this back we have
+\[f(x) \;\geq\; f(0) - \frac{1}{\alpha} \|\nabla f(0)\|^2 + \frac{\alpha}{4} \|x\|^2 \]
+Thus the sublevel sets are bounded. Therefore, \(f\) is coercive. \qed
+

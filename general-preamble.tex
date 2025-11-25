@@ -48,17 +48,6 @@
   #1
 }
 
-% Define Course reminder environment 
-\newtcolorbox{reminder}[1][]{
-  breakable,
-  enhanced,
-  colback=Green!5,         % no background color
-  colframe=Green,          % navy blue border
-  boxrule=1.5pt,           % frame line thickness
-  rounded corners,         % or 'rounded corners' if you prefer
-  #1
-}
-
 % Answer enviroment with enumerate
 \newenvironment{answerenum}{
     \begin{enumerate}[label=\textbf{\arabic*.}, leftmargin=*, labelindent=0pt, itemindent=0pt]
@@ -69,7 +58,7 @@
 % Remark Box
 \newtcolorbox{remarkbox}{
   width=\textwidth,
-  colback=yellow!10,    % light yellow background
+  colback=yellow!10,    % !10 means 10% of yellow
   colframe=orange!80!black,
   boxrule=0.7pt,
   arc=3pt,
@@ -79,8 +68,23 @@
   top=5pt, bottom=5pt
 }
 
+% Reminder Box
+\newtcolorbox{reminderbox}{
+  width=\textwidth,
+  colback=Green!5,         % !5 means 5% of green
+  colframe=Green!80!black,
+  boxrule=1.5pt,
+  rounded corners,
+  left=8pt, right=8pt,
+  top=5pt, bottom=5pt
+}
+
 \newcommand{\remark}[1]{%
   \begin{remarkbox}#1\end{remarkbox}%
+}
+
+\newcommand{\reminder}[1]{%
+  \begin{reminderbox}#1\end{reminderbox}%
 }
 
 % Define theorem-like environments

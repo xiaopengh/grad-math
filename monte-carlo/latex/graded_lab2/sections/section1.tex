@@ -1,0 +1,29 @@
+The integral we want to estimate is \(p = 1 - 2q\) where \(q = \mathbb{P}(Z > K)\) where \(Z \sim \mathcal{N}(0,1)\). Formalizing \(q\) as the form of an expectation, we have
+\[ q = \mathbb{E}_{Z \sim \mathcal{N}(0,1)} \left[ \mathbb{I}_{\{Z > K\}} \right] = \int_{K}^{+\infty} \frac{1}{\sqrt{2 \pi}} \exp \left(-\frac{z^2}{2}\right) dz. \]
+
+We choose the exponential distribution with rate \(\lambda\) shifted by \(K\) as the proposal distribution, i.e., \(Y \sim \mathcal{E}(\lambda) + K\) with PDF
+\[ f_Y(y) = \lambda \exp \left(-\lambda (y - K) \right), \quad y \geq K. \]
+The importance sampling estimator for \(q\) using this proposal distribution is
+\[ \hat{q}_N^{IS}(\lambda) = \frac{1}{N} \sum_{i=1}^{N} \frac{\mathbb{I}_{\{Y_i > K\}} \cdot f_Z(Y_i)}{f_Y(Y_i)} = \frac{1}{N} \sum_{i=1}^{N} \frac{\frac{1}{\sqrt{2 \pi}} \exp \left(-\frac{Y_i^2}{2}\right)}{\lambda \exp \left(-\lambda (Y_i - K) \right)}, \quad Y_i \sim \mathcal{E}(\lambda) + K. \]
+
+The variance of the importance sampling estimator is
+\[ \mathrm{Var}(\hat{q}_N^{IS}(\lambda)) = \frac{1}{N} \mathrm{Var}\left( \frac{\mathbb{I}_{\{Y > K\}} \cdot f_Z(Y)}{f_Y(Y)} \right) = \frac{1}{N} \left( \mathbb{E}\left[ \left( \frac{\mathbb{I}_{\{Y > K\}} \cdot f_Z(Y)}{f_Y(Y)} \right)^2 \right] - q^2 \right). \]
+
+\noindent\begin{minipage}{0.50\columnwidth}
+    An optimal choice of \(\lambda\) would minimize this variance, and we found this variance using a grid search over [0.1, 6] with a step size of (6 - 0.1)/1000 = 0.0059. As shown in Figure~\ref{fig:var_lambda}, and the R executions in Listings~\ref{lst:var_lambda}, the optimal \(\lambda\) is approximately \textcolor{red}{3.507708}.
+\begin{lstlisting}[label={lst:var_lambda}]
+> lam_opt <- lam_values[which.min(se_values)]
+> lam_opt
+[1] 3.507708
+    \end{lstlisting}
+    \centering
+    \includegraphics[width=\linewidth]{figures/IS_exp_est.png}
+\captionof{figure}{IS estimator with increasing \(N\).}
+\end{minipage}\hfill % No extra empty line below 
+\begin{minipage}{0.42\columnwidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/var_lambda.png}
+    \captionof{figure}{Variance as a function of \(\lambda\).}
+    \label{fig:var_lambda}
+\end{minipage}
+
