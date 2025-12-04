@@ -111,9 +111,58 @@ plot(log(mc_results$N), mc_results$se, type = "h", col = "grey", ylim = c(0, 0.0
 points(log(av_results$N), av_results$se, type = "h", col = "blue", lwd = 3)
 legend("topright", legend = c("Crude MC", "Antithetic Var."), col = c("grey", "blue"), lwd = 3)
 
+
+sv_estimate <- function(N, allocation = c("equal", "optimal")){
+  # Stratified sampling method
+  K <- 10
+  
+  allocation <- match.arg(allocation)
+  if (allocation == "equal"){
+    n_per_stratum <- rep(floor(N / K), K)
+  }
+  if (allocation == "optimal"){
+    # Preliminary run to estimate variances in each stratum
+  }
+  est_strata <- numeric(K)
+  var_strata <- numeric(K)
+  for (k in 1:K){
+    u <- runif(n_per_stratum[k], (k - 1)/K, k/K)
+    x <- 2 * u
+    vals_stratum <- 2 * exp(-x^2)
+    
+    est_strata[k] <- mean(vals_stratum)
+    var_strata[k] <- var(vals_stratum) / n_per_stratum[k]
+  }
+  
+  # The choice of n_per_stratum doesn't affect the probability
+  est <- sum(est_strata) / K
+  se <- sqrt(sum(var_strata)) / K
+  
+  list(est = est, se = se)
+}
+
+sv_results <- lapply(N_values, function(N){
+  result <- sv_estimate(N, allocation = "equal")
+  
+  data.frame(
+    N = N,
+    est = result$est,
+    se = result$se
+  )
+})
+sv_results <- bind_rows(sv_results)
+# Graphical validation for stratified sampling method
+plot(log(sv_results$N), sv_results$est, type = "b")
+abline(h = I_true, col = 2, lwd = 2)
+
 # ==============================================================================
-
-
+# Compare standard errors
+plot(log(mc_results$N), mc_results$se, col = "grey", type = "h", ylim = c(0, 0.02), lwd = 3,
+     main = "Standard Error Comparison", ylab = "Standard Error", xlab = "log(N)")
+points(log(av_results$N), av_results$se, col = "blue", type = "h", lwd = 3)
+points(log(sv_results$N), sv_results$se, col = "red", type = "h", lwd = 3)
+legend("topright", legend = c("Crude MC", "Antithetic Var.", "Stratified Sampling"), 
+       col = c("grey", "blue", "red"), lwd = 3)
 
 
 
