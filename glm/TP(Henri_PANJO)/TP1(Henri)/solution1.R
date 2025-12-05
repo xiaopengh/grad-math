@@ -37,7 +37,7 @@ library(tidyverse)
 ## R Code 3------------------------------------------------------------------------------------------
 
 
-pok <- read_csv("data_pokemon.csv", show_col_types = FALSE)
+pok <- read_csv("data/data_pokemon.csv", show_col_types = FALSE)
 
 
 ## R Code 4------------------------------------------------------------------------------------------
@@ -87,6 +87,7 @@ select(pok, attack, speed, defense, hp) |>
 
 
 myfunctions <- list(
+  # \(x) is a shortcut for function(x)
   n = length, nmiss = \(x) sum(is.na(x)), ndistinct = n_distinct,
   mean = mean, sd = sd, median = median
 )
@@ -137,6 +138,7 @@ select(pok, attack, speed, defense, hp) |>
   labs(x = "Value (x)", y = "Attack (y)") +
   theme_bw(base_size = 14) +
   labs_pubr()
+
 
 
 ## R Code 15------------------------------------------------------------------------------------------
@@ -470,6 +472,21 @@ predict(slr_speed, newdata = select(pok, speed), interval = "confidence") |>
   bind_cols(select(pok, attack, speed)) |>
   ggplot(aes(x = speed, y = attack)) +
   geom_ribbon(aes(ymin = lwr, ymax = upr), alpha = 0.5, fill = "pink") +
+  geom_point(size = 2, shape = 21, fill = "dodgerblue", color = "black") +
+  geom_line(aes(y = fit), color = "black", linewidth = 0.5) +
+  labs(x = "Speed (x)", y = "Attack (y)") +
+  theme_bw(base_size = 14) +
+  labs_pubr()
+
+
+## R Code 55------------------------------------------------------------------------------------------
+
+
+predict(slr_speed, newdata = select(pok, speed), interval = "prediction") |>
+  as_tibble() |>
+  bind_cols(select(pok, attack, speed)) |>
+  ggplot(aes(x = speed, y = attack)) +
+  geom_ribbon(aes(ymin = lwr, ymax = upr), alpha = 0.2, fill = "pink") +
   geom_point(size = 2, shape = 21, fill = "dodgerblue", color = "black") +
   geom_line(aes(y = fit), color = "black", linewidth = 0.5) +
   labs(x = "Speed (x)", y = "Attack (y)") +

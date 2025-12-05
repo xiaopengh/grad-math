@@ -40,13 +40,13 @@ library(tidyverse)
 ## R Code 3------------------------------------------------------------------------------------------
 
 
-source("helper_functions.R")
+source("TP2(Henri)/helper_functions.R")
 
 
 ## R Code 4------------------------------------------------------------------------------------------
 
 
-pok <- read_csv("data_pokemon.csv", show_col_types = FALSE) |>
+pok <- read_csv("data/data_pokemon.csv", show_col_types = FALSE) |>
   select(id, name, attack, speed, defense, hp, sp_attack, sp_def)
 
 

@@ -1,12 +1,13 @@
 library(dplyr)
 library(parallel)
 
-# Crude Monte-Carlo with Parallelization ---------------------------------------
+# Crude Monte-Carlo with Parallelization========================================
 
 # Function to be executed in parallel
 mc_estimate <- function(N){
   ## p = P(X < 3) for X = Sum(Q_i) i = 0...S where S ~ Poisson(3.7)
   ## s.t. Q_i ~ Weibull(shape=0.5, scale=2)
+  alpha <- 0.05
   
   pois <- rpois(N, lambda = 3.7)
   vals <- sapply(pois, function(s){
@@ -16,9 +17,12 @@ mc_estimate <- function(N){
   
   est <- mean(vals)
   se <- sd(vals)/sqrt(N)
-  list(est = est, se = se)
+  list(est = est, se = se, confint = c(est - qnorm(1 - alpha/2) * se / sqrt(N),
+                                       est + qnorm(1 - alpha/2) * se / sqrt(N)))
 }
 
+# Usage of base package 'parallel'==============================================
+# Set up parallel backend
 # Determine the number of cores to use (e.g., all but one)
 num_cores <- detectCores() - 1 
 # Create the cluster
@@ -29,9 +33,11 @@ cl <- makeCluster(num_cores)
 clusterExport(cl, varlist = c("mc_estimate"))
 # Load necessary packages on the cluster workers
 # clusterEvalQ(cl, library(package_name)) if 'mc_estimate' uses them.
-
-# 20 values from n = 500 to n = 2,000,000
-N_values <- seq(log(500), log(2e6), length.out = 20) |> exp() |> round() |> unique()
+# Don't forget to close the cluster at the end of your computations.
+# stopCluster(cl)
+# Run Crude Monte-Carlo=========================================================
+# 20 values from n = 200,000 to n = 2,000,000
+N_values <- seq(log(2e5), log(2e6), length.out = 20) |> exp() |> round() |> unique()
 # Use parLapply to run the simulations in parallel
 mc_results <- parLapply(cl, N_values, function(N){
   # The function body remains the same
@@ -39,23 +45,30 @@ mc_results <- parLapply(cl, N_values, function(N){
   data.frame(
     N = N,
     est = result$est,
-    se = result$se
+    se = result$se,
+    conf.lower = result$confint[1],
+    conf.upper = result$confint[2]
   )
 })
-
-# Stop the cluster
-stopCluster(cl)
 
 # Combine results (same as before)
 mc_results <- bind_rows(mc_results)
 # Plot results
 p_last <- mc_results$est[nrow(mc_results)]
 plot(log(mc_results$N), mc_results$est, type = "b")
+points(log(mc_results$N), mc_results$conf.lower, type = "l", 
+       col = "lightgreen", pch = 2)
+points(log(mc_results$N), mc_results$conf.upper, type = "l", 
+       col = "lightgreen", pch = 2)
 abline(h = p_last, col = 2, lwd = 2)
+
+# Variance plot
 plot(log(mc_results$N), mc_results$se, type = "b")
 
-# Stratified Sampling ----------------------------------------------------------
+# Stop the cluster
+stopCluster(cl)
 
+# Stratified Sampling===========================================================
 stratified_estimate <- function(N, max_strata = 1, method = c("proportional", "optimal")){
   
   # Set up method and sampling parameters
@@ -64,6 +77,7 @@ stratified_estimate <- function(N, max_strata = 1, method = c("proportional", "o
   lambda <- 3.7
   shape <- 0.5
   scale <- 2
+  alpha <- 0.05
   
   # The strata will be defined on the Poisson variable 
   # S = 0 .. S = max_strata, S > max_strata
@@ -114,15 +128,17 @@ stratified_estimate <- function(N, max_strata = 1, method = c("proportional", "o
   })
   est <- sum(est_strata * probs)
   se <- sqrt(sum(var_strata * probs))
-  list(est = est, se = se)
+  confint <- c(est - qnorm(1 - alpha/2) * se / sqrt(N), 
+               est + qnorm(1 - alpha/2) * se / sqrt(N))
+  list(est = est, se = se, confint = confint)
 }
 
-# Number of cores to use (all but one)
-num_cores <- detectCores() - 1 
-cl <- makeCluster(num_cores)
+# Run Stratified Sampling with Parallelization==================================
+# Parallel backend is already set up from previous section
+# Export the function to the cluster
 clusterExport(cl, varlist = c("stratified_estimate"))
 # 20 values from n = 500 to n = 2,000,000
-N_values <- seq(log(500), log(2e6), length.out = 20) |> exp() |> round() |> unique()
+N_values <- seq(log(2e5), log(2e6), length.out = 20) |> exp() |> round() |> unique()
 # Use parLapply to run the simulations in parallel
 mc_results <- parLapply(cl, N_values, function(N){
   # The function body remains the same
@@ -130,20 +146,26 @@ mc_results <- parLapply(cl, N_values, function(N){
   data.frame(
     N = N,
     est = result$est,
-    se = result$se
+    se = result$se,
+    conf.lower = result$confint[1],
+    conf.upper = result$confint[2]
   )
 })
-
-# Stop the cluster
-stopCluster(cl)
 
 # Combine results (same as before)
 mc_results <- bind_rows(mc_results)
 # Plot results
 p_last <- mc_results$est[nrow(mc_results)]
 plot(log(mc_results$N), mc_results$est, type = "b")
+points(log(mc_results$N), mc_results$conf.lower, type = "p", 
+       col = "lightgreen", pch = 2)
+points(log(mc_results$N), mc_results$conf.upper, type = "p", 
+       col = "lightgreen", pch = 2)
 abline(h = p_last, col = 2, lwd = 2)
+
+# Variance plot
 plot(log(mc_results$N), mc_results$se, type = "b")
 
-
+# Stop the cluster
+stopCluster(cl)
 
