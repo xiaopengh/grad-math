@@ -1,5 +1,6 @@
 library(dplyr)
 library(parallel)
+source("helper_plot.R")
 
 # Crude Monte-Carlo with Parallelization========================================
 
@@ -17,8 +18,8 @@ mc_estimate <- function(N){
   
   est <- mean(vals)
   se <- sd(vals)/sqrt(N)
-  list(est = est, se = se, confint = c(est - qnorm(1 - alpha/2) * se / sqrt(N),
-                                       est + qnorm(1 - alpha/2) * se / sqrt(N)))
+  list(est = est, se = se, confint = c(est - qnorm(1 - alpha/2) * se,
+                                       est + qnorm(1 - alpha/2) * se))
 }
 
 # Usage of base package 'parallel'==============================================
@@ -36,8 +37,8 @@ clusterExport(cl, varlist = c("mc_estimate"))
 # Don't forget to close the cluster at the end of your computations.
 # stopCluster(cl)
 # Run Crude Monte-Carlo=========================================================
-# 20 values from n = 200,000 to n = 2,000,000
-N_values <- seq(log(2e5), log(2e6), length.out = 20) |> exp() |> round() |> unique()
+# 20 values from n = 20,000 to n = 2,000,000
+N_values <- seq(log(2e4), log(2e6), length.out = 20) |> exp() |> round() |> unique()
 # Use parLapply to run the simulations in parallel
 mc_results <- parLapply(cl, N_values, function(N){
   # The function body remains the same
@@ -51,22 +52,16 @@ mc_results <- parLapply(cl, N_values, function(N){
   )
 })
 
+# Stop the cluster 
+stopCluster(cl)
+
 # Combine results (same as before)
 mc_results <- bind_rows(mc_results)
+
 # Plot results
-p_last <- mc_results$est[nrow(mc_results)]
-plot(log(mc_results$N), mc_results$est, type = "b")
-points(log(mc_results$N), mc_results$conf.lower, type = "l", 
-       col = "lightgreen", pch = 2)
-points(log(mc_results$N), mc_results$conf.upper, type = "l", 
-       col = "lightgreen", pch = 2)
-abline(h = p_last, col = 2, lwd = 2)
+plot_estimates(mc_results)
+plot_standard_errors(mc_results)
 
-# Variance plot
-plot(log(mc_results$N), mc_results$se, type = "b")
-
-# Stop the cluster
-stopCluster(cl)
 
 # Stratified Sampling===========================================================
 stratified_estimate <- function(N, max_strata = 1, method = c("proportional", "optimal")){
@@ -80,14 +75,14 @@ stratified_estimate <- function(N, max_strata = 1, method = c("proportional", "o
   alpha <- 0.05
   
   # The strata will be defined on the Poisson variable 
-  # S = 0 .. S = max_strata, S > max_strata
+  # S = 0 ... max_strata, S > max_strata
   probs <- c(dpois(0:max_strata, lambda = lambda), 1 - ppois(max_strata, lambda = lambda))
   
   # Determine sample sizes per strata
   if (method == "proportional"){
     n_strata <- floor(N * probs)
   } else if (method == "optimal"){
-    break
+    stop("Optimal allocation not yet implemented")
   }
   
   # Generate samples and compute estimates per strata
@@ -104,13 +99,19 @@ stratified_estimate <- function(N, max_strata = 1, method = c("proportional", "o
         1 * (sum(w) < 3)
       })
     } else {
-      vals <- sapply(1:n_i, function(j){
-        # Sample S until S > max_strata (Oversampling method)
-        s <- rpois(ceiling(1/probs[i]), lambda = lambda)
-        while (max(s) <= max_strata){
-          s <- rpois(ceiling(1/probs[i]), lambda = lambda)
+      vals <- replicate(n_i, {
+        # Sample S until S > max_strata using rejection sampling
+        s <- rpois(1, lambda = lambda)
+        max_iter <- 1000
+        iter <- 0
+        while (s <= max_strata && iter < max_iter) {
+          s <- rpois(1, lambda = lambda)
+          iter <- iter + 1
         }
-        s <- s[s > max_strata][1]
+        if (iter >= max_iter) {
+          warning("Max iterations reached in rejection sampling")
+        }
+        
         w <- rweibull(s, shape = shape, scale = scale)
         1 * (sum(w) < 3)
       })
@@ -124,21 +125,23 @@ stratified_estimate <- function(N, max_strata = 1, method = c("proportional", "o
     mean(val_strata[[i]])
   })
   var_strata <- sapply(seq_along(probs), function(i){
+    if (n_strata[i] <= 1) return(0)  # or NA
     var(val_strata[[i]]) / n_strata[i]
   })
   est <- sum(est_strata * probs)
-  se <- sqrt(sum(var_strata * probs))
-  confint <- c(est - qnorm(1 - alpha/2) * se / sqrt(N), 
-               est + qnorm(1 - alpha/2) * se / sqrt(N))
+  se <- sqrt(sum(var_strata * probs^2))
+  confint <- c(est - qnorm(1 - alpha/2) * se, 
+               est + qnorm(1 - alpha/2) * se)
   list(est = est, se = se, confint = confint)
 }
 
 # Run Stratified Sampling with Parallelization==================================
-# Parallel backend is already set up from previous section
+# Create the cluster
+cl <- makeCluster(num_cores)
 # Export the function to the cluster
 clusterExport(cl, varlist = c("stratified_estimate"))
-# 20 values from n = 500 to n = 2,000,000
-N_values <- seq(log(2e5), log(2e6), length.out = 20) |> exp() |> round() |> unique()
+# 20 values from n = 20,000 to n = 2,000,000
+N_values <- seq(log(2e4), log(2e6), length.out = 20) |> exp() |> round() |> unique()
 # Use parLapply to run the simulations in parallel
 mc_results <- parLapply(cl, N_values, function(N){
   # The function body remains the same
@@ -154,17 +157,10 @@ mc_results <- parLapply(cl, N_values, function(N){
 
 # Combine results (same as before)
 mc_results <- bind_rows(mc_results)
-# Plot results
-p_last <- mc_results$est[nrow(mc_results)]
-plot(log(mc_results$N), mc_results$est, type = "b")
-points(log(mc_results$N), mc_results$conf.lower, type = "p", 
-       col = "lightgreen", pch = 2)
-points(log(mc_results$N), mc_results$conf.upper, type = "p", 
-       col = "lightgreen", pch = 2)
-abline(h = p_last, col = 2, lwd = 2)
 
-# Variance plot
-plot(log(mc_results$N), mc_results$se, type = "b")
+# Plot results
+plot_estimates(mc_results)
+plot_standard_errors(mc_results)
 
 # Stop the cluster
 stopCluster(cl)
