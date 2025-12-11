@@ -1,0 +1,46 @@
+\setlength{\parindent}{0pt} % Disable the indent for new paragraphs
+
+% Aesthetic packages
+\usepackage[T1]{fontenc} % select T1 font encoding: suitable for Western European Latin scripts
+\usepackage[most]{tcolorbox}  % for styled boxes
+\usepackage[dvipsnames]{xcolor} % for 'navy' color
+\usepackage[a4paper,margin=25mm]{geometry} % set the margin for a4paper
+% \usepackage{calligra}
+
+% Math packages:
+\usepackage{amsmath,amssymb}  % Enables advanced math environments like align, gather, and equation.
+\usepackage{amsthm}  % Theorem infra
+\usepackage{bbm}  % For indicator
+\usepackage{amssymb}  % Provides additional math symbols (e.g., \mathbb, \leqslant).
+\usepackage{mathrsfs} % For math script fonts
+
+% Customize enumerate for no indentation
+\usepackage{enumitem}
+
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{subcaption}
+\usepackage{wrapfig} % for wrapping text around figures
+
+% indicator function
+\newcommand{\ind}{\mathbbm{1}}
+
+\geometry{
+    top=0.3in,
+    bottom=0.3in,
+    left=0.5in,
+    right=0.5in,
+}
+
+\lstset{
+    language=R,
+    basicstyle=\ttfamily\fontsize{8}{9}\selectfont,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    frame=single,
+    breaklines=true
+}

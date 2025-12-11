@@ -1,0 +1,60 @@
+\documentclass[a4paper, 10pt]{article}
+\input{preamble.tex}
+
+\begin{document}
+    {\centering
+    \Large\textbf{Monte Carlo Methods Graded Lab 3}\\[0.5em]
+    \normalsize Paulina Ptukha, Xiaopeng Zhang\\[0.3em]
+    December 11, 2025\\[1em] % or \today
+    }
+
+    \subsection*{Control Variates}
+    The probability density function of the random variable \(X\) is given by
+    \[f(x) = \frac{3}{4} (1-x^2) \ind_{[-1,1]}(x) \]
+    To apply the control variates method, we first need to compute the even moments of \(X\):
+
+    \begin{minipage}[t]{0.55\columnwidth}
+        \vspace*{\fill}
+        We can find a general formula for the even moments as follows:
+        \begin{align*}
+        \mathbb{E}(X^{2k}) 
+        &= \int_{-\infty}^{+\infty} x^{2k} f(x)\,dx = \frac{3}{4} \int_{-1}^{1} x^{2k}(1-x^2)\,dx \\
+        &= \frac{3}{4} \cdot 2 \int_0^1 x^{2k}(1-x^2)\,dx \\
+        &= \frac{3}{2} \int_0^1 (x^{2k} - x^{2k+2})\,dx \\
+        &= \frac{3}{2} \left[ \frac{1}{2k+1} - \frac{1}{2k+3} \right] = \frac{3}{(2k+1)(2k+3)}
+        \end{align*}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.40\columnwidth}
+        \vspace*{\fill}
+
+        Therefore, we have:
+        
+        \vspace*{1em}
+
+        $\mathbb{E}(X^2) = \frac{1}{5},$
+
+        \vspace*{1em}
+    
+        $\mathbb{E}(X^4) = \frac{3}{35},$
+        
+        \vspace*{1em}
+
+        $\mathbb{E}(X^6) = \frac{1}{21}.$
+
+        \vspace*{1em}
+
+        $\mathbb{E}(X^8) = \frac{1}{33},$
+
+        \vspace*{1em}
+
+        $\mathbb{E}(X^{12}) = \frac{1}{65}.$
+
+    \end{minipage}
+
+    Using \(h_{0,1} = x^4\) and \(h_{0,2} = x^6\) as control variates, we compute the optimal coefficients:
+    \begin{align*}
+        \beta_1^* &= \frac{\mathrm{Cov}(f(X), h_{0,1}(X))}{\mathrm{Var}(h_{0,1}(X))} = \frac{\mathbb{E}(X^2 X^4) - \mathbb{E}(X^2)\mathbb{E}(X^4)}{\mathbb{E}(X^8) - \left(\mathbb{E}(X^4)\right)^2} = \frac{\frac{1}{21} - \frac{1}{5}\cdot\frac{3}{35}}{\frac{1}{33} - \left(\frac{3}{35}\right)^2} = \frac{77}{58} \approx 1.33 \\
+        \beta_2^* &= \frac{\mathrm{Cov}(f(X), h_{0,2}(X))}{\mathrm{Var}(h_{0,2}(X))} = \frac{\mathbb{E}(X^2 X^6) - \mathbb{E}(X^2)\mathbb{E}(X^6)}{\mathbb{E}(X^{12}) - \left(\mathbb{E}(X^6)\right)^2} = \frac{\frac{1}{33} - \frac{1}{5}\cdot\frac{1}{21}}{\frac{1}{65} - \left(\frac{1}{21}\right)^2} = \frac{819}{517} \approx 1.58.
+    \end{align*}
+
+\end{document}

@@ -185,49 +185,52 @@ CV2 <- function(N){
 }
 
 # Run CV1 and CV2
-# Run CV1
-N_values <- seq(log(1000), log(1e6), length.out = 10) |> exp() |> round() |> unique()
-cv1_results <- lapply(N_values, function(N){
-  result <- CV1(N)
-  tibble(
-    N = N,
-    est = result$est,
-    se = result$se,
-    confint_lower = result$confint[1],
-    confint_upper = result$confint[2],
-    b = result$b
-  )
-})
-cv1_results <- bind_rows(cv1_results)
-plot(log(cv1_results$N), cv1_results$est, 
-     type = "b", col = "black",
-     ylim = c(min(cv1_results$confint_lower, cv2_results$confint_lower),
-              max(cv1_results$confint_upper, cv2_results$confint_upper)))
-abline(h = I_true, col = 2, lwd = 2)
-# Add confidence intervals
-arrows(log(cv1_results$N), cv1_results$confint_lower,
-       log(cv1_results$N), cv1_results$confint_upper,
-       angle = 90, code = 3, length = 0.05, col = "green")
-
-# Run CV2
-cv2_results <- lapply(N_values, function(N){
-  result <- CV2(N)
-  tibble(
-    N = N,
-    est = result$est,
-    se = result$se,
-    confint_lower = result$confint[1],
-    confint_upper = result$confint[2],
-    b = result$b
-  )
-})
-cv2_results <- bind_rows(cv2_results)
-points(log(cv2_results$N), cv2_results$est, type = "b", col = "blue")
-# Add confidence intervals
-arrows(log(cv2_results$N), cv2_results$confint_lower,
-       log(cv2_results$N), cv2_results$confint_upper,
-       angle = 90, code = 3, length = 0.05, col = "orange")
-legend("topright", legend = c("CV1", "CV2"), col = c("green", "orange"), lwd = 2)
+{# Run CV1
+  N_values <- seq(log(1000), log(1e6), length.out = 10) |> exp() |> round() |> unique()
+  cv1_results <- lapply(N_values, function(N){
+    result <- CV1(N)
+    tibble(
+      N = N,
+      est = result$est,
+      se = result$se,
+      confint_lower = result$confint[1],
+      confint_upper = result$confint[2],
+      b = result$b
+    )
+  })
+  cv1_results <- bind_rows(cv1_results)
+  plot(log(cv1_results$N), cv1_results$est, 
+       type = "b", col = "black",
+       ylim = c(min(cv1_results$confint_lower, cv2_results$confint_lower),
+                max(cv1_results$confint_upper, cv2_results$confint_upper)),
+       main = "Control Variates Estimation",
+       ylab = "Estimates", xlab = "log(N)")
+  abline(h = I_true, col = 2, lwd = 2)
+  # Add confidence intervals
+  arrows(log(cv1_results$N), cv1_results$confint_lower,
+         log(cv1_results$N), cv1_results$confint_upper,
+         angle = 90, code = 3, length = 0.05, col = "green")
+  
+  # Run CV2
+  cv2_results <- lapply(N_values, function(N){
+    result <- CV2(N)
+    tibble(
+      N = N,
+      est = result$est,
+      se = result$se,
+      confint_lower = result$confint[1],
+      confint_upper = result$confint[2],
+      b = result$b
+    )
+  })
+  cv2_results <- bind_rows(cv2_results)
+  points(log(cv2_results$N), cv2_results$est, type = "b", col = "blue")
+  # Add confidence intervals
+  arrows(log(cv2_results$N), cv2_results$confint_lower,
+         log(cv2_results$N), cv2_results$confint_upper,
+         angle = 90, code = 3, length = 0.05, col = "orange")
+  legend("topright", legend = c("CV1", "CV2"), col = c("green", "orange"), lwd = 2)
+}
 
 
 
