@@ -4,7 +4,7 @@
 \begin{document}
     {\centering
     \Large\textbf{Monte Carlo Methods Graded Lab 3}\\[0.5em]
-    \normalsize Paulina Ptukha, Xiaopeng Zhang\\[0.3em]
+    \normalsize Polina Ptukha, Xiaopeng Zhang\\[0.3em]
     December 11, 2025\\[1em] % or \today
     }
 
@@ -51,10 +51,40 @@
 
     \end{minipage}
 
-    Using \(h_{0,1} = x^4\) and \(h_{0,2} = x^6\) as control variates, we compute the optimal coefficients:
+    \vspace*{1em}
+    
+    Using \(h_{0,1} = x^4\) and \(h_{0,2} = x^6\) as control variables, we compute the optimal coefficients:
     \begin{align*}
         \beta_1^* &= \frac{\mathrm{Cov}(f(X), h_{0,1}(X))}{\mathrm{Var}(h_{0,1}(X))} = \frac{\mathbb{E}(X^2 X^4) - \mathbb{E}(X^2)\mathbb{E}(X^4)}{\mathbb{E}(X^8) - \left(\mathbb{E}(X^4)\right)^2} = \frac{\frac{1}{21} - \frac{1}{5}\cdot\frac{3}{35}}{\frac{1}{33} - \left(\frac{3}{35}\right)^2} = \frac{77}{58} \approx 1.33 \\
         \beta_2^* &= \frac{\mathrm{Cov}(f(X), h_{0,2}(X))}{\mathrm{Var}(h_{0,2}(X))} = \frac{\mathbb{E}(X^2 X^6) - \mathbb{E}(X^2)\mathbb{E}(X^6)}{\mathbb{E}(X^{12}) - \left(\mathbb{E}(X^6)\right)^2} = \frac{\frac{1}{33} - \frac{1}{5}\cdot\frac{1}{21}}{\frac{1}{65} - \left(\frac{1}{21}\right)^2} = \frac{819}{517} \approx 1.58.
     \end{align*}
+
+    \subsection*{Comparison of estimators}
+    The true value of the integral is equal to
+    \[\mathbb{E}[X^2] = \frac{1}{5}\]
+    Now let us compare values of the estimators with the true value from \(n = 10^5\) to \(n = 10^6\).
+    
+    \noindent
+    \begin{minipage}[t]{0.65\columnwidth}
+        \begin{center}
+            \includegraphics[width=0.90\columnwidth]{imgs/comp.png}
+            \label{fig:estimators}
+        \end{center}
+    \end{minipage}\hfill
+    \begin{minipage}[c]{0.35\columnwidth}
+        \vspace{-22em}
+        The calculation with the highest \(n\) yields
+        \[|\hat{I}^{MC}_n - \hat{I}^{CV1}_n| \approx 15 \times 10^{-4}\]
+        \[|\hat{I}^{MC}_n - \hat{I}^{CV2}_n| \approx 2 \times 10^{-3}\]
+        \[|\hat{I}^{CV1}_n - \hat{I}^{CV2}_n| \approx 5 \times 10^{-4}\]
+
+        Let us compare efficiency of estimators.
+    
+        We will do it by estimating \(R\):
+        \[R_{1,2}=\frac{cost1 * var1}{cost2 * var2}\]
+        Thus we obtain following values
+        \[R_{CV1,MC} = 0.1608956\] We can conclude that CV1 estimator is more efficient than MC as \(R<1\).
+        \[R_{CV2,MC} = 0.3900529\] We can conclude that CV2 estimator is more efficient than MC as \(R<1\).
+    \end{minipage}
 
 \end{document}

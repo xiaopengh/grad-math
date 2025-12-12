@@ -69,6 +69,7 @@ rtraget_accept_reject <- function(N){
     idx_accept <- which(u <=  (f(y) / (M * 0.5)))
     int_M <- min(length(idx_accept), N - N_accept)
     samples[(N_accept+1) : (N_accept + int_M)] <- y[idx_accept[1 : int_M]]
+    # error
     if (sum(is.na(samples)) != 0){
       print(is.na(samples))
       break
@@ -185,8 +186,23 @@ CV2 <- function(N){
 }
 
 # Run CV1 and CV2
+set.seed(2000)
+
 {# Run CV1
-  N_values <- seq(log(1000), log(1e6), length.out = 10) |> exp() |> round() |> unique()
+  N_values <- seq(log(1e5), log(1e6), length.out = 10) |> exp() |> round() |> unique()
+  
+  mc_results <- lapply(N_values, function(N){
+    result <- MC(N)
+    tibble(
+      N = N,
+      est = result$est,
+      se = result$se,
+      confint_lower = result$confint[1],
+      confint_upper = result$confint[2]
+    )
+  })
+  mc_results <- bind_rows(mc_results)
+  
   cv1_results <- lapply(N_values, function(N){
     result <- CV1(N)
     tibble(
@@ -199,17 +215,6 @@ CV2 <- function(N){
     )
   })
   cv1_results <- bind_rows(cv1_results)
-  plot(log(cv1_results$N), cv1_results$est, 
-       type = "b", col = "black",
-       ylim = c(min(cv1_results$confint_lower, cv2_results$confint_lower),
-                max(cv1_results$confint_upper, cv2_results$confint_upper)),
-       main = "Control Variates Estimation",
-       ylab = "Estimates", xlab = "log(N)")
-  abline(h = I_true, col = 2, lwd = 2)
-  # Add confidence intervals
-  arrows(log(cv1_results$N), cv1_results$confint_lower,
-         log(cv1_results$N), cv1_results$confint_upper,
-         angle = 90, code = 3, length = 0.05, col = "green")
   
   # Run CV2
   cv2_results <- lapply(N_values, function(N){
@@ -224,12 +229,34 @@ CV2 <- function(N){
     )
   })
   cv2_results <- bind_rows(cv2_results)
-  points(log(cv2_results$N), cv2_results$est, type = "b", col = "blue")
-  # Add confidence intervals
+  
+  # Plot results
+  plot(log(cv1_results$N), cv1_results$est, 
+       type = "b", col = "darkblue",
+       ylim = c(min(cv1_results$confint_lower, cv2_results$confint_lower),
+                max(cv1_results$confint_upper, cv2_results$confint_upper)),
+       main = "Control Variates Estimation",
+       ylab = "Estimates", xlab = "log(N)")
+  abline(h = I_true, col = 2, lwd = 2)
+  arrows(log(cv1_results$N), cv1_results$confint_lower,
+         log(cv1_results$N), cv1_results$confint_upper,
+         angle = 90, code = 3, length = 0.05, col = "darkblue")
+  
+  # Add CV2 results
+  points(log(cv2_results$N), cv2_results$est, type = "b", col = "seagreen")
   arrows(log(cv2_results$N), cv2_results$confint_lower,
          log(cv2_results$N), cv2_results$confint_upper,
-         angle = 90, code = 3, length = 0.05, col = "orange")
-  legend("topright", legend = c("CV1", "CV2"), col = c("green", "orange"), lwd = 2)
+         angle = 90, code = 3, length = 0.05, col = "seagreen")
+  
+  # Add MC results
+  points(log(mc_results$N), mc_results$est, type = "b", col = "sienna")
+  arrows(log(mc_results$N), mc_results$confint_lower,
+         log(mc_results$N), mc_results$confint_upper,
+         angle = 90, code = 3, length = 0.05, col = "sienna")
+  
+  legend("bottomleft", legend = c("CV1", "CV2", "MC"), 
+         col = c("darkblue", "seagreen", "sienna" ), 
+         lwd = 2, cex = 0.6, )
 }
 
 
