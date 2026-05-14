@@ -1,0 +1,211 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=2.6cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\dd}{\,\mathrm{d}}
+
+\title{Correction of Exercises in LaTeX\\Subject code: Corr\_exo}
+\author{TODO: author name(s)}
+\date{May 2026}
+
+\begin{document}
+\maketitle
+
+\section*{Exercise 3.1: Existence of Implicit Schemes}
+
+Let $\Psi:\R_+\times\R\times\R\to\R$ be Lipschitz in all variables. Denote by $L$
+a Lipschitz constant of $\Psi$ with respect to its third variable. For fixed
+$(t,x,h)$, define
+\[
+    \mathcal T(y)=x+h\Psi(t,x,y).
+\]
+If $hL<1$, then $\mathcal T$ is a contraction because
+\[
+    |\mathcal T(y_1)-\mathcal T(y_2)|
+    \le hL |y_1-y_2|.
+\]
+By the Banach fixed point theorem, the equation
+\[
+    y=x+h\Psi(t,x,y)
+\]
+has a unique solution. A numerical method is Picard iteration:
+\[
+    y^{(0)}=x,\qquad
+    y^{(k+1)}=x+h\Psi(t,x,y^{(k)}).
+\]
+For $hL<1$, this sequence converges geometrically to the unique solution
+$s(t,x,h)$.
+
+Now suppose $y=s(t,x,h)$ and $y=x+h\phi(t,x)$. Then
+\[
+    \phi(t,x)=\frac{s(t,x,h)-x}{h}
+             =\Psi(t,x,s(t,x,h)).
+\]
+This is well-defined because $s(t,x,h)$ is unique. To prove that $s$ is
+Lipschitz, let $s=s(t,x,h)$ and $\tilde s=s(\tilde t,\tilde x,h)$. Then
+\[
+\begin{aligned}
+|s-\tilde s|
+&\le |x-\tilde x|
+   + hL\bigl(|t-\tilde t|+|x-\tilde x|+|s-\tilde s|\bigr).
+\end{aligned}
+\]
+Thus, when $hL<1$,
+\[
+    |s-\tilde s|
+    \le
+    \frac{(1+hL)|x-\tilde x|+hL|t-\tilde t|}{1-hL}.
+\]
+So $s$ is Lipschitz. Since $\Psi$ is Lipschitz and $\phi(t,x)=\Psi(t,x,s(t,x,h))$,
+the function $\phi$ is also Lipschitz for sufficiently small $h$.
+
+\section*{Exercise 3.2: Euler-Lagrange Multipliers}
+
+Let
+\[
+    L(\lambda,x,y)=f(x,y)+\lambda g(x,y).
+\]
+Since $y_0=Y(x_0)$, we have
+\[
+    g(x_0,y_0)=0.
+\]
+Also $\partial_y g(x_0,y_0)\ne 0$, so the equation
+\[
+    \partial_y L(\lambda_0,x_0,y_0)
+    =\partial_y f(x_0,y_0)+\lambda_0\partial_y g(x_0,y_0)=0
+\]
+has the unique solution
+\[
+    \lambda_0
+    =
+    -\frac{\partial_y f(x_0,y_0)}{\partial_y g(x_0,y_0)}.
+\]
+Therefore
+\[
+    \partial_y L(\lambda_0,x_0,y_0)=0,
+    \qquad
+    \partial_\lambda L(\lambda_0,x_0,y_0)=g(x_0,y_0)=0.
+\]
+
+Differentiate the constraint $g(x,Y(x))=0$ at $x_0$:
+\[
+    \partial_x g(x_0,y_0)+\partial_y g(x_0,y_0)Y'(x_0)=0.
+\]
+Also
+\[
+    F'(x_0)=\partial_x f(x_0,y_0)+\partial_y f(x_0,y_0)Y'(x_0).
+\]
+Using $\partial_y f(x_0,y_0)=-\lambda_0\partial_y g(x_0,y_0)$ gives
+\[
+\begin{aligned}
+F'(x_0)
+&=\partial_x f(x_0,y_0)
+  -\lambda_0\partial_y g(x_0,y_0)Y'(x_0)\\
+&=\partial_x f(x_0,y_0)+\lambda_0\partial_x g(x_0,y_0)\\
+&=\partial_x L(\lambda_0,x_0,y_0).
+\end{aligned}
+\]
+
+For $f(x,y)=x+y$ and $g(x,y)=x^2+y^2-1$, the assumption
+$\partial_y g(x_0,y_0)\ne0$ means $y_0\ne0$. We obtain
+\[
+    \lambda_0=-\frac{1}{2y_0}.
+\]
+Thus
+\[
+    F'(x_0)
+    =\partial_x L(\lambda_0,x_0,y_0)
+    =1+\lambda_0(2x_0)
+    =1-\frac{x_0}{y_0}.
+\]
+This computes the derivative without explicitly solving for the local branch
+$Y(x)$.
+
+For the vector case, let
+\[
+    f:\R^n\times\R^n\to\R,\qquad
+    g:\R^n\times\R^n\to\R^n,
+\]
+and define
+\[
+    L(\lambda,x,y)=f(x,y)+\lambda^\top g(x,y),
+    \qquad \lambda\in\R^n.
+\]
+Assume $D_y g(x_0,y_0)$ is invertible. The multiplier is determined by
+\[
+    \nabla_y f(x_0,y_0)+D_y g(x_0,y_0)^\top\lambda_0=0,
+\]
+so
+\[
+    \lambda_0=-D_y g(x_0,y_0)^{-\top}\nabla_y f(x_0,y_0).
+\]
+Differentiating $g(x,Y(x))=0$ gives
+\[
+    D_x g(x_0,y_0)+D_y g(x_0,y_0)DY(x_0)=0.
+\]
+As in the scalar case, the terms containing $DY(x_0)$ cancel and
+\[
+    \nabla_x F(x_0)
+    =
+    \nabla_x f(x_0,y_0)+D_x g(x_0,y_0)^\top\lambda_0
+    =
+    \nabla_x L(\lambda_0,x_0,y_0).
+\]
+
+\section*{Exercise 3.3: Multi-Step SDE Scheme}
+
+Consider
+\[
+    Y_{n+1}
+    =
+    Y_n+\frac32 a_nh-\frac12 a_{n-1}h+b_n\sqrt h\,\xi_n,
+\]
+where $\xi_n$ is independent of the filtration $\mathcal A_{t_n}$, has mean
+$m$, and has variance $\sigma^2$.
+
+For weak consistency, the conditional mean of the increment must match the drift
+to first order. Since
+\[
+    \E[Y_{n+1}-Y_n\mid\mathcal A_{t_n}]
+    =
+    \frac32 a_nh-\frac12 a_{n-1}h+b_n\sqrt h\,m,
+\]
+the term $b_n\sqrt h\,m$ would be too large compared with the drift unless
+\[
+    m=0.
+\]
+With $m=0$, the Adams--Bashforth drift satisfies
+\[
+    \frac32 a_n-\frac12 a_{n-1}=a_n+o(1),
+\]
+because $a$ is smooth and $Y_{n-1}$ is close to $Y_n$ as $h\to0$.
+
+For the second moment,
+\[
+    \E\!\left[(Y_{n+1}-Y_n)^2\mid\mathcal A_{t_n}\right]
+    =
+    b_n^2 h\,\E[\xi_n^2]+o(h).
+\]
+Since $m=0$, $\E[\xi_n^2]=\sigma^2$. Matching the diffusion coefficient requires
+\[
+    \sigma^2=1.
+\]
+Therefore the scheme is weakly consistent when
+\[
+    \boxed{m=0,\qquad \sigma^2=1.}
+\]
+
+The scheme is not strongly consistent in general with merely discrete variables
+$\xi_n$. Strong consistency is pathwise and requires the noise increment to match
+the Brownian increment in mean square. A standardized discrete variable may have
+the correct first two moments, but it is not the same object as
+$\Delta W_n/\sqrt h$. The mean-square difference between
+$b_n\sqrt h\,\xi_n$ and $b_n\Delta W_n$ does not vanish at the local order needed
+for strong consistency unless $\xi_n$ is chosen to be the actual normalized
+Brownian increment. Thus the given weak scheme is generally not strongly
+consistent.
+
+\end{document}
