@@ -1,0 +1,99 @@
+\begin{exercise}[Random walk martingales]
+\emph{Restatement.}  Let \((\xi_n)_{n\ge 1}\) be i.i.d., centered, and of
+finite variance.  With
+\[
+  X_0=0,\qquad X_n=\sum_{k=1}^n \xi_k,
+  \qquad
+  \F_n=\sigma(\xi_1,\ldots,\xi_n),
+\]
+show that \(X\) is a martingale, identify the compensator of \(X^2\), and
+then do the same for the product of two independent centered random walks.
+\end{exercise}
+
+\begin{solution}
+The result uses only the conditional expectation rules recalled in
+\polyref{App.~A.5--A.6}.  First, \(X_n\) is \(\F_n\)-measurable and integrable,
+because
+\[
+  \E[|X_n|]\le \sum_{k=1}^n \E[|\xi_k|]
+  =n\E[|\xi_1|]<\infty,
+\]
+where finite variance implies integrability.  Moreover,
+\[
+  \E[X_{n+1}\mid \F_n]
+    =\E[X_n+\xi_{n+1}\mid \F_n]
+    =X_n+\E[\xi_{n+1}\mid \F_n].
+\]
+Since \(\xi_{n+1}\) is independent of \(\F_n\) and centered,
+\(\E[\xi_{n+1}\mid \F_n]=\E[\xi_{n+1}]=0\).  Hence
+\(\E[X_{n+1}\mid \F_n]=X_n\), so \(X\) is an \(\F\)-martingale in the sense of
+\polyref{Def.~A.6}.
+
+For the square, expand one step:
+\[
+  X_{n+1}^2=(X_n+\xi_{n+1})^2
+    =X_n^2+2X_n\xi_{n+1}+\xi_{n+1}^2.
+\]
+Taking conditional expectation with respect to \(\F_n\) gives
+\[
+  \E[X_{n+1}^2\mid \F_n]
+    =X_n^2+2X_n\E[\xi_{n+1}\mid \F_n]
+      +\E[\xi_{n+1}^2\mid \F_n]
+    =X_n^2+\E[\xi_{n+1}^2].
+\]
+Thus the predictable drift of \(X^2\) at step \(n+1\) is
+\(\E[\xi_{n+1}^2]\).  Define
+\[
+  a_0=0,\qquad a_n=\sum_{k=1}^n \E[\xi_k^2].
+\]
+The sequence \((a_n)_{n\ge 0}\) is increasing, and because the \(\xi_k\) are
+i.i.d. it is simply \(a_n=n\E[\xi_1^2]\).  Then
+\[
+  \E[X_{n+1}^2-a_{n+1}\mid \F_n]
+    =X_n^2+\E[\xi_{n+1}^2]
+      -a_n-\E[\xi_{n+1}^2]
+    =X_n^2-a_n.
+\]
+Also \(X_n^2-a_n\) is integrable, so \((X_n^2-a_n)_{n\ge 0}\) is an
+\(\F\)-martingale.  The same calculation also shows uniqueness of the
+compensator among deterministic sequences starting from \(0\).
+
+Now let \((\eta_n)_{n\ge 1}\) be another centered i.i.d. finite-variance
+sequence, independent of the \(\xi\)'s, and set
+\[
+  Y_0=0,\qquad Y_n=\sum_{\ell=1}^n \eta_\ell,\qquad
+  \G_n=\sigma(\xi_1,\ldots,\xi_n,\eta_1,\ldots,\eta_n).
+\]
+The product \(X_nY_n\) is integrable by Cauchy--Schwarz:
+\[
+  \E[|X_nY_n|]\le \E[X_n^2]^{1/2}\E[Y_n^2]^{1/2}<\infty .
+\]
+Since \(X_n\) and \(Y_n\) are \(\G_n\)-measurable,
+\[
+\begin{aligned}
+  \E[X_{n+1}Y_{n+1}\mid \G_n]
+    &=\E[(X_n+\xi_{n+1})(Y_n+\eta_{n+1})\mid \G_n] \\
+    &=X_nY_n
+      +Y_n\E[\xi_{n+1}\mid \G_n]
+      +X_n\E[\eta_{n+1}\mid \G_n]
+      +\E[\xi_{n+1}\eta_{n+1}\mid \G_n].
+\end{aligned}
+\]
+The first two new terms vanish because the increments are centered and
+independent of the past \(\G_n\).  The last conditional expectation is the
+constant \(\E[\xi_{n+1}\eta_{n+1}]\).  Under the stated independence of the
+two sequences this constant is \(0\), but it is useful to write the general
+compensator
+\[
+  d_0=0,\qquad d_n=\sum_{k=1}^n \E[\xi_k\eta_k].
+\]
+Then
+\[
+  \E[X_{n+1}Y_{n+1}-d_{n+1}\mid \G_n]
+    =X_nY_n+\E[\xi_{n+1}\eta_{n+1}]
+      -d_n-\E[\xi_{n+1}\eta_{n+1}]
+    =X_nY_n-d_n.
+\]
+Therefore \((X_nY_n-d_n)_{n\ge 0}\) is a \(\G\)-martingale.  In the exact
+setting of the exercise, \(d_n=0\) for every \(n\).
+\end{solution}

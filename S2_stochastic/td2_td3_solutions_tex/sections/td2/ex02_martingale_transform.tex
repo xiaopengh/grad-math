@@ -1,0 +1,39 @@
+\begin{exercise}[Martingale transform]
+\emph{Restatement.}  Let \(M\) be an \(\F\)-martingale and let
+\((\Delta_n)_{n\ge 0}\) be bounded and adapted.  Prove that
+\[
+  X_0=0,\qquad
+  X_n=\sum_{k=1}^n \Delta_{k-1}(M_k-M_{k-1})
+\]
+is an \(\F\)-martingale.
+\end{exercise}
+
+\begin{solution}
+This is the discrete version of a stochastic integral with predictable
+integrand.  Since \(\Delta\) is adapted, \(\Delta_{k-1}\) is
+\(\F_{k-1}\)-measurable before the martingale increment
+\(M_k-M_{k-1}\) is observed.  Since \(\Delta\) is bounded, say
+\(|\Delta_n|\le c\) a.s., each summand is integrable:
+\[
+  \E\bigl[|\Delta_{k-1}(M_k-M_{k-1})|\bigr]
+    \le c\bigl(\E[|M_k|]+\E[|M_{k-1}|]\bigr)<\infty .
+\]
+Thus \(X_n\) is integrable.  It is also \(\F_n\)-measurable, because every
+term in the sum up to \(n\) is \(\F_n\)-measurable.
+
+For the martingale property, write
+\[
+  X_{n+1}=X_n+\Delta_n(M_{n+1}-M_n).
+\]
+Here \(X_n\) and \(\Delta_n\) are \(\F_n\)-measurable.  Therefore
+\[
+\begin{aligned}
+  \E[X_{n+1}\mid \F_n]
+    &=X_n+\Delta_n\E[M_{n+1}-M_n\mid \F_n]  \\
+    &=X_n+\Delta_n\bigl(\E[M_{n+1}\mid \F_n]-M_n\bigr) \\
+    &=X_n.
+\end{aligned}
+\]
+The last equality is exactly the martingale property of \(M\), as in
+\polyref{Def.~A.6}.  Hence \(X\) is an \(\F\)-martingale.
+\end{solution}

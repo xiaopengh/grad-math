@@ -1,0 +1,88 @@
+\begin{exercise}[Two-step binomial call]
+In the two-step binomial model with \(S^1_0=100\), \(u=1.5\), \(d=0.5\),
+\(T=4\), \(N=2\), \(r=-\frac12\ln(0.8)\), price the European call with
+strike \(K=100\), and fill the pricing and hedging tree.
+\end{exercise}
+
+\begin{solution}
+Here \(\Delta t=T/N=2\), hence
+\[
+  e^{r\Delta t}
+  =
+  e^{-\ln(0.8)}
+  =
+  \frac{1}{0.8}
+  =
+  1.25.
+\]
+By the binomial risk-neutral formula \(\polyref{Thm.~1.2, Eq.~(1.8)}\),
+\[
+  q=\frac{e^{r\Delta t}-d}{u-d}
+   =\frac{1.25-0.5}{1.5-0.5}
+   =0.75.
+\]
+The one-step discount factor is \(e^{-r\Delta t}=0.8\).  At maturity the call
+payoffs are
+\[
+  (225-100)^+=125,\qquad (75-100)^+=0,\qquad (25-100)^+=0.
+\]
+Backward induction \(\polyref{Thm.~1.3, Eq.~(1.12)}\) gives
+\[
+\begin{aligned}
+  p^G_{t_1}(150)
+    &=0.8\bigl(0.75\cdot125+0.25\cdot0\bigr)=75,\\
+  p^G_{t_1}(50)
+    &=0,\\
+  p^G_{t_0}(100)
+    &=0.8\bigl(0.75\cdot75+0.25\cdot0\bigr)=45.
+\end{aligned}
+\]
+The hedge ratios are the binomial deltas from
+\(\polyref{Thm.~1.3, Eq.~(1.13)}\):
+\[
+\begin{aligned}
+  \theta^1_{t_1}(100)
+    &=\frac{75-0}{150-50}=\frac34,\\
+  \theta^1_{t_2}(150)
+    &=\frac{125-0}{225-75}=\frac56,\\
+  \theta^1_{t_2}(50)
+    &=\frac{0-0}{75-25}=0.
+\end{aligned}
+\]
+
+\begin{center}
+\begin{tikzpicture}[
+  x=3.1cm,y=1.2cm,
+  >=Latex,
+  node/.style={draw,rounded corners=2pt,align=center,inner sep=2.5pt,font=\scriptsize},
+  edge/.style={->,thin}
+]
+  \node[node] (n00) at (0,0)
+    {\(\begin{array}{c}S=100\\ p=45\\ \theta=3/4\end{array}\)};
+  \node[node] (n10) at (1,1)
+    {\(\begin{array}{c}S=150\\ p=75\\ \theta=5/6\end{array}\)};
+  \node[node] (n11) at (1,-1)
+    {\(\begin{array}{c}S=50\\ p=0\\ \theta=0\end{array}\)};
+  \node[node] (n20) at (2,2)
+    {\(\begin{array}{c}S=225\\ p=125\\ \theta=\mathrm{NA}\end{array}\)};
+  \node[node] (n21) at (2,0)
+    {\(\begin{array}{c}S=75\\ p=0\\ \theta=\mathrm{NA}\end{array}\)};
+  \node[node] (n22) at (2,-2)
+    {\(\begin{array}{c}S=25\\ p=0\\ \theta=\mathrm{NA}\end{array}\)};
+
+  \draw[edge] (n00) -- node[above left,font=\scriptsize] {\(u\)} (n10);
+  \draw[edge] (n00) -- node[below left,font=\scriptsize] {\(d\)} (n11);
+  \draw[edge] (n10) -- node[above left,font=\scriptsize] {\(u\)} (n20);
+  \draw[edge] (n10) -- node[below left,font=\scriptsize] {\(d\)} (n21);
+  \draw[edge] (n11) -- node[above left,font=\scriptsize] {\(u\)} (n21);
+  \draw[edge] (n11) -- node[below left,font=\scriptsize] {\(d\)} (n22);
+
+  \node[font=\scriptsize] at (0,-2.7) {\(t_0\)};
+  \node[font=\scriptsize] at (1,-2.7) {\(t_1\)};
+  \node[font=\scriptsize] at (2,-2.7) {\(t_2=T\)};
+\end{tikzpicture}
+\end{center}
+
+Thus the time \(0\) no-arbitrage price of the call is \(45\), and the missing
+tree entries are those displayed above.
+\end{solution}

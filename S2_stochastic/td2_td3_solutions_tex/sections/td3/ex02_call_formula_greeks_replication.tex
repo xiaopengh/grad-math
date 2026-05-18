@@ -1,0 +1,91 @@
+\begin{exercise}[European call, Greeks, and replication]
+\textbf{Restatement.}
+For \(G=\pos{S_T-K}\), derive the BMS price, the exercise probabilities under
+\(\P\) and \(\Q\), the Greeks, the PDE, and the delta-hedging replication.
+
+\begin{solution}
+Let \(\tau=T-t\).  Under the risk-neutral measure of Exercise~1,
+\[
+  S_T=x\exp\left(\left(r-\frac12\sigma^2\right)\tau
+       +\sigma\sqrt{\tau}\,Z\right),
+  \qquad Z\sim\mathcal N(0,1),
+\]
+conditionally on \(S_t=x\).  Therefore, using \polyref{Eq.~(3.9)},
+\[
+  u(t,x)=\EQ\left[\e^{-r\tau}\pos{S_T-K}\,\mid\, S_t=x\right]
+        =x\normalcdf(d_1)-K\e^{-r\tau}\normalcdf(d_2),
+\]
+where
+\[
+  d_1=\frac{\log(x/K)+(r+\frac12\sigma^2)\tau}{\sigma\sqrt{\tau}},
+  \qquad
+  d_2=d_1-\sigma\sqrt{\tau}
+     =\frac{\log(x/K)+(r-\frac12\sigma^2)\tau}{\sigma\sqrt{\tau}}.
+\]
+This is the Black--Merton--Scholes formula of \polyref{Eq.~(3.12)}.
+
+At time \(0\), the option is exercised iff \(S_T\ge K\).  Under \(\P\),
+\[
+  \P(S_T\ge K)
+    =\normalcdf\left(
+       \frac{\log(S_0/K)+(\mu-\frac12\sigma^2)T}{\sigma\sqrt T}
+     \right),
+\]
+whereas under \(\Q\),
+\[
+  \Q(S_T\ge K)
+    =\normalcdf\left(
+       \frac{\log(S_0/K)+(r-\frac12\sigma^2)T}{\sigma\sqrt T}
+     \right).
+\]
+The only change is the drift: \(\mu\) under \(\P\), \(r\) under \(\Q\).
+
+On \([0,T)\times\R_+^*\), the functions \(d_1,d_2\) are \(C^{1,2}\), and so is
+\(u\).  The useful identity
+\[
+  x\normalpdf(d_1)=K\e^{-r\tau}\normalpdf(d_2)
+\]
+follows by comparing the Gaussian densities.  Differentiating the call formula
+then gives
+\[
+  \Delta(t,x)=\partial_xu(t,x)=\normalcdf(d_1),
+\]
+\[
+  \Gamma(t,x)=\partial_{xx}u(t,x)
+    =\frac{\normalpdf(d_1)}{x\sigma\sqrt{\tau}},
+\]
+and
+\[
+  \Theta(t,x)=\partial_tu(t,x)
+    =-\frac{x\sigma\normalpdf(d_1)}{2\sqrt{\tau}}
+     -rK\e^{-r\tau}\normalcdf(d_2).
+\]
+Substituting these expressions gives
+\[
+  \partial_tu(t,x)+rx\partial_xu(t,x)
+    +\frac12\sigma^2x^2\partial_{xx}u(t,x)=ru(t,x),
+\]
+with terminal condition \(u(T,x)=\pos{x-K}\).  This is the BMS PDE
+\polyref{Eq.~(3.17)} with the call payoff.
+
+Define the risky holding
+\[
+  \vartheta_t^\star=\partial_xu(t,S_t)=\normalcdf(d_1(t,S_t)),
+  \qquad 0\le t<T.
+\]
+It is adapted and bounded by \(1\).  Since \(\EQ[\int_0^T\Stilde_t^2\,\dd t]<\infty\)
+in the lognormal model, \(\vartheta^\star\in\A\).
+
+Finally apply Ito's formula under \(\Q\) to \(\e^{-rt}u(t,S_t)\).  The PDE
+cancels the drift and leaves
+\[
+  \dd\bigl(\e^{-rt}u(t,S_t)\bigr)
+    =\e^{-rt}\partial_xu(t,S_t)\sigma S_t\,\dd B_t^\Q
+    =\vartheta_t^\star\,\dd\Stilde_t.
+\]
+Thus the self-financing strategy with initial capital \(u(0,S_0)\) and risky
+holding \(\vartheta^\star\) has discounted value \(\e^{-rt}u(t,S_t)\), and at
+\(T\) its value is \(\pos{S_T-K}\).  It replicates the call, so the no-arbitrage
+price is \(p_t=u(t,S_t)\).
+\end{solution}
+\end{exercise}

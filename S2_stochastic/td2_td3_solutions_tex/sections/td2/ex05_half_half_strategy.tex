@@ -1,0 +1,75 @@
+\begin{exercise}[Half risky, half risk-free strategy]
+\emph{Restatement.}  In a one-risky-asset market, an investor always
+rebalances so that half of the portfolio value is invested in the risky asset
+and half in the risk-free asset.  Find the recursions for the holdings and for
+the portfolio value.
+\end{exercise}
+
+\begin{solution}
+Write
+\[
+  \theta_{t_k}=(\theta^0_{t_k},\theta^1_{t_k})
+\]
+for the holdings chosen at \(t_{k-1}\) and held over the interval
+\((t_{k-1},t_k]\), as in \polyref{Def.~1.1}.  At time \(t_{k-1}\), before the
+new holdings are chosen, the wealth is
+\[
+  V_{t_{k-1}}=\inner{\theta_{t_{k-1}}}{S_{t_{k-1}}}
+  =\theta^0_{t_{k-1}}S^0_{t_{k-1}}
+   +\theta^1_{t_{k-1}}S^1_{t_{k-1}}.
+\]
+The rule says that after rebalancing at the old prices \(S_{t_{k-1}}\),
+\[
+  \theta^0_{t_k}S^0_{t_{k-1}}=\frac12 V_{t_{k-1}},
+  \qquad
+  \theta^1_{t_k}S^1_{t_{k-1}}=\frac12 V_{t_{k-1}}.
+\]
+Therefore
+\[
+  \boxed{
+  \theta^0_{t_k}
+    =\frac{\inner{\theta_{t_{k-1}}}{S_{t_{k-1}}}}
+           {2S^0_{t_{k-1}}},
+  \qquad
+  \theta^1_{t_k}
+    =\frac{\inner{\theta_{t_{k-1}}}{S_{t_{k-1}}}}
+           {2S^1_{t_{k-1}}}.
+  }
+\]
+This is exactly the recurrence derived in \polyref{Chap.~4, Ex.~1.5}.
+
+The value at the next date is obtained by keeping the holdings fixed while
+prices move:
+\[
+\begin{aligned}
+  V_{t_k}
+    &=\theta^0_{t_k}S^0_{t_k}+\theta^1_{t_k}S^1_{t_k} \\
+    &=\frac{V_{t_{k-1}}}{2S^0_{t_{k-1}}}S^0_{t_k}
+      +\frac{V_{t_{k-1}}}{2S^1_{t_{k-1}}}S^1_{t_k}.
+\end{aligned}
+\]
+Hence the wealth recursion is
+\[
+  \boxed{
+  V_{t_k}
+  =
+  V_{t_{k-1}}
+  \left(
+    \frac12\frac{S^0_{t_k}}{S^0_{t_{k-1}}}
+    +
+    \frac12\frac{S^1_{t_k}}{S^1_{t_{k-1}}}
+  \right).
+  }
+\]
+Equivalently, if \(S^0_{t_k}/S^0_{t_{k-1}}=e^{r(t_k-t_{k-1})}\), then
+\[
+  V_{t_k}
+  =
+  V_{t_{k-1}}
+  \left(
+    \frac12 e^{r(t_k-t_{k-1})}
+    +
+    \frac12\frac{S^1_{t_k}}{S^1_{t_{k-1}}}
+  \right).
+\]
+\end{solution}

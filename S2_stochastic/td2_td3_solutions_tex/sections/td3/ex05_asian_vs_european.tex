@@ -1,0 +1,51 @@
+\begin{exercise}[Asian call versus European call]
+\textbf{Restatement.}
+For the Asian payoff
+\[
+  G=\pos{\frac1T\int_0^T S_t\,\dd t-K},
+\]
+show that its time-\(0\) price is no larger than the European call price with
+the same strike and maturity.
+
+\begin{solution}
+By risk-neutral pricing, \polyref{Eq.~(3.9)},
+\[
+  p_0^{\mathrm{Asian}}
+    =\EQ\left[
+       \e^{-rT}\pos{\frac1T\int_0^T S_t\,\dd t-K}
+     \right].
+\]
+The function \(y\mapsto\pos{y-K}\) is convex, so Jensen's inequality gives the
+pathwise bound
+\[
+  \pos{\frac1T\int_0^T S_t\,\dd t-K}
+  \le
+  \frac1T\int_0^T\pos{S_t-K}\,\dd t.
+\]
+Thus
+\[
+  p_0^{\mathrm{Asian}}
+  \le
+  \frac1T\int_0^T\e^{-rT}\EQ[\pos{S_t-K}]\,\dd t.
+\]
+Since \(r\ge0\) in the BMS chapter and \(S\) is a \(\Q\)-submartingale, the
+increasing convex function \(x\mapsto\pos{x-K}\) also yields a submartingale:
+for \(t\le T\),
+\[
+  \EQ[\pos{S_T-K}\,\mid\,\F_t]
+    \ge \pos{\EQ[S_T\,\mid\,\F_t]-K}
+    =\pos{\e^{r(T-t)}S_t-K}
+    \ge \pos{S_t-K}.
+\]
+Taking expectations,
+\[
+  \EQ[\pos{S_t-K}]\le \EQ[\pos{S_T-K}].
+\]
+Therefore
+\[
+  p_0^{\mathrm{Asian}}
+    \le \e^{-rT}\EQ[\pos{S_T-K}]
+    =p_0^{\mathrm{European}}.
+\]
+\end{solution}
+\end{exercise}

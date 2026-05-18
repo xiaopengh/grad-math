@@ -1,0 +1,60 @@
+\begin{exercise}[A capped and floored payoff]
+Consider the derivative with maturity payoff
+\[
+  H=\min\bigl(\max(S_T,K_1),K_2\bigr),\qquad K_1<K_2.
+\]
+Plot the payoff and express its time \(0\) price using two call prices.
+\end{exercise}
+
+\begin{solution}
+The payoff is constant at level \(K_1\) below \(K_1\), equal to the underlying
+between \(K_1\) and \(K_2\), and constant at level \(K_2\) above \(K_2\):
+\[
+  H =
+  \begin{cases}
+    K_1, & S_T\le K_1,\\
+    S_T, & K_1<S_T<K_2,\\
+    K_2, & S_T\ge K_2.
+  \end{cases}
+\]
+
+\begin{center}
+\begin{tikzpicture}
+  \begin{axis}[
+    width=9cm,
+    height=5cm,
+    axis lines=left,
+    xmin=0,xmax=3,
+    ymin=0,ymax=2.4,
+    xtick={1,2},
+    xticklabels={\(K_1\),\(K_2\)},
+    ytick={1,2},
+    yticklabels={\(K_1\),\(K_2\)},
+    xlabel={\(S_T\)},
+    ylabel={payoff},
+    clip=false
+  ]
+    \addplot[blue!60!black,very thick,domain=0:3,samples=150]
+      {min(max(x,1),2)};
+    \addplot[gray,densely dashed] coordinates {(1,0) (1,1)};
+    \addplot[gray,densely dashed] coordinates {(2,0) (2,2)};
+  \end{axis}
+\end{tikzpicture}
+\end{center}
+
+Algebraically, for every \(x\ge0\),
+\[
+  \min(\max(x,K_1),K_2)
+  =
+  K_1+\pos{x-K_1}-\pos{x-K_2}.
+\]
+Taking \(x=S_T\), the derivative is therefore replicated by:
+holding a zero-coupon bond paying \(K_1\) at \(T\), buying one call with
+strike \(K_1\), and selling one call with strike \(K_2\).  By the replication
+pricing principle \(\polyref{Def.~1.9 and Prop.~1.7}\),
+\[
+  \boxed{\ 
+  H_0=K_1e^{-rT}+C_0(S,T,K_1)-C_0(S,T,K_2)
+  \ }.
+\]
+\end{solution}

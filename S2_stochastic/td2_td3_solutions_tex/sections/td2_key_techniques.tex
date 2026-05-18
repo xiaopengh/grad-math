@@ -1,0 +1,111 @@
+\section{TD2 Key Techniques}
+
+This TD is about the bridge between elementary discrete-time martingale
+calculus and no-arbitrage pricing in a finite trading grid.  The notation is
+the one of Chapter 1 and Appendix A of the course poly, especially
+\polyref{Def.~1.1--1.4}, \polyref{Thm.~1.1}, \polyref{Prop.~1.7}, and
+\polyref{Def.~A.6}.
+
+\begin{techniques}
+  \item \textbf{Conditional expectation.}  If \(X\) is integrable and
+  \(Y\) is \(\F_n\)-measurable, then
+  \[
+    \E[YX\mid \F_n]=Y\E[X\mid \F_n]
+  \]
+  whenever the products are integrable.  If \(X\) is independent of
+  \(\F_n\), then \(\E[X\mid \F_n]=\E[X]\).  These two rules are the main
+  tools for random walks, because the new increment is independent of the
+  past while the current value is measurable with respect to the past.
+
+  \item \textbf{Martingales.}  A process \(M\) is an \(\F\)-martingale when
+  it is adapted, integrable, and satisfies
+  \[
+    \E[M_{n+1}\mid \F_n]=M_n .
+  \]
+  For a centered random walk \(X_n=\sum_{k=1}^n \xi_k\), the martingale
+  property comes from
+  \(\E[\xi_{n+1}\mid \F_n]=0\).  Quadratic martingales are obtained by
+  compensating the predictable drift:
+  \[
+    X_n^2-\sum_{k=1}^n \E[\xi_k^2]
+  \]
+  is an \(\F\)-martingale.
+
+  \item \textbf{Martingale transforms.}  If \(M\) is a martingale and
+  \(\Delta_n\) is bounded and adapted, then
+  \[
+    X_n=\sum_{k=1}^n \Delta_{k-1}(M_k-M_{k-1})
+  \]
+  is again a martingale.  This is the discrete stochastic-integral rule:
+  \(\Delta_{k-1}\) is known before the increment \(M_k-M_{k-1}\), so the
+  conditional mean of each new gain is zero.
+
+  \item \textbf{AOA.}  In the course convention, an arbitrage opportunity is
+  a self-financing strategy with zero initial capital, nonnegative terminal
+  discounted wealth, and a positive probability of strict gain:
+  
+  \(V_0=0\) and \(\Vtilde_T\ge 0\) with \(\P(\Vtilde_T>0)>0\), where 
+  
+  see \polyref{Def.~1.3}.  Equivalent definitions allowing \(V_0\le 0\) are
+  reduced to this one by adding or subtracting a pure risk-free holding.
+
+  \item \textbf{Self-financing strategies.}  A strategy is self-financing
+  when changes in wealth come only from price moves:
+  \[
+    \Vtilde_{t_k}-\Vtilde_{t_{k-1}}
+      =\inner{\theta_{t_k}}{\Stilde_{t_k}-\Stilde_{t_{k-1}}}.
+  \]
+  Equivalently, rebalancing at \(t_{k-1}\) costs no money in discounted
+  units:
+  \[
+    \inner{\theta_{t_{k-1}}}{\Stilde_{t_{k-1}}}
+      =\inner{\theta_{t_k}}{\Stilde_{t_{k-1}}}.
+  \]
+  This is \polyref{Rem.~1.1}.
+
+  \item \textbf{Forwards with deterministic dividends.}  A deterministic
+  dividend is removed from the spot price by subtracting its present value.
+  Thus the time-0 forward delivery price for maturity \(T\) is
+  \[
+    F_0=\left(S_0-\sum_j D_j e^{-r\bar t_j}\right)e^{rT}
+  \]
+  when the dividend dates \(\bar t_j\) are before \(T\).
+
+  \item \textbf{Discrete pricing by backward induction.}  If an equivalent
+  probability \(\Q\) makes \(\Stilde\) a martingale, then AOA holds by
+  \polyref{Thm.~1.1}.  If a payoff \(G\) is replicable, its price is
+  \[
+    p^G_{t_k}
+      =S^0_{t_k}\E_\Q\left[\frac{G}{S^0_T}\,\middle|\,\F_{t_k}\right],
+  \]
+  as in \polyref{Prop.~1.7}.  In exercises, it is usually more practical to
+  start from the terminal value
+  \[
+    p^G_T=G
+  \]
+  and move one step backward.  At a node
+  \((t_{k-1},S^1_{t_{k-1}}=s)\) of a binomial tree, the two next stock values
+  at \(t_k\) are \(su\) and \(sd\).  With
+  \[
+    q=\frac{e^{r\Delta t}-d}{u-d},
+  \]
+  \polyref{Thm.~1.2--1.3} gives the one-step recursion
+  \[
+    p^G_{t_{k-1}}(s)
+      =e^{-r\Delta t}\left(
+        q\,p^G_{t_k}(su)
+        +(1-q)\,p^G_{t_k}(sd)
+      \right).
+  \]
+  The risky-asset holding \(\theta^1_{t_k}\), held over
+  \((t_{k-1},t_k]\), is the slope between the two successor values:
+  \[
+    \theta^1_{t_k}(s)
+      =
+      \frac{p^G_{t_k}(su)-p^G_{t_k}(sd)}
+           {su-sd}.
+  \]
+  In words: first fill the terminal payoffs, then compute prices one column
+  backward, and at each node compute \(\theta^1\) from the two successor
+  prices and stock values.
+\end{techniques}

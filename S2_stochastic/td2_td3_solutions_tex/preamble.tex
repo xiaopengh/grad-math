@@ -1,0 +1,43 @@
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{hyperref}
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,calc,positioning}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!45!black,
+  citecolor=blue!45!black,
+  urlcolor=blue!45!black,
+  pdftitle={Detailed Solutions for TD2 and TD3}
+}
+
+\setlist[enumerate]{label=(\arabic*), leftmargin=2.2em}
+\setlist[itemize]{leftmargin=1.7em}
+\allowdisplaybreaks
+
+\newtheoremstyle{solutionstyle}
+  {0.8em}
+  {0.8em}
+  {}
+  {}
+  {\bfseries}
+  {.}
+  {0.5em}
+  {}
+\theoremstyle{solutionstyle}
+\newtheorem{exercise}{Exercise}[part]
+
+\newenvironment{solution}{\par\noindent\textbf{Solution.}\ }{\hfill\(\square\)\par}
+\newenvironment{techniques}{\par\noindent\textbf{Key techniques.}\begin{itemize}}{\end{itemize}}

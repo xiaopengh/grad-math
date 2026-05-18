@@ -1,0 +1,125 @@
+\begin{exercise}[Three-step binomial tree]
+The statement calls the model trinomial, but the displayed data form a
+recombining binomial tree with \(u=1.5\) and \(d=0.5\).  For
+\(S^1_0=80\), \(N=T=3\), \(r=\ln(1.1)\), and \(K=80\), price the European
+call and describe the hedge along the scenarios
+\[
+  80\to120\to60\to90,
+  \qquad
+  80\to120\to60\to30.
+\]
+\end{exercise}
+
+\begin{solution}
+Here \(\Delta t=1\) and \(e^{r\Delta t}=1.1\).  The risk-neutral probability
+is
+\[
+  q=\frac{e^{r\Delta t}-d}{u-d}
+   =\frac{1.1-0.5}{1.5-0.5}
+   =0.6,
+\]
+as in \(\polyref{Thm.~1.2, Eq.~(1.8)}\).  The one-step discount factor is
+\(1/1.1\).  Terminal payoffs are
+\[
+  (270-80)^+=190,\qquad
+  (90-80)^+=10,\qquad
+  (30-80)^+=0,\qquad
+  (10-80)^+=0.
+\]
+Backward induction gives
+\[
+\begin{array}{c|c|c}
+\text{date and node} & p^G & \theta^1\text{ for the next step}\\
+\midrule
+t_2,\ S=180 & 107.273 & 1\\
+t_2,\ S=60  & 5.455   & 1/6\\
+t_2,\ S=20  & 0       & 0\\
+t_1,\ S=120 & 60.496  & 0.848\\
+t_1,\ S=40  & 2.975   & 0.136\\
+t_0,\ S=80  & 34.080  & 0.719
+\end{array}
+\]
+where each \(\theta^1\) is computed as the slope of the option value over the
+two successor stock values, as in \(\polyref{Thm.~1.3, Eq.~(1.13)}\).
+The numbers are rounded only after exact arithmetic with \(r=\ln(1.1)\) and
+the verified value \(q=0.6\).
+
+\begin{center}
+\begin{tikzpicture}[
+  x=2.65cm,y=0.72cm,
+  >=Latex,
+  node/.style={draw,rounded corners=2pt,align=center,inner sep=2pt,font=\scriptsize},
+  edge/.style={->,thin}
+]
+  \node[node] (n00) at (0,0)
+    {\(\begin{array}{c}S=80\\ p=34.080\\ \theta=0.719\end{array}\)};
+  \node[node] (n10) at (1,2)
+    {\(\begin{array}{c}S=120\\ p=60.496\\ \theta=0.848\end{array}\)};
+  \node[node] (n11) at (1,-2)
+    {\(\begin{array}{c}S=40\\ p=2.975\\ \theta=0.136\end{array}\)};
+  \node[node] (n20) at (2,4)
+    {\(\begin{array}{c}S=180\\ p=107.273\\ \theta=1\end{array}\)};
+  \node[node] (n21) at (2,0)
+    {\(\begin{array}{c}S=60\\ p=5.455\\ \theta=1/6\end{array}\)};
+  \node[node] (n22) at (2,-4)
+    {\(\begin{array}{c}S=20\\ p=0\\ \theta=0\end{array}\)};
+  \node[node] (n30) at (3,6)
+    {\(\begin{array}{c}S=270\\ p=190\\ \theta=\mathrm{NA}\end{array}\)};
+  \node[node] (n31) at (3,2)
+    {\(\begin{array}{c}S=90\\ p=10\\ \theta=\mathrm{NA}\end{array}\)};
+  \node[node] (n32) at (3,-2)
+    {\(\begin{array}{c}S=30\\ p=0\\ \theta=\mathrm{NA}\end{array}\)};
+  \node[node] (n33) at (3,-6)
+    {\(\begin{array}{c}S=10\\ p=0\\ \theta=\mathrm{NA}\end{array}\)};
+
+  \draw[edge] (n00) -- (n10);
+  \draw[edge] (n00) -- (n11);
+  \draw[edge] (n10) -- (n20);
+  \draw[edge] (n10) -- (n21);
+  \draw[edge] (n11) -- (n21);
+  \draw[edge] (n11) -- (n22);
+  \draw[edge] (n20) -- (n30);
+  \draw[edge] (n20) -- (n31);
+  \draw[edge] (n21) -- (n31);
+  \draw[edge] (n21) -- (n32);
+  \draw[edge] (n22) -- (n32);
+  \draw[edge] (n22) -- (n33);
+
+  \node[font=\scriptsize] at (0,-7.1) {\(t_0\)};
+  \node[font=\scriptsize] at (1,-7.1) {\(t_1\)};
+  \node[font=\scriptsize] at (2,-7.1) {\(t_2\)};
+  \node[font=\scriptsize] at (3,-7.1) {\(t_3=T\)};
+\end{tikzpicture}
+\end{center}
+
+We now follow the hedge along the scenario \(80\to120\to60\).  At \(t_0\),
+the writer receives \(34.080\), buys
+\[
+  \theta^1_{t_1}=0.719
+\]
+shares, at cost \(0.719\cdot80=57.521\), and borrows
+\[
+  57.521-34.080=23.441.
+\]
+At \(t_1\), after the up move to \(S=120\), the debt has grown to
+\(23.441\cdot1.1=25.785\), while the shares are worth \(86.281\).  The net
+portfolio value is \(60.496=p^G_{t_1}(120)\).  The new hedge ratio is
+\(0.848\), so the writer buys \(0.848-0.719=0.129\) additional shares.  The
+new debt is
+\[
+  0.848\cdot120-60.496=41.322.
+\]
+At \(t_2\), after the down move to \(S=60\), this debt has grown to
+\(41.322\cdot1.1=45.455\), while the \(0.848\) shares are worth \(50.909\).
+The net value is \(5.455=p^G_{t_2}(60)\).  The new hedge ratio is \(1/6\), so
+the writer sells \(0.848-1/6=0.682\) shares and reduces the debt to
+\[
+  \frac16\cdot60-5.455=4.545.
+\]
+
+If the last move is up to \(90\), the remaining shares are worth \(15\) and
+the debt has grown to \(5\), so the portfolio value is \(10=(90-80)^+\).  If
+the last move is down to \(30\), the shares are worth \(5\) and the debt is
+\(5\), so the portfolio value is \(0=(30-80)^+\).  The same hedge at \(t_2\)
+therefore replicates the call in both requested continuations.
+\end{solution}

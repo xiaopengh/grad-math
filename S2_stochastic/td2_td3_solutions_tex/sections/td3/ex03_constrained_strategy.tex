@@ -1,0 +1,35 @@
+\begin{exercise}[A constrained strategy cannot replicate nonnegative claims]
+\textbf{Restatement.}
+Let \(G\ge0\) with \(\EQ[G^2]<\infty\).  Show that \(G\) cannot be replicated by
+a strategy constrained to hold \(\theta_t=c/S_t\) units of the risky
+asset, with \(c\in\R^*\).
+
+\begin{solution}
+Assume, toward a contradiction, that a self-financing strategy
+\((x,\theta)\) with \(\theta_t=c/S_t\) replicates \(G\).  In discounted
+form, under the risk-neutral measure,
+\[
+  \Vtilde_T^{x,\theta}
+    =x+\int_0^T\theta_t\,\dd\Stilde_t
+    =x+\int_0^T\frac{c}{S_t}\sigma\Stilde_t\,\dd B_t^\Q
+    =x+c\sigma\int_0^T e^{-rt}\,\dd B_t^\Q.
+\]
+Since \(c\ne0\), the last random variable is Gaussian with mean \(x\) and
+strictly positive variance
+\[
+  c^2\sigma^2\int_0^T e^{-2rt}\,\dd t>0.
+\]
+Hence
+\[
+  \Q\left(x+c\sigma\int_0^T e^{-rt}\,\dd B_t^\Q<0\right)>0.
+\]
+Equivalence of \(\P\) and \(\Q\) gives the same positivity under \(\P\).
+But a replicating portfolio would satisfy
+\[
+  \Vtilde_T^{x,\theta}=\e^{-rT}G\ge0
+  \qquad\text{almost surely},
+\]
+which is impossible.  Therefore no such constrained strategy can replicate
+the nonnegative claim.
+\end{solution}
+\end{exercise}

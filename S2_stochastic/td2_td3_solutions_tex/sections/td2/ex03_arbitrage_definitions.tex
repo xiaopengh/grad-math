@@ -1,0 +1,65 @@
+\begin{exercise}[Equivalent definitions of arbitrage]
+\emph{Restatement.}  Three definitions of arbitrage are proposed.  The
+course definition has \(V_0=0\), terminal wealth \(V_T\ge 0\) a.s., and
+\(\P(V_T>0)>0\).  The other two allow \(V_0\le 0\), with either
+\(\P(V_T>0)>0\) or the weaker nontriviality condition
+\[
+  V_0\ne 0
+  \quad\hbox{or}\quad
+  \P(V_T\ne 0)>0.
+\]
+Show that the three definitions are equivalent.
+\end{exercise}
+
+\begin{solution}
+Let the three statements be denoted by (i), (ii), and (iii), in the order
+given in the exercise.  The implications
+\[
+  \text{(i)}\Rightarrow \text{(ii)}\Rightarrow \text{(iii)}
+\]
+are immediate.  Indeed, \(V_0=0\) implies \(V_0\le 0\), and if
+\(\P(V_T>0)>0\), then also \(\P(V_T\ne 0)>0\).
+
+It remains to prove that (iii) implies the course definition (i), which is the
+definition used in \polyref{Def.~1.3}.  Assume that a self-financing value
+process \(V\) satisfies
+\[
+  V_0\le 0,\qquad \P(V_T\ge 0)=1,
+  \qquad
+  \bigl(V_0\ne 0\ \hbox{or}\ \P(V_T\ne 0)>0\bigr).
+\]
+There are two cases.
+
+If \(V_0=0\), then the nontriviality condition gives
+\(\P(V_T\ne 0)>0\).  Since \(V_T\ge 0\) a.s., this is the same as
+\(\P(V_T>0)>0\).  Hence \(V\) is already an arbitrage in the sense of (i).
+
+If \(V_0<0\), add to \(V\) a pure risk-free holding with initial value
+\(-V_0>0\).  More explicitly, if \(S^0\) is the risk-free asset, define
+\[
+  W_t=-V_0\,\frac{S^0_t}{S^0_0}.
+\]
+The process \(W\) is self-financing and starts from \(W_0=-V_0\).  The
+combined value process
+\[
+  \widehat V_t=V_t+W_t
+\]
+is self-financing by linearity of self-financing strategies
+(\polyref{Prop.~1.1}), and it satisfies
+\[
+  \widehat V_0=V_0-V_0=0.
+\]
+At maturity,
+\[
+  \widehat V_T=V_T-V_0\frac{S^0_T}{S^0_0}.
+\]
+Because \(V_T\ge 0\) a.s., \(V_0<0\), and \(S^0_T/S^0_0>0\), we have
+\(\widehat V_T>0\) a.s.  Thus
+\[
+  \P(\widehat V_T\ge 0)=1,
+  \qquad
+  \P(\widehat V_T>0)=1,
+\]
+and \(\widehat V\) is an arbitrage with zero initial capital.  Therefore
+(iii) implies (i), and all three definitions are equivalent.
+\end{solution}

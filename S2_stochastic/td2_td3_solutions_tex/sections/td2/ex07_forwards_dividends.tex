@@ -1,0 +1,62 @@
+\begin{exercise}[Forward price with deterministic dividends]
+\emph{Restatement.}  Find the no-arbitrage forward delivery price for an
+asset \(S\) maturing at \(T\) when the asset pays deterministic cash dividends
+before maturity.
+\end{exercise}
+
+\begin{solution}
+Assume first that there is one deterministic dividend \(D>0\) paid at
+\(\bar t\in(0,T)\).  A long forward entered at time \(0\) receives the asset at
+time \(T\), but does not receive the dividend paid before \(T\).  Therefore the
+correct comparison is the \emph{prepaid forward}: buy the asset today and
+finance the dividend by borrowing its present value \(De^{-r\bar t}\).  When
+the dividend is paid at \(\bar t\), it repays exactly that loan.
+
+Thus the time-0 prepaid forward value is
+\[
+  S_0-De^{-r\bar t}.
+\]
+If the ordinary forward delivery price is \(F_0\), its time-0 value is zero
+when the present value of paying \(F_0\) at \(T\) equals the prepaid forward
+value:
+\[
+  F_0e^{-rT}=S_0-De^{-r\bar t}.
+\]
+Hence
+\[
+  \boxed{
+  F_0=(S_0-De^{-r\bar t})e^{rT}
+      =S_0e^{rT}-De^{r(T-\bar t)}.
+  }
+\]
+If the delivery price were larger, one could sell the forward and buy the
+prepaid forward replication; if it were smaller, one could buy the forward
+and short the replication.  This is the standard AOA comparison principle of
+\polyref{Cor.~1.1}.
+
+For deterministic dividends \(D_1,\ldots,D_m\) paid at
+\[
+  0<\bar t_1<\cdots<\bar t_m<T,
+\]
+the present value of the dividends is additive.  The time-0 forward delivery
+price is therefore
+\[
+  \boxed{
+  F_0
+  =
+  \left(S_0-\sum_{j=1}^m D_j e^{-r\bar t_j}\right)e^{rT}
+  =
+  S_0e^{rT}
+  -
+  \sum_{j=1}^m D_j e^{r(T-\bar t_j)}.
+  }
+\]
+More generally, at an intermediate date \(t<T\), only future dividends matter:
+\[
+  F_t
+  =
+  \left(
+    S_t-\sum_{\bar t_j>t}D_j e^{-r(\bar t_j-t)}
+  \right)e^{r(T-t)}.
+\]
+\end{solution}

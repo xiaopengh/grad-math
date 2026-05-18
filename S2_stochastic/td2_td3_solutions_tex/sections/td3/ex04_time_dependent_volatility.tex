@@ -1,0 +1,80 @@
+\begin{exercise}[Deterministic time-dependent volatility]
+\textbf{Restatement.}
+Price a European call when
+\(\dd S_t/S_t=\mu\dd t+\sigma_t\dd B_t\), where \(\sigma_t\) is deterministic,
+positive, and square-integrable.  Compute \(\Delta\) and \(\Theta\), and compare
+with the constant-volatility BMS surface.
+
+\begin{solution}
+Set
+\[
+  I_t=\int_t^T\sigma_s^2\,\dd s,\qquad \Sigma_t=\sqrt{I_t},
+  \qquad \tau=T-t.
+\]
+Since \(\sigma_t>0\), the market price of risk is the deterministic function
+\(\lambda_t=(\mu-r)/\sigma_t\).  The Girsanov density is
+\[
+  \frac{\dd\Q}{\dd\P}\bigg|_{\F_T}
+    =\exp\left(
+       -\int_0^T\lambda_s\,\dd B_s
+       -\frac12\int_0^T\lambda_s^2\,\dd s
+     \right),
+\]
+and \(B_t^\Q=B_t+\int_0^t\lambda_s\,\dd s\) is Brownian under \(\Q\).  Thus
+\[
+  \frac{\dd S_t}{S_t}=r\,\dd t+\sigma_t\,\dd B_t^\Q.
+\]
+Conditionally on \(S_t=x\),
+\[
+  S_T=x\exp\left(r\tau-\frac12I_t+\int_t^T\sigma_s\,\dd B_s^\Q\right),
+\]
+and the stochastic integral is Gaussian with mean \(0\) and variance \(I_t\).
+Consequently
+\[
+  u(t,x)=x\normalcdf(d_1(t,x))-K\e^{-r\tau}\normalcdf(d_2(t,x)),
+\]
+where
+\[
+  d_1(t,x)=\frac{\log(x/K)+r\tau+\frac12 I_t}{\Sigma_t},
+  \qquad
+  d_2(t,x)=d_1(t,x)-\Sigma_t.
+\]
+
+At \(t=0\), this is exactly the ordinary BMS price with constant volatility
+\[
+  \bar\sigma=\sqrt{\frac1T\int_0^T\sigma_s^2\,\dd s},
+\]
+because the total variance to maturity is
+\(\bar\sigma^2T=I_0\).
+
+As in the constant-volatility case,
+\[
+  \Delta(t,x)=\partial_xu(t,x)=\normalcdf(d_1(t,x)),
+\]
+and
+\[
+  \Gamma(t,x)=\frac{\normalpdf(d_1(t,x))}{x\Sigma_t}.
+\]
+The time-dependent BMS PDE is
+\[
+  \partial_tu+rx\partial_xu+\frac12\sigma_t^2x^2\partial_{xx}u=ru.
+\]
+Therefore
+\[
+  \Theta(t,x)=\partial_tu(t,x)
+    =-rK\e^{-r\tau}\normalcdf(d_2(t,x))
+     -\frac{\sigma_t^2x\normalpdf(d_1(t,x))}{2\Sigma_t}.
+\]
+
+Suppose that the whole price surface on \([0,T]\) were the price surface of a
+constant-volatility model with some volatility \(\widehat\sigma\).  Then the
+total remaining variance would have to agree for every \(t\):
+\[
+  \widehat\sigma^2(T-t)=\int_t^T\sigma_s^2\,\dd s.
+\]
+Differentiating in \(t\) gives \(\widehat\sigma^2=\sigma_t^2\) for almost every
+\(t\).  Hence the only way a constant-volatility surface can match for all
+dates is that \(\sigma_t\) is constant almost everywhere.  If \(\sigma_t\) is not
+constant, the match at \(t=0\) does not extend to the whole interval.
+\end{solution}
+\end{exercise}

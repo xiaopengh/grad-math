@@ -1,0 +1,57 @@
+\begin{exercise}[No-arbitrage bounds for European calls and puts]
+For \(S,K>0\) and \(t\in[0,T]\), prove the standard lower and upper bounds
+for a European call \(C_t(S,T,K)\) and a European put \(P_t(S,T,K)\).
+\end{exercise}
+
+\begin{solution}
+Let \(\tau=T-t\).  We use the comparison principle in absence of arbitrage:
+if one terminal payoff is always dominated by another, then its time \(t\)
+price is dominated as well; see \polyref{Prop.~1.2 and Cor.~1.1}.  The
+terminal payoff of the call is
+\[
+  C_T=\pos{S_T-K}.
+\]
+First,
+\[
+  0\le \pos{S_T-K}\le S_T.
+\]
+The payoff \(S_T\) is obtained by holding one unit of the underlying from
+\(t\) to \(T\), whose price is \(S\) at time \(t\).  Hence
+\[
+  0\le C_t(S,T,K)\le S.
+\]
+Moreover \(\pos{x}\ge x\) for every real number \(x\), so
+\[
+  \pos{S_T-K}\ge S_T-K.
+\]
+The payoff \(S_T-K\) is replicated at time \(t\) by buying one unit of the
+underlying and borrowing \(Ke^{-r\tau}\) in the bank account.  Its time \(t\)
+value is \(S-Ke^{-r\tau}\).  Therefore
+\[
+  C_t(S,T,K)\ge S-Ke^{-r\tau}.
+\]
+Combining this with \(C_t(S,T,K)\ge0\) gives
+\[
+  \boxed{\ \pos{S-Ke^{-r(T-t)}}\le C_t(S,T,K)\le S\ }.
+\]
+
+For the put, the terminal payoff is
+\[
+  P_T=\pos{K-S_T}.
+\]
+Since \(0\le \pos{K-S_T}\le K\), the comparison principle gives
+\[
+  0\le P_t(S,T,K)\le Ke^{-r\tau}.
+\]
+Also \(\pos{K-S_T}\ge K-S_T\).  The payoff \(K-S_T\) is replicated by
+lending \(Ke^{-r\tau}\) at time \(t\) and short-selling one unit of the
+underlying, so its time \(t\) value is \(Ke^{-r\tau}-S\).  Hence
+\[
+  P_t(S,T,K)\ge Ke^{-r\tau}-S.
+\]
+Together with non-negativity this yields
+\[
+  \boxed{\ \negpart{S-Ke^{-r(T-t)}}\le P_t(S,T,K)\le Ke^{-r(T-t)}\ }.
+\]
+These are exactly the bounds stated in \polyref{Prop.~1.4}.
+\end{solution}

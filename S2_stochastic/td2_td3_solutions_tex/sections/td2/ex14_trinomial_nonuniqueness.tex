@@ -1,0 +1,53 @@
+\begin{exercise}[Non-uniqueness of risk-neutral probabilities in a trinomial tree]
+Show that in a trinomial one-period model the risk-neutral probability need
+not be unique.
+\end{exercise}
+
+\begin{solution}
+In the binomial model, the two unknown probabilities are pinned down by two
+linear equations, which is why \(\polyref{Thm.~1.2}\) gives a unique
+risk-neutral probability.  In a trinomial one-step model, suppose the risky
+return is one of
+\[
+  d<m<u
+\]
+and write
+\[
+  p_d=\Q(Y=d),\qquad p_m=\Q(Y=m),\qquad p_u=\Q(Y=u).
+\]
+The risk-neutral martingale condition for the discounted stock is
+\[
+  \EQ[Y]=e^{r\Delta t}.
+\]
+Thus the probabilities must solve
+\[
+  p_d+p_m+p_u=1,\qquad
+  dp_d+mp_m+up_u=e^{r\Delta t}.
+\]
+This is a system of two equations in three unknowns.  If
+\(a=e^{r\Delta t}\), then for any chosen value \(\lambda=p_m\),
+\[
+  p_u=\frac{a-d-\lambda(m-d)}{u-d},
+  \qquad
+  p_d=\frac{u-a-\lambda(u-m)}{u-d}.
+\]
+For an interval of values of \(\lambda\), these three numbers are non-negative
+and sum to \(1\).  Hence there is generally a whole family of risk-neutral
+probabilities.
+
+For example, take
+\[
+  d=0.8,\qquad m=1,\qquad u=1.2,\qquad e^{r\Delta t}=1.05.
+\]
+Then
+\[
+  p_u=0.625-0.5\lambda,\qquad
+  p_d=0.375-0.5\lambda,\qquad
+  p_m=\lambda.
+\]
+Every \(\lambda\in[0,0.75]\) gives a valid risk-neutral probability.  The
+risk-neutral probability is therefore not unique.  In financial terms, the
+single risky asset and the money-market account do not span all three states
+of the world in one step, so the one-step trinomial market is typically
+incomplete; compare with \(\polyref{Def.~1.7}\).
+\end{solution}

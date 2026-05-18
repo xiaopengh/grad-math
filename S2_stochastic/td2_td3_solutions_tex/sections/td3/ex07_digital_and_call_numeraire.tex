@@ -1,0 +1,64 @@
+\begin{exercise}[Digital call, asset-or-nothing call, and replication by calls]
+\textbf{Restatement.}
+Compute the BMS digital call price and its delta, price the payoff
+\(S_T\1_{\{S_T\ge K\}}\), and decide whether the digital can be replicated using
+only the money-market account and the European call as risky traded asset.
+
+\begin{solution}
+Let \(\tau=T-t\).  The digital call price is
+\[
+  C^D(t,x,K)
+    =\EQ\left[\e^{-r\tau}\1_{\{S_T\ge K\}}\,\mid\, S_t=x\right]
+    =\e^{-r\tau}\normalcdf(d_2),
+\]
+where
+\[
+  d_2=\frac{\log(x/K)+(r-\frac12\sigma^2)\tau}{\sigma\sqrt{\tau}}.
+\]
+Its sensitivity with respect to the underlying price is
+\[
+  \partial_x C^D(t,x,K)
+    =\frac{\e^{-r\tau}\normalpdf(d_2)}{x\sigma\sqrt{\tau}}.
+\]
+
+For the asset-or-nothing payoff \(S_T\1_{\{S_T\ge K\}}\),
+\[
+  \EQ\left[\e^{-r\tau}S_T\1_{\{S_T\ge K\}}\,\mid\, S_t=x\right]
+    =x\normalcdf(d_1),
+\]
+with
+\[
+  d_1=d_2+\sigma\sqrt{\tau}
+    =\frac{\log(x/K)+(r+\frac12\sigma^2)\tau}{\sigma\sqrt{\tau}}.
+\]
+
+Now suppose the traded risky asset is the European call itself,
+\[
+  C^E(t,x,K)=x\normalcdf(d_1)-K\e^{-r\tau}\normalcdf(d_2),
+\]
+together with the money-market account.  Its delta is
+\[
+  \partial_x C^E(t,x,K)=\normalcdf(d_1)>0
+  \qquad (t<T,\ x>0).
+\]
+The discounted digital and discounted call price processes have Brownian
+coefficients proportional to their deltas.  Therefore choosing
+\[
+  \eta_t
+    =\frac{\partial_xC^D(t,S_t,K)}{\partial_xC^E(t,S_t,K)}
+    =
+    \frac{\e^{-r(T-t)}\normalpdf(d_2(t,S_t,K))}
+    {S_t\sigma\sqrt{T-t}\,\normalcdf(d_1(t,S_t,K))}
+\]
+units of the European call matches the risky exposure of the digital.  The
+remaining value is invested in the money-market account:
+\[
+  \alpha_t
+    =\frac{C^D(t,S_t,K)-\eta_tC^E(t,S_t,K)}{S_t^0}.
+\]
+Thus, for every \(t<T\), the digital can be dynamically replicated using only
+the risk-free asset and the European call as the risky traded asset.  The
+position becomes singular near maturity, as expected for a discontinuous
+payoff.
+\end{solution}
+\end{exercise}

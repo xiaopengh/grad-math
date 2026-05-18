@@ -1,0 +1,152 @@
+\begin{exercise}[Compound call]
+\textbf{Restatement.}
+Let \(0<T_1<T\).  The payoff at \(T_1\) is a call on the time-\(T_1\) price of a
+European call maturing at \(T\):
+\[
+  G=\pos{C_{T_1}(S,T,K)-K_1}.
+\]
+Derive the price, express it with a bivariate normal probability, and explain
+why it is replicable using only \(S\) and the risk-free asset.
+
+\begin{solution}
+Let \(u(t,x)=C^E(t,x,T,K)\) be the usual BMS call price on \(S\) with maturity
+\(T\) and strike \(K\).  For \(t\le T_1\), put
+\[
+  \tau=T_1-t,\qquad \tau_1=T-T_1.
+\]
+By risk-neutral pricing,
+\[
+  p_t
+    =\EQ\left[\e^{-r(T_1-t)}\pos{u(T_1,S_{T_1})-K_1}\,\mid\,\F_t\right].
+\]
+Conditionally on \(S_t=x\),
+\[
+  S_{T_1}
+    =x\exp\left(\left(r-\frac12\sigma^2\right)\tau
+       +\sigma\sqrt{\tau}\,Z\right),
+  \qquad Z\sim\mathcal N(0,1).
+\]
+Hence \(p_t=v(T_1-t,S_t)\), where
+\[
+  v(\tau,x)
+    =\e^{-r\tau}\E\left[
+       \pos{
+         u\left(T_1,
+           x\e^{(r-\frac12\sigma^2)\tau+\sigma\sqrt{\tau}Z}
+         \right)-K_1
+       }
+     \right].
+\]
+
+The function \(x\mapsto u(T_1,x)\) is continuous, strictly increasing, tends to
+\(0\) as \(x\downarrow0\), and tends to \(+\infty\) as \(x\to\infty\).  Therefore
+there is a unique \(x_1>0\) such that
+\[
+  u(T_1,x_1)=K_1.
+\]
+We use the sign convention
+\[
+  d=\frac{\log(x/x_1)+(r-\frac12\sigma^2)\tau}{\sigma\sqrt{\tau}},
+\]
+so that
+\[
+  x\e^{(r-\frac12\sigma^2)\tau+\sigma\sqrt{\tau}Z}>x_1
+  \quad\Longleftrightarrow\quad Z>-d.
+\]
+Thus
+\[
+  v(\tau,x)
+  =
+  \e^{-r\tau}
+  \E\left[
+    u\left(T_1,x\e^{(r-\frac12\sigma^2)\tau+\sigma\sqrt{\tau}Z}\right)
+    \1_{\{Z>-d\}}
+  \right]
+  -\e^{-r\tau}K_1\normalcdf(d).
+\]
+
+To expand the remaining expectation, introduce an independent
+\(Z_1\sim\mathcal N(0,1)\).  Conditional on \(S_{T_1}\), the time-\(T\) stock is
+\[
+  S_T
+  =
+  x\exp\left(
+    \left(r-\frac12\sigma^2\right)(\tau+\tau_1)
+    +\sigma(\sqrt{\tau}Z+\sqrt{\tau_1}Z_1)
+  \right).
+\]
+Using the call pricing formula inside \(u(T_1,\cdot)\) gives
+\[
+  v(\tau,x)+\e^{-r\tau}K_1\normalcdf(d)
+  =
+  \E\left[
+    \left(
+      x\e^{\sigma(\sqrt{\tau}Z+\sqrt{\tau_1}Z_1)
+        -\frac12\sigma^2(\tau+\tau_1)}
+      -K\e^{-r(\tau+\tau_1)}
+    \right)\1_A
+  \right],
+\]
+where
+\[
+  A=
+  \left\{
+    \sigma(\sqrt{\tau}Z+\sqrt{\tau_1}Z_1)
+    >
+    -\left(\log(x/K)+\left(r-\frac12\sigma^2\right)(\tau+\tau_1)\right)
+  \right\}
+  \cap\{Z>-d\}.
+\]
+
+Now use the notation from the statement
+\[
+  N_2(y,y_1,\rho)=\P(Z<y,\ Z+\rho Z_1<y_1),
+  \qquad
+  \rho=\sqrt{\frac{\tau_1}{\tau}}.
+\]
+Define
+\[
+  a_1=\frac{\log(x/K)+(r+\frac12\sigma^2)(\tau+\tau_1)}
+            {\sigma\sqrt{\tau}},
+  \qquad
+  a_2=\frac{\log(x/K)+(r-\frac12\sigma^2)(\tau+\tau_1)}
+            {\sigma\sqrt{\tau}}.
+\]
+By symmetry of \((Z,Z_1)\),
+\[
+  \P(A)=N_2(d,a_2,\rho).
+\]
+Completing the square in the exponential term shifts
+\((Z,Z_1)\) by \((\sigma\sqrt{\tau},\sigma\sqrt{\tau_1})\), which gives
+\[
+  \E\left[
+    \e^{\sigma(\sqrt{\tau}Z+\sqrt{\tau_1}Z_1)}
+    \1_A
+  \right]
+  =
+  \e^{\frac12\sigma^2(\tau+\tau_1)}
+  N_2(d+\sigma\sqrt{\tau},a_1,\rho).
+\]
+Therefore
+\[
+  \boxed{
+  v(\tau,x)
+    =
+    x\,N_2(d+\sigma\sqrt{\tau},a_1,\rho)
+    -K\e^{-r(\tau+\tau_1)}N_2(d,a_2,\rho)
+    -K_1\e^{-r\tau}\normalcdf(d)
+  }.
+\]
+Taking \(\tau=T_1-t\) gives the time-\(t\) price \(p_t=v(T_1-t,S_t)\).
+
+Finally, the payoff is a measurable function of \(S_{T_1}\):
+\[
+  G=\pos{u(T_1,S_{T_1})-K_1}.
+\]
+It is square-integrable in the lognormal model.  By the completeness result
+behind \polyref{Prop.~3.3}, or equivalently by applying the BMS PDE to
+\((t,x)\mapsto v(T_1-t,x)\) on \(t<T_1\), it admits a self-financing
+replication with the money-market account and the stock \(S\) only.  The risky
+holding is the delta \(\partial_xv(T_1-t,S_t)\).
+\end{solution}
+\end{exercise}

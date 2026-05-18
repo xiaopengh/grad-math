@@ -1,0 +1,79 @@
+\begin{exercise}[Digital call as a strike derivative]
+\textbf{Restatement.}
+Compare a European call with portfolios made of digital calls and nearby
+European calls.  Deduce \(C^D=-\partial_KC^E\), and give the BMS replication of
+the digital payoff \(\1_{\{S_T\ge K\}}\).
+
+\begin{solution}
+Fix \(K>0\) and \(\Delta K>0\).  At maturity, define
+\[
+  \Pi_T^1=\Delta K\,\1_{\{S_T\ge K\}}+\pos{S_T-(K+\Delta K)}
+\]
+and
+\[
+  \Pi_T^2=\Delta K\,\1_{\{S_T\ge K+\Delta K\}}+\pos{S_T-(K+\Delta K)}.
+\]
+Compare these payoffs with \(\pos{S_T-K}\).  If \(S_T<K\), all three are zero.
+If \(K\le S_T<K+\Delta K\), then
+\[
+  \Pi_T^2=0\le S_T-K\le\Delta K=\Pi_T^1.
+\]
+If \(S_T\ge K+\Delta K\), all three equal \(S_T-K\).  Hence
+\[
+  \Pi_T^2\le\pos{S_T-K}\le\Pi_T^1.
+\]
+Absence of arbitrage preserves the order of prices, so for \(t<T\),
+\[
+  \Delta K\,C^D(t,S,K+\Delta K)+C^E(t,S,K+\Delta K)
+  \le C^E(t,S,K)
+\]
+and
+\[
+  C^E(t,S,K)
+  \le \Delta K\,C^D(t,S,K)+C^E(t,S,K+\Delta K).
+\]
+Equivalently,
+\[
+  C^D(t,S,K)
+  \ge
+  \frac{C^E(t,S,K)-C^E(t,S,K+\Delta K)}{\Delta K}
+  \ge
+  C^D(t,S,K+\Delta K).
+\]
+Letting \(\Delta K\downarrow0\), using the assumed continuity of \(C^D\) in
+\(K\) and differentiability of \(C^E\), gives
+\[
+  C^D(t,S,K)=-\partial_KC^E(t,S,K).
+\]
+
+In the BMS model,
+\[
+  C^E(t,x,K)=x\normalcdf(d_1)-K\e^{-r\tau}\normalcdf(d_2),
+  \qquad \tau=T-t.
+\]
+Differentiating with respect to \(K\), or pricing directly under \(\Q\), gives
+\[
+  C^D(t,x,K)=\e^{-r\tau}\normalcdf(d_2),
+  \qquad
+  d_2=\frac{\log(x/K)+(r-\frac12\sigma^2)\tau}{\sigma\sqrt{\tau}}.
+\]
+The replicating initial capital is therefore
+\[
+  x_G=C^D(0,S_0,K)=\e^{-rT}\normalcdf(d_2(0,S_0,K)).
+\]
+The risky holding is the delta of the digital price:
+\[
+  \theta_t^G
+    =\partial_xC^D(t,S_t,K)
+    =\frac{\e^{-r(T-t)}\normalpdf(d_2(t,S_t,K))}
+      {S_t\sigma\sqrt{T-t}},
+  \qquad 0\le t<T.
+\]
+Together with the cash account holding
+\[
+  \alpha_t^G
+    =\frac{C^D(t,S_t,K)-\theta_t^G S_t}{S_t^0},
+\]
+this self-financing strategy replicates \(\1_{\{S_T\ge K\}}\).
+\end{solution}
+\end{exercise}

@@ -1,0 +1,62 @@
+\begin{exercise}[Self-financing criterion]
+\emph{Restatement.}  Show that a strategy \(\theta\) is self-financing if
+and only if, for every \(k=2,\ldots,N\),
+\[
+  \inner{\theta_{t_{k-1}}}{\Stilde_{t_{k-1}}}
+  =
+  \inner{\theta_{t_k}}{\Stilde_{t_{k-1}}}.
+\]
+\end{exercise}
+
+\begin{solution}
+The statement is \polyref{Rem.~1.1}, with the proof given in
+\polyref{Chap.~4, Ex.~1.1}.  Recall first that
+\[
+  \Vtilde_{t_k}=\inner{\theta_{t_k}}{\Stilde_{t_k}}
+\]
+and that, by definition, a self-financing strategy satisfies
+\[
+  \Vtilde_{t_k}-\Vtilde_{t_{k-1}}
+    =\inner{\theta_{t_k}}{\Stilde_{t_k}-\Stilde_{t_{k-1}}}
+\]
+for each trading step.  If \(\theta\) is self-financing, then
+\[
+\begin{aligned}
+  \inner{\theta_{t_k}}{\Stilde_{t_k}}
+  -\inner{\theta_{t_{k-1}}}{\Stilde_{t_{k-1}}}
+    &=
+  \inner{\theta_{t_k}}{\Stilde_{t_k}-\Stilde_{t_{k-1}}}  \\
+    &=
+  \inner{\theta_{t_k}}{\Stilde_{t_k}}
+  -\inner{\theta_{t_k}}{\Stilde_{t_{k-1}}}.
+\end{aligned}
+\]
+Cancelling the common term
+\(\inner{\theta_{t_k}}{\Stilde_{t_k}}\) gives
+\[
+  \inner{\theta_{t_{k-1}}}{\Stilde_{t_{k-1}}}
+  =
+  \inner{\theta_{t_k}}{\Stilde_{t_{k-1}}}.
+\]
+This says that the rebalance from \(\theta_{t_{k-1}}\) to
+\(\theta_{t_k}\), when evaluated at the old prices \(\Stilde_{t_{k-1}}\),
+requires no external cash.
+
+Conversely, assume the displayed equality holds for all \(k=2,\ldots,N\).
+Then
+\[
+\begin{aligned}
+  \Vtilde_{t_k}-\Vtilde_{t_{k-1}}
+    &=
+  \inner{\theta_{t_k}}{\Stilde_{t_k}}
+  -\inner{\theta_{t_{k-1}}}{\Stilde_{t_{k-1}}} \\
+    &=
+  \inner{\theta_{t_k}}{\Stilde_{t_k}}
+  -\inner{\theta_{t_k}}{\Stilde_{t_{k-1}}} \\
+    &=
+  \inner{\theta_{t_k}}{\Stilde_{t_k}-\Stilde_{t_{k-1}}}.
+\end{aligned}
+\]
+This is precisely the self-financing identity.  Hence the criterion is
+equivalent to self-financing.
+\end{solution}

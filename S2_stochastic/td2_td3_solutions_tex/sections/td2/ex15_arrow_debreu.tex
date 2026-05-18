@@ -1,0 +1,64 @@
+\begin{exercise}[Arrow--Debreu prices and the risk-neutral probability]
+In a complete discrete-time market with one risky asset and a risk-neutral
+probability, assume \(S^1_{t_k}\) takes finitely many values.  Compare the
+prices of Arrow--Debreu claims with the risk-neutral probabilities, and
+generalize to \(d>1\).
+\end{exercise}
+
+\begin{solution}
+Let the possible terminal values of the risky asset be
+\[
+  s_1,\ldots,s_M.
+\]
+For each \(j\), define the Arrow--Debreu payoff
+\[
+  G^j=\1_{\{S^1_T=s_j\}}.
+\]
+Because the market is complete, \(G^j\) is replicable.  By the risk-neutral
+pricing formula for a replicable contingent claim \(\polyref{Prop.~1.7}\),
+\[
+  p^{G^j}_{t_k}
+  =
+  e^{-r(T-t_k)}
+  \EQ\!\left[\1_{\{S^1_T=s_j\}}\given\F_{t_k}\right]
+  =
+  e^{-r(T-t_k)}
+  \Q\!\left(S^1_T=s_j\given\F_{t_k}\right).
+\]
+Equivalently, the \(T\)-capitalized price is the conditional risk-neutral
+probability:
+\[
+  e^{r(T-t_k)}p^{G^j}_{t_k}
+  =
+  \Q\!\left(S^1_T=s_j\given\F_{t_k}\right).
+\]
+At the initial date, when \(\F_{t_0}\) is trivial, this becomes
+\[
+  p^{G^j}_{t_0}
+  =
+  e^{-rT}\Q(S^1_T=s_j).
+\]
+Thus Arrow--Debreu prices are exactly discounted state probabilities under
+\(\Q\).  Knowing all Arrow--Debreu prices is the same as knowing the
+risk-neutral law of \(S^1_T\).
+
+For \(d>1\), let the vector of risky terminal prices take values
+\[
+  z_\ell=(z_\ell^1,\ldots,z_\ell^d),\qquad \ell=1,\ldots,L.
+\]
+The Arrow--Debreu payoff for state \(z_\ell\) is
+\[
+  G^\ell=\1_{\{(S^1_T,\ldots,S^d_T)=z_\ell\}}.
+\]
+The same argument gives
+\[
+  p^{G^\ell}_{t_k}
+  =
+  e^{-r(T-t_k)}
+  \Q\!\left((S^1_T,\ldots,S^d_T)=z_\ell\given\F_{t_k}\right).
+\]
+Consequently the family of Arrow--Debreu prices recovers the full joint
+risk-neutral distribution of the terminal risky-asset vector.  This is the
+finite-state version of the replication and valuation principle developed in
+\(\polyref{Sec.~1.4}\).
+\end{solution}

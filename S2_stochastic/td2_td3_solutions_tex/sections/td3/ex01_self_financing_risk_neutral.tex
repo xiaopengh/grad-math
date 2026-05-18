@@ -1,0 +1,70 @@
+\begin{exercise}[Self-financing wealth and the risk-neutral measure]
+\textbf{Restatement.}
+In the Black--Scholes model, express the discounted value of a self-financing
+strategy \((x,\theta)\), compute its first two moments, and show that the
+Girsanov measure with market price of risk \((\mu-r)/\sigma\) is risk-neutral.
+
+\begin{solution}
+We use the convention \(S^0_0=1\), so that initial capital \(x\) is also
+initial discounted capital.  By self-financing, \polyref{Eq.~(3.8)} gives
+\[
+  \Vtilde_t^{x,\theta}
+    =x+\int_0^t\theta_u\,\dd\Stilde_u
+    =x+\int_0^t(\mu-r)\theta_u\Stilde_u\,\dd u
+      +\int_0^t\sigma\theta_u\Stilde_u\,\dd B_u.
+\]
+If \(S^0_0\ne1\), replace \(x\) by \(x/S^0_0\) in this formula.
+
+Set
+\[
+  A_t=(\mu-r)\int_0^t\theta_u\Stilde_u\,\dd u,
+  \qquad
+  M_t=\sigma\int_0^t\theta_u\Stilde_u\,\dd B_u.
+\]
+Under the usual square-integrability assumptions, \(M\) is a martingale with
+\(\E[M_t]=0\), hence
+\[
+  \E[\Vtilde_t^{x,\theta}]
+    =x+\E[A_t]
+    =x+\E\left[\int_0^t(\mu-r)\theta_u\Stilde_u\,\dd u\right].
+\]
+The variance is
+\[
+  \Var(\Vtilde_t^{x,\theta})
+    =\Var(A_t+M_t)
+    =\Var(A_t)+\E\left[\int_0^t\sigma^2\theta_u^2\Stilde_u^2\,\dd u\right]
+      +2\,\Cov(A_t,M_t).
+\]
+The covariance term is kept in the general adapted case; it vanishes only
+under extra assumptions, for instance for deterministic integrands.
+
+Now put
+\[
+  \lambda=\frac{\mu-r}{\sigma},
+  \qquad
+  Z_t=\exp\left(-\lambda B_t-\frac12\lambda^2t\right).
+\]
+The density must contain \(\lambda^2\) in the deterministic term.  Since
+\(\lambda\) is constant, Novikov's condition is immediate and
+\(\dd\Q/\dd\P|_{\F_t}=Z_t\) defines a probability measure equivalent to
+\(\P\).  By Girsanov's theorem, stated in the poly before the BMS chapter and
+used in \polyref{Eq.~(3.6)}, the process
+\[
+  B_t^\Q=B_t+\lambda t
+\]
+is a Brownian motion under \(\Q\).  Substituting
+\(\dd B_t=\dd B_t^\Q-\lambda\dd t\) in
+\(\dd S_t=\mu S_t\dd t+\sigma S_t\dd B_t\) gives
+\[
+  \dd S_t
+    =(\mu-\sigma\lambda)S_t\dd t+\sigma S_t\dd B_t^\Q
+    =rS_t\dd t+\sigma S_t\dd B_t^\Q.
+\]
+Therefore
+\[
+  \dd\Stilde_t=\sigma\Stilde_t\dd B_t^\Q,
+\]
+so the discounted risky asset is a \(\Q\)-martingale.  Thus \(\Q\) is a
+risk-neutral probability measure.
+\end{solution}
+\end{exercise}

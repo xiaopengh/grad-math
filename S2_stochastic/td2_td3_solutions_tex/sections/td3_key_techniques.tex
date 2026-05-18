@@ -1,0 +1,309 @@
+\section{TD3 Key Techniques}
+
+\begin{techniques}
+  \item \textbf{Ito processes and differential rules.}
+  Most continuous-time calculations in this TD reduce to the following
+  template.  If
+  \[
+    X_t=X_0+\int_0^t a_s\,\dd s+\int_0^t b_s\,\dd B_s,
+    \qquad\text{so}\qquad
+    \dd X_t=a_t\,\dd t+b_t\,\dd B_t,
+  \]
+  then \(a_t\) is the drift coefficient, \(b_t\) is the volatility
+  coefficient, the finite-variation part is \(a_t\dd t\), and the martingale
+  part is \(b_t\dd B_t\).  The symbolic multiplication table is
+  \[
+    (\dd B_t)^2=\dd t,\qquad \dd t\,\dd B_t=0,\qquad (\dd t)^2=0.
+  \]
+  It is a shorthand for the quadratic-variation identities in
+  \polyref{Ch.~2.5}.
+
+  \item \textbf{Quadratic variation and covariation.}
+  For Ito processes
+  \[
+    \dd X_t=a_t\,\dd t+b_t\,\dd B_t,\qquad
+    \dd Y_t=\alpha_t\,\dd t+\beta_t\,\dd B_t,
+  \]
+  the quadratic variation and covariation are
+  \[
+    \dd\langle X\rangle_t=b_t^2\,\dd t,\qquad
+    \dd\langle X,Y\rangle_t=b_t\beta_t\,\dd t.
+  \]
+  Finite-variation terms do not contribute.  In particular
+  \[
+    \dd\langle B\rangle_t=\dd t,\qquad
+    \dd\langle t,X\rangle_t=0.
+  \]
+  For the BMS stock
+  \(\dd S_t=\mu S_t\dd t+\sigma S_t\dd B_t\),
+  \[
+    \dd\langle S\rangle_t=\sigma^2S_t^2\,\dd t,
+    \qquad
+    \dd\langle \Stilde\rangle_t=\sigma^2\Stilde_t^2\,\dd t.
+  \]
+
+  \item \textbf{Ito formula.}
+  If \(f\in C^{1,2}\) and \(X\) is as above, then
+  \[
+    \dd f(t,X_t)
+      =
+      \left(\partial_t f+a_t\partial_x f
+        +\frac12b_t^2\partial_{xx}f\right)(t,X_t)\dd t
+      +b_t\partial_x f(t,X_t)\dd B_t.
+  \]
+  For two Ito processes driven by the same Brownian motion, the
+  two-dimensional version adds the mixed covariation term:
+  \[
+  \begin{aligned}
+    \dd f(t,X_t,Y_t)
+      &=\partial_t f\,\dd t+\partial_x f\,\dd X_t+\partial_y f\,\dd Y_t\\
+      &\quad+\frac12\partial_{xx}f\,\dd\langle X\rangle_t
+        +\partial_{xy}f\,\dd\langle X,Y\rangle_t
+        +\frac12\partial_{yy}f\,\dd\langle Y\rangle_t.
+  \end{aligned}
+  \]
+  This is the main tool for deriving lognormal laws, BMS PDEs, Greeks, and
+  hedge dynamics; see \polyref{Thm.~2.5}.
+
+  \item \textbf{Ito integration by parts.}
+  For two Ito processes,
+  \[
+    \dd(X_tY_t)=X_t\,\dd Y_t+Y_t\,\dd X_t+\dd\langle X,Y\rangle_t.
+  \]
+  Equivalently,
+  \[
+    X_tY_t=X_0Y_0+\int_0^tX_s\,\dd Y_s
+      +\int_0^tY_s\,\dd X_s+\langle X,Y\rangle_t.
+  \]
+  If one factor has finite variation, the covariation term is zero.  This is
+  useful when discounting: for \(D_t=e^{-rt}\),
+  \[
+    \dd(D_tS_t)=D_t\,\dd S_t+S_t\,\dd D_t
+  \]
+  because \(\langle D,S\rangle=0\).  See \polyref{Prop.~2.26}.
+
+  \item \textbf{Stochastic integrals and martingales.}
+  If \(H\) is adapted and square-integrable, then
+  \[
+    M_t=\int_0^tH_s\,\dd B_s
+  \]
+  is a martingale with
+  \[
+    \E[M_t]=0,\qquad
+    \E[M_t^2]=\E\left[\int_0^tH_s^2\,\dd s\right],
+    \qquad
+    \langle M\rangle_t=\int_0^tH_s^2\,\dd s.
+  \]
+  In finance, this is why discounted self-financing wealth is a martingale
+  under a risk-neutral measure, once integrability/admissibility is checked.
+
+  \item \textbf{Black--Merton--Scholes dynamics.}
+  The risky asset satisfies
+  \[
+    \dd S_t=\mu S_t\dd t+\sigma S_t\dd B_t,\qquad S^0_t=\e^{rt},
+  \]
+  hence
+  \[
+    S_t=S_0\exp\left(\left(\mu-\frac{\sigma^2}{2}\right)t+\sigma B_t\right),
+    \qquad
+    \dd \Stilde_t=(\mu-r)\Stilde_t\dd t+\sigma \Stilde_t\dd B_t.
+  \]
+  This follows from applying Ito formula to \(\log S_t\), where the
+  correction \(-\sigma^2/2\) comes from
+  \(\dd\langle S\rangle_t=\sigma^2S_t^2\dd t\).  The discounted dynamics are
+  obtained by integration by parts:
+  \[
+    \dd \Stilde_t
+      =\dd(e^{-rt}S_t)
+      =(\mu-r)\Stilde_t\dd t+\sigma\Stilde_t\dd B_t.
+  \]
+  This is the model and notation of \polyref{Eqs.~(3.2)--(3.3)}.
+
+  \item \textbf{Self-financing wealth.}
+  If \((x,\theta)\in\R\times\A\) is self-financing and \(S^0_0=1\), then
+  \[
+    \Vtilde_t^{x,\theta}
+      =x+\int_0^t\theta_u\,\dd\Stilde_u
+      =x+\int_0^t(\mu-r)\theta_u\Stilde_u\,\dd u
+        +\int_0^t\sigma\theta_u\Stilde_u\,\dd B_u,
+  \]
+  as in \polyref{Eq.~(3.8)}.  Under a risk-neutral probability this becomes a
+  martingale stochastic integral.
+
+  \item \textbf{Girsanov and the market price of risk.}
+  With \(\lambda=(\mu-r)/\sigma\), define
+  \[
+    Z_t=\frac{\dd\Q}{\dd\P}\bigg|_{\F_t}
+      =\exp\left(-\lambda B_t-\frac{1}{2}\lambda^2t\right).
+  \]
+  The square on \(\lambda\) is essential.  By Girsanov
+  \(B_t^\Q=B_t+\lambda t\) is a Brownian motion under \(\Q\), and
+  \[
+    \dd S_t=rS_t\dd t+\sigma S_t\dd B_t^\Q,\qquad
+    \dd\Stilde_t=\sigma\Stilde_t\dd B_t^\Q.
+  \]
+  Thus the physical drift is \(\mu\) under \(\P\), while the risk-neutral drift
+  is \(r\) under \(\Q\).  See \polyref{Eq.~(3.6), Prop.~3.1}.
+
+  \item \textbf{How the BMS PDE appears.}
+  Let \(p_t=u(t,S_t)\) be the candidate price of a payoff \(\Phi(S_T)\).
+  Under \(\Q\),
+  \[
+    \dd S_t=rS_t\dd t+\sigma S_t\dd B_t^\Q.
+  \]
+  Ito formula gives
+  \[
+    \dd u(t,S_t)
+      =\left(\partial_tu+rS_t\partial_xu
+        +\frac12\sigma^2S_t^2\partial_{xx}u\right)\dd t
+       +\sigma S_t\partial_xu\,\dd B_t^\Q.
+  \]
+  Discounting with integration by parts,
+  \[
+  \begin{aligned}
+    \dd\bigl(e^{-rt}u(t,S_t)\bigr)
+      &=e^{-rt}\left(
+        \partial_tu+rS_t\partial_xu
+        +\frac12\sigma^2S_t^2\partial_{xx}u-ru
+      \right)\dd t\\
+      &\quad+e^{-rt}\sigma S_t\partial_xu\,\dd B_t^\Q.
+  \end{aligned}
+  \]
+  A discounted price must be a \(\Q\)-martingale, so the drift must vanish.
+  This gives the BMS PDE
+  \[
+    \partial_tu+rx\partial_xu
+      +\frac12\sigma^2x^2\partial_{xx}u=ru.
+  \]
+
+  \item \textbf{Risk-neutral pricing.}
+  For a square-integrable payoff \(G\) at maturity \(T\),
+  \[
+    p_t^G
+      =\EQ\left[\e^{-r(T-t)}G\,\mid\,\F_t\right],
+  \]
+  which is \polyref{Eq.~(3.9)}.  Completeness of the one-dimensional
+  Brownian model gives the corresponding replicating strategy.
+
+  \item \textbf{Lognormal laws.}
+  For \(\tau=T-t\), conditionally on \(S_t=x\),
+  \[
+    S_T=x\exp\left(\left(r-\frac{\sigma^2}{2}\right)\tau
+      +\sigma\sqrt{\tau}\,Z\right)
+    \quad\text{under }\Q,
+  \]
+  where \(Z\sim\mathcal N(0,1)\).  Under \(\P\), replace \(r\) by \(\mu\).
+  Many probability questions in TD3 are just threshold conversions.  For
+  example, under a drift \(m\in\{\mu,r\}\),
+  \[
+    \P_m(S_T\ge K\mid S_t=x)
+      =
+      \normalcdf\left(
+        \frac{\log(x/K)+(m-\frac12\sigma^2)(T-t)}
+             {\sigma\sqrt{T-t}}
+      \right).
+  \]
+
+  \item \textbf{Black--Merton--Scholes formula and PDE.}
+  For a European call with strike \(K\) and maturity \(T\),
+  \[
+    C(t,x)=x\normalcdf(d_1)-K\e^{-r\tau}\normalcdf(d_2),
+  \]
+  where
+  \[
+    d_1=\frac{\log(x/K)+(r+\frac12\sigma^2)\tau}{\sigma\sqrt{\tau}},
+    \qquad
+    d_2=d_1-\sigma\sqrt{\tau}.
+  \]
+  The price \(u\) solves the BMS PDE
+  \[
+    \partial_tu+rx\partial_xu+\frac12\sigma^2x^2\partial_{xx}u=ru,
+    \qquad
+    u(T,x)=\Phi(x),
+  \]
+  as in \polyref{Eqs.~(3.12), (3.17)--(3.18)}.
+  The usual proof is: write the conditional lognormal expectation under
+  \(\Q\), split the event \(S_T>K\), and use the Gaussian identity
+  \(x\normalpdf(d_1)=K e^{-r\tau}\normalpdf(d_2)\) when differentiating.
+
+  \item \textbf{Greeks and delta hedging.}
+  For the call,
+  \[
+    \Delta=\partial_xC=\normalcdf(d_1),\qquad
+    \Gamma=\partial_{xx}C=\frac{\normalpdf(d_1)}{x\sigma\sqrt{\tau}},
+  \]
+  and
+  \[
+    \Theta=\partial_tC
+      =-\frac{x\sigma\normalpdf(d_1)}{2\sqrt{\tau}}
+       -rK\e^{-r\tau}\normalcdf(d_2).
+  \]
+  The replicating risky holding is the delta:
+  \(\theta_t=\partial_xu(t,S_t)\), cf. \polyref{Eq.~(3.16)}.
+  The reason is visible in the Ito calculation above:
+  \[
+    \dd(e^{-rt}u(t,S_t))
+      =\partial_xu(t,S_t)\,\dd\Stilde_t
+  \]
+  when \(u\) solves the PDE.  Thus the stochastic part of the discounted
+  price is matched by holding \(\partial_xu(t,S_t)\) shares of the risky
+  asset.
+
+  \item \textbf{Digital options.}
+  A digital call \(G=\1_{\{S_T\ge K\}}\) has price
+  \[
+    C^D(t,x,K)=\e^{-r\tau}\normalcdf(d_2),
+    \qquad
+    \partial_xC^D(t,x,K)
+      =\frac{\e^{-r\tau}\normalpdf(d_2)}{x\sigma\sqrt{\tau}}.
+  \]
+  It is also the strike derivative of the European call:
+  \(C^D(t,x,K)=-\partial_K C^E(t,x,K)\).
+  This identity is often proved without computing the BMS formula: compare a
+  call spread of width \(\Delta K\) with a digital payoff, then pass to the
+  limit.  The replicating risky holding is
+  \(\partial_x C^D(t,S_t,K)\), provided \(t<T\).
+
+  \item \textbf{Time-dependent deterministic volatility.}
+  If \(\dd S_t/S_t=\mu\dd t+\sigma_t\dd B_t\), set
+  \[
+    I_t=\int_t^T\sigma_s^2\,\dd s,\qquad \Sigma_t=\sqrt{I_t}.
+  \]
+  Then the call formula remains
+  \[
+    C(t,x)=x\normalcdf(d_1(t,x))-K\e^{-r(T-t)}\normalcdf(d_2(t,x)),
+  \]
+  with
+  \[
+    d_1(t,x)=\frac{\log(x/K)+r(T-t)+\frac12 I_t}{\Sigma_t},
+    \qquad
+    d_2(t,x)=d_1(t,x)-\Sigma_t.
+  \]
+  At \(t=0\), this equals the constant-volatility call with
+  \(\bar\sigma^2=T^{-1}\int_0^T\sigma_s^2\,\dd s\).
+  The important point is that only the future integrated variance
+  \(I_t=\int_t^T\sigma_s^2\dd s\) enters the conditional lognormal law.
+  Unless \(\sigma_t\) is constant, this cannot be represented on every
+  subinterval by one fixed constant volatility for all \(t\).
+
+  \item \textbf{Path-dependent payoffs and Jensen arguments.}
+  For an Asian call,
+  \[
+    G=\left(\frac1T\int_0^T S_t\,\dd t-K\right)^+,
+  \]
+  convexity of \(x\mapsto (x-K)^+\), Fubini, and risk-neutral pricing give a
+  comparison with the European call.  The standard move is to bound the
+  payoff pathwise or after expectation by averaging European call payoffs,
+  then use that \(t\mapsto e^{-rt}S_t\) is a \(\Q\)-martingale.
+
+  \item \textbf{Compound calls.}
+  A call on a call is priced by conditioning first to \(T_1\), then to \(T\).
+  The threshold \(x_1\) solves \(C(T_1,x_1,T,K)=K_1\).  With
+  \(\tau=T_1-t\) and \(d\) chosen so that
+  \(S_{T_1}>x_1\) is exactly \(Z>-d\), the final expression is written with a
+  bivariate normal probability.
+  The method is more important than the final formula: introduce independent
+  Gaussian increments for \([t,T_1]\) and \([T_1,T]\), convert each exercise
+  event into a linear inequality in the Gaussian variables, then evaluate the
+  resulting two-dimensional normal probability.
+\end{techniques}
