@@ -1,0 +1,30 @@
+---
+title: "approx-quantiles-loiKS-par-simu"
+output: pdf_document
+date: "2024-02-15"
+---
+Approximation du quantile d'ordre $1-\alpha=0.90$ de la loi associée au test de KS d'ajustement pour $n=10$. (section 2.3.1). 
+
+NB : le  quantile est environ égal à  0.369 d'après les tables. 
+
+```{r }
+M<-10000
+n<-10
+ks_stat=rep(0,M)
+for (j in 1:M){
+    U<-runif(n) # simu des U_j
+    U<-sort(U) # calcul des U_{(j)}
+    c <- (1:n)/n
+    v <- c-U
+    w <- -v+1/n
+    v <- append(v,w) 
+    ks_stat[j] <- max(v)}# c'est la formule du cours : prop 2.33
+quantile(ks_stat,probs=0.90)# calcul du quantile empirique
+
+
+```
+
+détails : $v=(\frac{j}{n}-U_{(j)})_{1\le j \le n}$
+
+$w=(U_{(j)}-\frac{j-1}{n})_{1\le j \le n}=-v+\frac{1}{n}$
+
