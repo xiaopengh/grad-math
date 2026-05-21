@@ -1,0 +1,602 @@
+\documentclass[10pt]{article}
+
+\usepackage[a4paper,landscape,margin=6mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage[default,scale=0.90]{comicneue}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage[table]{xcolor}
+\usepackage{array}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\columnsep}{3.5mm}
+\setlength{\columnseprule}{0.15pt}
+\setlength{\abovedisplayskip}{1pt}
+\setlength{\belowdisplayskip}{1pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{0pt}
+\DeclareMathSizes{5.9}{5.9}{5.1}{5}
+\setlist[itemize]{leftmargin=*,nosep,itemsep=0pt,topsep=0pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=*,nosep,itemsep=0pt,topsep=0pt,parsep=0pt}
+
+\newcommand{\ind}{\mathbf 1}
+\newcommand{\E}{\mathbb E}
+\newcommand{\V}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Prob}{\mathbb P}
+\newcommand{\iid}{\stackrel{\mathrm{iid}}{\sim}}
+\newcommand{\dto}{\xrightarrow{\mathcal L}}
+\newcommand{\argmin}{\operatorname*{arg\,min}}
+\newcommand{\argmax}{\operatorname*{arg\,max}}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\boxhead}[1]{%
+  \vspace{2pt}\par\noindent #1\par\vspace{1pt}}
+\newcommand{\tinytitle}[1]{#1.}
+\newcommand{\pval}{\text{$p$-valeur}}
+\newcommand{\tightmath}[1]{\(\displaystyle #1\)}
+
+\begin{document}
+\fontsize{5.9}{6.5}\selectfont
+
+\begin{multicols*}{4}
+
+\boxhead{Choisir le bon test}
+\begin{itemize}
+\item \(1\) éch. ou appariées, seulement \(+/-\): signe.
+\item Appariées, différences numériques: Wilcoxon signé.
+\item \(2\) éch. indépendants, ordre/position: Mann--Whitney.
+\item Gaussien/moyennes: Student ou Welch.
+\end{itemize}
+
+\tinytitle{Règles réflexes}
+Apparié \(\Rightarrow\) travailler sur \(D_i=V_i-U_i\). Retirer les zéros si un test de signe/rangs signés le demande. Alternatives: si \(D_i>0\) signifie ``\(V\) plus grand'', rejeter pour grande statistique positive.
+
+\boxhead{Test du signe}
+\tinytitle{Hypothèses} \(X_i\) indépendantes, médiane commune \(m\), \(\Prob(X_i=m)=0\). Pas besoin d'iid ni de moments.
+
+\tinytitle{Statistique}
+\[
+S=\sum_{i=1}^n\ind_{\{X_i>0\}},\qquad
+H_0:m=0\Rightarrow S\sim\mathcal B(n,1/2).
+\]
+\tinytitle{Décisions}
+\[
+\begin{array}{ll}
+H_1:m>0 &: S\ \text{grand},\\
+H_1:m<0 &: S\ \text{petit},\\
+H_1:m\ne0 &: |S-n/2|\ \text{grand}.
+\end{array}
+\]
+\tinytitle{P-valeurs exactes} Si \(F_B\) est la cdf de \(\mathcal B(n,1/2)\) et \(s\) l'observation:
+\[
+p_{>}=1-F_B(s-1),\quad p_{<}=F_B(s),\quad
+p_{\ne}\simeq 2\min(p_{>},p_{<}).
+\]
+\tinytitle{Piège} Le test du signe teste une médiane/préférence appariée; ce n'est pas un test d'homogénéité de lois.
+
+\boxhead{Wilcoxon des rangs signés}
+\tinytitle{Quand} Données appariées quantitatives, \(X_i=D_i\). Plus puissant que le signe si la symétrie est plausible.
+
+\tinytitle{Hypothèses} \(X_i\) indépendantes, diffuses, médiane commune \(m\), lois symétriques autour de \(m\). Sous continuité: pas d'ex-aequo dans \(|X_i|\) p.s.
+
+\tinytitle{Rangs}
+\[
+\begin{gathered}
+W_n^+=\sum_i R_{|X|}(i)\ind_{\{X_i>0\}},\\
+W_n^-=\sum_i R_{|X|}(i)\ind_{\{X_i<0\}},
+\end{gathered}
+\]
+\[
+W_n^++W_n^-=\frac{n(n+1)}2.
+\]
+\tinytitle{Sous \(H_0:m=0\)}
+\[
+W_n^+\sim\sum_{k=1}^n kY_k,\quad Y_k\iid\mathcal B(1/2),
+\]
+\[
+\E W_n^+=\frac{n(n+1)}4,\qquad
+\V(W_n^+)=\frac{n(n+1)(2n+1)}{24}.
+\]
+\[
+Z=\frac{W_n^+-\E W_n^+}{\sqrt{\V(W_n^+)}}\dto\mathcal N(0,1).
+\]
+\tinytitle{Décisions}
+\[
+H_1:m>0:\ W_n^+\ \text{grand};\quad
+H_1:m<0:\ W_n^+\ \text{petit};
+\]
+\[
+H_1:m\ne0:\ \left|W_n^+-\frac{n(n+1)}4\right|\ \text{grand}.
+\]
+Exact si \(n\le20\); sinon approximation normale. Avec ties/zéros: attention, p-valeur exacte souvent invalide.
+
+\boxhead{Mann--Whitney / rang-somme}
+\tinytitle{Cadre} \(U_1,\ldots,U_n\iid F\), \(V_1,\ldots,V_p\iid G\), échantillons indépendants, lois diffuses. \(H_0:F=G\). Alternative surtout: décalage/ordre stochastique, pas tout \(F\ne G\).
+
+\tinytitle{Rangs globaux} Regrouper \(U,V\), rangs \(R_i\) pour \(U_i\), \(S_j\) pour \(V_j\).
+\[
+\Sigma_U=\sum_iR_i,\quad \Sigma_V=\sum_jS_j,
+\]
+\[
+M_U=\Sigma_U-\frac{n(n+1)}2,\qquad
+M_V=\Sigma_V-\frac{p(p+1)}2.
+\]
+\[
+M_U+M_V=np,\qquad M_U\sim M_V\quad(H_0).
+\]
+\tinytitle{Interprétation} \(M_V=\#\{(i,j):U_i<V_j\}\). Si les \(V\) tendent plus petits, \(M_V\) petit et \(M_U\) grand.
+
+\tinytitle{Sous \(H_0\)}
+\[
+\E(M_U)=\frac{np}{2},\qquad
+\V(M_U)=\frac{np(n+p+1)}{12}.
+\]
+\[
+Z=\frac{M_U-np/2}{\sqrt{np(n+p+1)/12}}\dto\mathcal N(0,1).
+\]
+\tinytitle{Correction de continuité} Pour \(P(T\ge a)\), utiliser \(a-0.5\). Pour \(P(T\le a)\), utiliser \(a+0.5\).
+
+\boxhead{P-valeurs discrètes et tables}
+\tinytitle{Queue droite} Pour statistique entière \(T\), observation \(t\), cdf \(F\):
+\[
+\Prob(T\ge t)=1-F(t-1).
+\]
+\tinytitle{Queue gauche}
+\[
+\Prob(T\le t)=F(t).
+\]
+\tinytitle{Symétrie MW}
+\[
+M_U+M_V=np,\qquad
+\Prob(M_U\ge a)=\Prob(M_V\le np-a)
+\]
+en adaptant strict/large selon la table. Toujours noter le sens de l'alternative avant de choisir la queue.
+
+\boxhead{Calcul des rangs}
+\tinytitle{Calcul pratique}
+Pour des valeurs sans ex-aequo \(x_1,\ldots,x_n\):
+\[
+R_X(i)=1+\sum_{j\ne i}\ind_{\{x_j<x_i\}}.
+\]
+Le plus petit a rang \(1\). Ex-aequo: remplacer les rangs occupés par leur moyenne; ex. \((2,4,4,7)\mapsto(1,2.5,2.5,4)\).
+
+\tinytitle{Ex. Wilcoxon signé}
+Calculer sur \(|x_i|\), pas sur \(x_i\):
+\[
+\begin{array}{c|ccccc}
+x_i&-0.15&-0.42&0.22&0.60&-0.10\\
+|x_i|&0.15&0.42&0.22&0.60&0.10\\
+R_{|X|}(i)&2&4&3&5&1
+\end{array}
+\]
+\[
+w_n^+=3+5=8,\qquad w_n^-=2+4+1=7.
+\]
+Méthode: trier \(|x_i|\), donner les rangs, puis sommer selon le signe de \(x_i\).
+
+\tinytitle{Formule Wilcoxon}
+Retirer \(d_i=0\), puis
+\[
+R_{|D|}(i)=1+\sum_{j\ne i}\ind_{\{|d_j|<|d_i|\}}.
+\]
+\[
+W^+=\sum_iR_{|D|}(i)\ind_{\{d_i>0\}}.
+\]
+
+\tinytitle{Ex. Mann--Whitney}
+\[
+u=(3.5,4.7,1.2),\qquad v=(0.7,3.9).
+\]
+Ordre global:
+\[
+v_1<u_3<u_1<v_2<u_2.
+\]
+Donc
+\[
+r_1=3,\quad r_2=5,\quad r_3=2,\qquad s_1=1,\quad s_2=4.
+\]
+Ici \(r_i\) = rang de \(u_i\), \(s_j\) = rang de \(v_j\), dans le mélange \(u,v\).
+
+\tinytitle{Formule MW}
+Sur l'échantillon global \(Z=(U_1,\ldots,U_n,V_1,\ldots,V_p)\),
+\[
+R_i=1+\sum_{k}\ind_{\{Z_k<U_i\}},\quad
+S_j=1+\sum_{k}\ind_{\{Z_k<V_j\}}.
+\]
+Puis \(\Sigma_U=\sum_iR_i,\ \Sigma_V=\sum_jS_j\).
+
+\boxhead{KS / adéquation: vocabulaire}
+\tinytitle{Adéquation à une loi donnée \(F_0\)}
+\[
+D_n=\sup_x|\widehat F_n(x)-F_0(x)|.
+\]
+\tinytitle{Homogénéité deux échantillons}
+\[
+D_{n,p}=\sup_x|\widehat F_n(x)-\widehat G_p(x)|.
+\]
+KS détecte tout changement de loi; MW vise surtout position/ordre. \(\chi^2\): classes/discret, asymptotique. Ne pas confondre ``loi donnée'' et ``famille avec paramètre estimé''.
+
+\boxhead{Exemples corrigés tests}
+\tinytitle{1. Annale 2016: Mann--Whitney}\par
+Pneus \(A=(26,49,52,80,102,106,115,121,135)\),
+\[
+B=(47,58,64,91,94,109,116,132,179).
+\]
+Question: le modèle \(B\) parcourt-il plus de km avant usure que \(A\)?
+\[
+H_0:F_A=F_B,\qquad H_1:B\ \text{tend plus grand que }A.
+\]
+Ordre global:
+\[
+\begin{array}{c|ccccccccc}
+z&26&47&49&52&58&64&80&91&94\\
+g&A&B&A&A&B&B&A&B&B\\
+r&1&2&3&4&5&6&7&8&9
+\end{array}
+\]
+\[
+\begin{array}{c|ccccc}
+z&102&106&109&115&116\\
+g&A&A&B&A&B\\
+r&10&11&12&13&14
+\end{array}
+\]
+\[
+\begin{array}{c|cccc}
+z&121&132&135&179\\
+g&A&B&A&B\\
+r&15&16&17&18
+\end{array}
+\]
+Donc
+\[
+\Sigma_A=1+3+4+7+10+11+13+15+17=81,
+\]
+\[
+\Sigma_B=2+5+6+8+9+12+14+16+18=90.
+\]
+\[
+M_A=81-\frac{9\cdot10}{2}=36,\qquad
+M_B=90-\frac{9\cdot10}{2}=45.
+\]
+Vérif: \(M_A+M_B=81=np\). Si \(B>A\), rejeter pour \(M_A\) petit (ou \(M_B\) grand). Table \(n=p=9\), niveau \(2.5\%\): région gauche \(M_A\le17\). Or \(36>17\), donc pas de rejet: pas assez de preuve que \(B\) dure plus.
+
+\tinytitle{2. Annale Partiel 2015: Wilcoxon}
+Rythme cardiaque avant/après don. Prendre \(D=\text{après}-\text{avant}\):
+\[
+\begin{array}{c|ccccc}
+i&1&2&3&4&5\\
+D_i&6&-21&-10&-3&-13\\
+|D_i|&6&21&10&3&13\\
+R&5&9&7&3&8
+\end{array}
+\]
+\[
+\begin{array}{c|cccc}
+i&6&7&8&9\\
+D_i&-1&2&-7&-4\\
+|D_i|&1&2&7&4\\
+R&1&2&6&4
+\end{array}
+\]
+\[
+W^+=5+2=7,\qquad W^-=9+7+3+8+1+6+4=38.
+\]
+Vérif:
+\[
+W^++W^-=\frac{9\cdot10}{2}=45.
+\]
+Si \(H_1\): le rythme après est plus faible, rejeter pour \(W^+\) petit. Table: \(P(W_9\le7)\simeq0.037\), donc rejet à \(5\%\) mais pas à \(2.5\%\). Si \(H_1\) bilatérale: \(p\simeq2P(W_9\le7)\simeq0.074\), donc pas de rejet à \(5\%\).
+
+\tinytitle{Preuves rapides}
+Signe: \(m=0\Rightarrow\Prob(X_i>0)=1/2\). Wilcoxon: symétrie \(\Rightarrow\) signes iid conditionnellement aux \(|X_i|\). MW: sous \(H_0\), les rangs globaux forment une permutation uniforme.
+
+\end{multicols*}
+
+\newpage
+\fontsize{5.9}{6.5}\selectfont
+
+\begin{multicols*}{4}
+
+\boxhead{Estimation de densité: KDE}
+\tinytitle{Noyau}
+\[
+K\in L^1(\R),\qquad \int_\R K(u)\,du=1.
+\]
+Si \(K\ge0\), l'estimateur est une densité. Exemples: uniforme, triangulaire, Epanechnikov, biweight, gaussien.
+
+\tinytitle{Parzen--Rosenblatt}
+\[
+\widehat f_{n,h}(x)=\frac1n\sum_{i=1}^n\frac1h
+K\!\left(\frac{x-X_i}{h}\right)=\frac1n\sum_iK_h(x-X_i),
+\]
+\[
+K_h(u)=h^{-1}K(u/h).
+\]
+\tinytitle{Fenêtre} \(h\) petit: biais faible, variance forte, estimateur ondulant. \(h\) grand: lissage fort, variance faible, biais fort. Le choix de \(h\) compte plus que le choix de \(K\).
+
+\boxhead{Risque KDE ponctuel}
+\tinytitle{Espérance}
+\[
+\E\widehat f_{n,h}(x_0)=\int K(v)f(x_0-hv)\,dv
+=(K_h*f)(x_0).
+\]
+\tinytitle{Décomposition}
+\[
+\E(\widehat f(x_0)-f(x_0))^2=
+\big(\E\widehat f(x_0)-f(x_0)\big)^2+\V(\widehat f(x_0)).
+\]
+\tinytitle{Ordre du noyau}
+\[
+K\ \text{d'ordre }\ell
+\Longleftrightarrow
+\int u^jK(u)\,du=0,\ j=1,\ldots,\ell.
+\]
+\tinytitle{Biais Holder} Si \(f\in\Sigma(\beta,L)\), \(\ell=\lfloor\beta\rfloor\), \(\int |u|^\beta|K(u)|du<\infty\):
+\[
+\left|\E\widehat f_{n,h}(x_0)-f(x_0)\right|
+\le C_Bh^\beta.
+\]
+\tinytitle{Variance}
+\[
+\V(\widehat f_{n,h}(x_0))
+\le \frac{\norm{f}_\infty\norm K_2^2}{nh}.
+\]
+\tinytitle{Balance}
+\[
+\mathrm{MSE}\le C_1h^{2\beta}+\frac{C_2}{nh}.
+\]
+\[
+h^*\asymp n^{-1/(2\beta+1)},\qquad
+\mathrm{MSE}(h^*)\lesssim n^{-2\beta/(2\beta+1)}.
+\]
+En dimension \(d\): variance \(\sim1/(nh^d)\), taux \(n^{-2\beta/(2\beta+d)}\).
+
+\boxhead{Annales guidées ch.4}
+\tinytitle{Examen 2025: biais KDE}
+On part de
+\[
+\E\widehat f_h(x_0)=\int K(u)f(x_0-hu)\,du.
+\]
+Donc, comme \(\int K=1\),
+\[
+\E\widehat f_h(x_0)-f(x_0)
+=\int K(u)\{f(x_0-hu)-f(x_0)\}\,du.
+\]
+Rédaction: faire Taylor à l'ordre \(\ell=\lfloor\beta\rfloor\). Les termes en \(u^j\) disparaissent car \(\int u^jK=0\). Le reste Holder donne
+\[
+|f^{(\ell)}(x_0-\xi hu)-f^{(\ell)}(x_0)|
+\le L|hu|^{\beta-\ell},
+\]
+donc \(|\mathrm{biais}|\le C h^\beta\).
+
+\tinytitle{Examen 2025: variance + taux}
+Indépendance:
+\[
+\V(\widehat f_h(x_0))
+=\frac1n\V\!\left(h^{-1}K\!\left(\frac{x_0-X}{h}\right)\right).
+\]
+Puis \(\V Z\le\E Z^2\), changement \(u=(x_0-t)/h\), \(f\le M\):
+\[
+\V(\widehat f_h(x_0))\le \frac{M\norm K_2^2}{nh}.
+\]
+Enfin
+\[
+\mathrm{MSE}\le C_1h^{2\beta}+C_2/(nh).
+\]
+Équilibrer \(h^{2\beta}\) et \(1/(nh)\): \(h\asymp n^{-1/(2\beta+1)}\), taux \(n^{-2\beta/(2\beta+1)}\).
+
+\tinytitle{Examen 2019: AMISE}
+Si \(f\in C^2\), \(\int uK=0\), \(k_2=\int u^2K(u)du\), écrire
+\[
+\E\norm{\widehat f-f}_2^2\lesssim
+\frac14h^4k_2^2\norm{f''}_2^2+\frac{\norm K_2^2}{nh}.
+\]
+Pour minimiser \(ah^4+b/(nh)\): dériver
+\[
+4ah^3-\frac{b}{nh^2}=0
+\Rightarrow h^5=\frac{b}{4an}.
+\]
+Ici
+\[
+h^*=\left(\frac{\norm K_2^2}{n k_2^2\norm{f''}_2^2}\right)^{1/5}.
+\]
+\tinytitle{Examen 2016} GL: comparer plusieurs lissages \(\widehat f_{h,h'}=K_h*\widehat f_{h'}\); adaptatif = ne pas connaître \(\alpha\) avant de choisir \(h\).
+
+\boxhead{Régression non paramétrique}
+\tinytitle{Design aléatoire}
+\[
+r(x)=\E(Y\mid X=x),\qquad
+Y=r(X)+\varepsilon,\quad \E(\varepsilon\mid X)=0.
+\]
+Si \(\E Y^2<\infty\), \(r(X)\) minimise \(\E(Y-g(X))^2\).
+
+\tinytitle{Design déterministe}
+\[
+Y_i=r(x_i)+\varepsilon_i,\quad
+\E\varepsilon_i=0,\quad \V(\varepsilon_i)=\sigma^2.
+\]
+
+\tinytitle{OLS / projection}
+\[
+\widehat\beta=(X^TX)^{-1}X^TY,\qquad
+\widehat Y=P_mY.
+\]
+\[
+\E\norm{\widehat Y^m-r^*}_2^2
+=\norm{(I-P_m)r^*}_2^2+\sigma^2|m|.
+\]
+\[
+\E\norm{\widehat Y^m-Y}_2^2
+=\norm{(I-P_m)r^*}_2^2+\sigma^2(n-|m|).
+\]
+Preuve: développer, terme croisé nul, \(\E(\xi^TA\xi)=\operatorname{tr}(A\Cov\xi)\), \(\operatorname{tr}P_m=|m|\).
+
+\boxhead{Nadaraya--Watson}
+\tinytitle{Formule}
+\[
+\widehat r_n(x)=
+\frac{\sum_iY_iK((X_i-x)/h)}
+{\sum_iK((X_i-x)/h)}
+\]
+si le dénominateur est non nul; sinon \(0\).
+\[
+\widehat r_n(x)=\sum_i\omega_i(x)Y_i,\qquad
+\sum_i\omega_i(x)=1.
+\]
+Avec noyau uniforme: moyenne locale des \(Y_i\) tels que \(X_i\in[x-h,x+h]\).
+
+\tinytitle{Extrêmes} \(h\to\infty\): moyenne constante \(\bar Y\), biais fort. \(h\to0\): interpolation/oscillations, variance forte. \(\ell=0\) dans les polynômes locaux.
+
+\boxhead{Polynômes locaux}
+\[
+z_i=\frac{X_i-x}{h},\qquad
+V_\ell(u)=\left(1,u,\ldots,\frac{u^\ell}{\ell!}\right)^T.
+\]
+\[
+\widehat\theta(x)=\argmin_{\theta\in\R^{\ell+1}}
+\sum_iK(z_i)\left(Y_i-\sum_{k=0}^{\ell}\theta_k\frac{z_i^k}{k!}\right)^2.
+\]
+\[
+\widehat r_n^\ell(x)=\widehat\theta_0=e_1^T\widehat\theta.
+\]
+\[
+B_{n,x}=\sum_iK(z_i)V_\ell(z_i)V_\ell(z_i)^T.
+\]
+Si \(B_{n,x}\) inversible:
+\[
+\widehat\theta=B_{n,x}^{-1}\sum_iK(z_i)Y_iV_\ell(z_i),
+\]
+\[
+\widehat r_n^\ell(x)=\sum_iw_i(x)Y_i,\quad
+w_i=K(z_i)e_1^TB_{n,x}^{-1}V_\ell(z_i).
+\]
+
+\tinytitle{Reproduction polynomiale}
+Pour tout polynôme \(Q\) de degré \(\le\ell\):
+\[
+\sum_iw_i(x)Q(X_i)=Q(x).
+\]
+Donc
+\[
+\sum_iw_i(x)=1,\qquad
+\sum_i(X_i-x)^kw_i(x)=0,\quad 1\le k\le\ell.
+\]
+
+\boxhead{Risque régression locale}
+Estimateur linéaire \(\widehat r(x)=\sum_iw_i(x)Y_i\). Si \(r\in\Sigma(\beta,L)\), moments nuls jusqu'à \(\ell=\lfloor\beta\rfloor\):
+\[
+|\mathrm{biais}(x)|
+\le \frac{L}{\ell!}\sum_i|w_i(x)|\,|x_i-x|^\beta.
+\]
+Si \(\sum_i|w_i|\le C\), \(w_i=0\) hors \(|x_i-x|\le h\), \(\sup_i|w_i|\le M/(nh)\):
+\[
+|\mathrm{biais}|\lesssim h^\beta,\qquad
+\V(\widehat r(x))=\sigma^2\sum_iw_i^2\lesssim \frac{\sigma^2}{nh}.
+\]
+\[
+\begin{aligned}
+\mathrm{MSE}&\lesssim h^{2\beta}+\frac1{nh},\\
+h^*&\asymp n^{-1/(2\beta+1)},\\
+\mathrm{MSE}(h^*)&\lesssim n^{-2\beta/(2\beta+1)}.
+\end{aligned}
+\]
+
+\boxhead{Validation croisée / choix}
+\tinytitle{Erreur d'entraînement}
+\[
+\widehat R_{train}(h)=\frac1n\sum_i(Y_i-\widehat r_h(X_i))^2
+\]
+est optimiste; choisir \(h\) par training error favorise \(h\) trop petit / surapprentissage.
+
+\tinytitle{Hold-out}
+\[
+\widehat R(h)=\frac1{|I_2|}\sum_{i\in I_2}
+(Y_i-\widehat r_h^{(-I_2)}(X_i))^2.
+\]
+\tinytitle{\(K\)-fold}
+\[
+\widehat R(h)=\frac1K\sum_{k=1}^K
+\frac1{|I_k|}\sum_{i\in I_k}(Y_i-\widehat r_h^{(-I_k)}(X_i))^2.
+\]
+\tinytitle{LOOCV rapide} Si \(\widehat r_h(x)=\sum_j\omega_{j,h}(x)Y_j\):
+\[
+CV(h)=\frac1n\sum_{i=1}^n
+\left(\frac{Y_i-\widehat r_h(X_i)}
+{1-\omega_{i,h}(X_i)}\right)^2.
+\]
+Choisir \(\widehat h\in\argmin_{h\in H}CV(h)\), puis réentraîner sur tout l'échantillon.
+
+\boxhead{Grande dimension et modèles}
+Local en dimension \(d\): masse utile \(\sim nh^d\). Si \(d\) grand, il faut beaucoup de données: malédiction de la dimension.
+\[
+\text{Taux densité/régression locale}\approx n^{-2\beta/(2\beta+d)}.
+\]
+Solutions structurelles à citer:
+\[
+r(x)=c+\sum_{j=1}^dg_j(x_j)
+\quad\text{modèle additif},
+\]
+\[
+r(x)=x_1^T\beta+g(x_2)
+\quad\text{partiellement linéaire}.
+\]
+Le degré local \(\ell=1\) ou \(2\) est courant; degré trop grand \(\Rightarrow\) constantes mauvaises, instabilité.
+
+\boxhead{Annales guidées ch.5}
+\tinytitle{Examen 2025: reproduction}
+On suppose \(Y_i=Q(X_i)\), \(\deg Q\le\ell\). Écrire Taylor exact:
+\[
+\begin{gathered}
+Q(X_i)=q(x)^TV_\ell(z_i),\\
+q=(Q(x),Q'(x)h,\ldots,Q^{(\ell)}(x)h^\ell)^T.
+\end{gathered}
+\]
+Dans le critère local,
+\[
+\sum_iK(z_i)\{Y_i-\theta^TV_\ell(z_i)\}^2
+= (q-\theta)^TB(q-\theta).
+\]
+Comme \(B\) est inversible, le minimum est \(\widehat\theta=q\). Donc
+\[
+\widehat r^\ell(x)=\widehat\theta_0=Q(x)
+\quad\text{et}\quad
+\sum_iw_i(x)Q(X_i)=Q(x).
+\]
+Pour obtenir les identités, choisir \(Q(u)=1\) puis \(Q(u)=(u-x)^k\):
+\[
+\sum_iw_i=1,\qquad
+\sum_i(X_i-x)^kw_i=0.
+\]
+
+\tinytitle{Examen 2024: risque poids}
+Plan de rédaction. 1) Biais:
+\[
+\E\widehat r(x)-r(x)=\sum_iw_i\{r(x_i)-r(x)\}.
+\]
+Taylor; les moments \(\sum_i(x_i-x)^kw_i=0\) annulent les termes. Reste:
+\[
+|\mathrm{biais}|\le \frac{L}{\ell!}\sum_i|w_i||x_i-x|^\beta.
+\]
+Si \(w_i=0\) hors \(|x_i-x|\le h\) et \(\sum|w_i|\le C\), alors biais \(\lesssim h^\beta\).
+2) Variance:
+\[
+\V(\widehat r(x))=\sigma^2\sum_iw_i^2
+\le \sigma^2(\max_i|w_i|)\sum_i|w_i|
+\lesssim \frac1{nh}.
+\]
+Puis \(h^{2\beta}\sim1/(nh)\).
+
+\tinytitle{Questions rapides 2023--2025}
+Si \(n\simeq60,d=5\): localement on garde environ \(nh^d\) points; trop petit en grande dimension. Réponse: éviter NW/polynôme local brut, proposer modèle additif \(r=c+\sum g_j(x_j)\). Si \(h\) choisi par erreur d'entraînement, dire: même données pour ajuster et évaluer \(\Rightarrow\) surapprentissage, \(h\) trop petit; utiliser CV/LOOCV.
+
+\end{multicols*}
+
+\end{document}
